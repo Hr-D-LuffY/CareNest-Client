@@ -15,6 +15,11 @@ export const ROLE_LABEL: Record<Role, string> = {
   [Role.ADMIN]: 'Admin',
 }
 
+// Session cookies, all httpOnly on the frontend domain (see AGENTS.md → Architecture).
+export const ACCESS_COOKIE = 'cn_access'
+export const REFRESH_COOKIE = 'cn_refresh'
+export const SESSION_COOKIE = 'cn_session'
+
 // Pagination: the backend defaults to 10 and caps at 100.
 export const DEFAULT_PAGE = 1
 export const DEFAULT_PAGE_SIZE = 10
