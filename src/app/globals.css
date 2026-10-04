@@ -1,1 +1,206 @@
 @import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * CareNest design tokens. Source of truth: design-system/carenest/MASTER.md (option A: Soft UI).
+ * Components use these tokens (bg-primary, text-muted-foreground, ...). Never hard-code colours.
+ */
+@theme inline {
+  --font-sans: var(--font-nunito);
+  --font-heading: var(--font-varela);
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-cta: var(--cta);
+  --color-cta-foreground: var(--cta-foreground);
+  --color-success: var(--success);
+  --color-success-soft: var(--success-soft);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-info: var(--info);
+  --color-info-soft: var(--info-soft);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+
+  --shadow-soft: var(--shadow-sm);
+  --shadow-card: var(--shadow-md);
+  --shadow-float: var(--shadow-lg);
+}
+
+:root {
+  --radius: 0.75rem;
+
+  --background: oklch(0.977 0.012 236.6); /* #F0F9FF */
+  --foreground: oklch(0.391 0.085 240.9); /* #0C4A6E */
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.391 0.085 240.9);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.391 0.085 240.9);
+  --primary: oklch(0.5 0.119 242.7); /* #0369A1 */
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.951 0.025 236.8); /* #E0F2FE */
+  --secondary-foreground: oklch(0.391 0.085 240.9);
+  --muted: oklch(0.948 0.012 239.9); /* #E7EFF5 */
+  --muted-foreground: oklch(0.446 0.037 257.3); /* #475569 */
+  --accent: oklch(0.951 0.025 236.8);
+  --accent-foreground: oklch(0.391 0.085 240.9);
+  --destructive: oklch(0.577 0.215 27.3); /* #DC2626 */
+  --border: oklch(0.91 0.03 235.7); /* #CFE5F3 */
+  --input: oklch(0.852 0.041 236.7); /* #B6D3E6 */
+  --ring: oklch(0.5 0.119 242.7);
+
+  /* Call-to-action (primary buttons on marketing pages, "Book now"). Dark text keeps AA contrast. */
+  --cta: oklch(0.627 0.17 149.2); /* #16A34A */
+  --cta-foreground: oklch(0.24 0.06 153);
+
+  /* Status colours: one set, used by StatusBadge for every status enum. */
+  --success: oklch(0.45 0.13 151);
+  --success-soft: oklch(0.955 0.045 152);
+  --warning: oklch(0.473 0.125 46.2); /* #92400E */
+  --warning-soft: oklch(0.962 0.059 95.6);
+  --info: oklch(0.5 0.119 242.7);
+  --info-soft: oklch(0.951 0.025 236.8);
+
+  --chart-1: oklch(0.5 0.119 242.7); /* sky 700 */
+  --chart-2: oklch(0.754 0.139 232.7); /* sky 400 */
+  --chart-3: oklch(0.627 0.17 149.2); /* green 600 */
+  --chart-4: oklch(0.666 0.157 58.3); /* amber 600 */
+  --chart-5: oklch(0.446 0.037 257.3); /* slate 600 */
+
+  --sidebar: oklch(1 0 0);
+  --sidebar-foreground: oklch(0.391 0.085 240.9);
+  --sidebar-primary: oklch(0.5 0.119 242.7);
+  --sidebar-primary-foreground: oklch(1 0 0);
+  --sidebar-accent: oklch(0.951 0.025 236.8);
+  --sidebar-accent-foreground: oklch(0.391 0.085 240.9);
+  --sidebar-border: oklch(0.91 0.03 235.7);
+  --sidebar-ring: oklch(0.5 0.119 242.7);
+
+  --shadow-sm: 0 1px 2px oklch(0.3 0.08 241 / 0.06);
+  --shadow-md: 0 4px 12px oklch(0.3 0.08 241 / 0.08);
+  --shadow-lg: 0 12px 28px oklch(0.3 0.08 241 / 0.12);
+}
+
+.dark {
+  --background: oklch(0.212 0.035 246.8); /* #0A1A28 */
+  --foreground: oklch(0.951 0.025 236.8); /* #E0F2FE */
+  --card: oklch(0.261 0.047 248); /* #10263A */
+  --card-foreground: oklch(0.951 0.025 236.8);
+  --popover: oklch(0.261 0.047 248);
+  --popover-foreground: oklch(0.951 0.025 236.8);
+  --primary: oklch(0.754 0.139 232.7); /* #38BDF8 */
+  --primary-foreground: oklch(0.293 0.063 243.2); /* #082F49 */
+  --secondary: oklch(0.316 0.057 246.8); /* #17344D */
+  --secondary-foreground: oklch(0.951 0.025 236.8);
+  --muted: oklch(0.316 0.057 246.8);
+  --muted-foreground: oklch(0.765 0.036 241.6); /* #9FB6C8 */
+  --accent: oklch(0.316 0.057 246.8);
+  --accent-foreground: oklch(0.951 0.025 236.8);
+  --destructive: oklch(0.711 0.166 22.2); /* #F87171 */
+  --border: oklch(1 0 0 / 12%);
+  --input: oklch(1 0 0 / 18%);
+  --ring: oklch(0.754 0.139 232.7);
+
+  --cta: oklch(0.723 0.192 149.6); /* #22C55E */
+  --cta-foreground: oklch(0.266 0.063 152.9); /* #052E16 */
+
+  --success: oklch(0.8 0.17 152);
+  --success-soft: oklch(0.3 0.06 152);
+  --warning: oklch(0.837 0.164 84.4); /* #FBBF24 */
+  --warning-soft: oklch(0.32 0.06 80);
+  --info: oklch(0.754 0.139 232.7);
+  --info-soft: oklch(0.316 0.057 246.8);
+
+  --chart-1: oklch(0.754 0.139 232.7);
+  --chart-2: oklch(0.6 0.12 240);
+  --chart-3: oklch(0.723 0.192 149.6);
+  --chart-4: oklch(0.837 0.164 84.4);
+  --chart-5: oklch(0.765 0.036 241.6);
+
+  --sidebar: oklch(0.24 0.042 247);
+  --sidebar-foreground: oklch(0.951 0.025 236.8);
+  --sidebar-primary: oklch(0.754 0.139 232.7);
+  --sidebar-primary-foreground: oklch(0.293 0.063 243.2);
+  --sidebar-accent: oklch(0.316 0.057 246.8);
+  --sidebar-accent-foreground: oklch(0.951 0.025 236.8);
+  --sidebar-border: oklch(1 0 0 / 12%);
+  --sidebar-ring: oklch(0.754 0.139 232.7);
+
+  --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.3);
+  --shadow-md: 0 4px 12px oklch(0 0 0 / 0.35);
+  --shadow-lg: 0 12px 28px oklch(0 0 0 / 0.45);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  html {
+    @apply font-sans;
+  }
+
+  /* Varela Round ships a single (400) weight, so headings stay at 400 to avoid fake bold. */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: var(--font-varela), var(--font-nunito), sans-serif;
+    font-weight: 400;
+    letter-spacing: -0.01em;
+  }
+
+  /* Every clickable control shows the pointer (UX checklist from the design system). */
+  button:not(:disabled),
+  [role="button"]:not([aria-disabled="true"]),
+  a[href] {
+    cursor: pointer;
+  }
+}

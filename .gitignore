@@ -25,5 +25,10 @@ npm-debug.log*
 #doc
 /docs
 
+
+# local AI tooling (skills installed per machine)
+/.claude/
 AGENTS.md
 CLAUDE.md
+
+/design-system
