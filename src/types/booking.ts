@@ -1,0 +1,45 @@
+import type { BookingStatus, DayOfWeek, Tier, WaitlistStatus } from './enums'
+
+export type Booking = {
+  id: string
+  sessionDate: string
+  status: BookingStatus
+  estimatedFee: string
+  finalFee: string | null
+  insufficientBalance: boolean
+  createdAt: string
+  child: { id: string; name: string }
+  room: {
+    id: string
+    name: string
+    dayOfWeek: DayOfWeek
+    startTime: string
+    endTime: string
+  }
+}
+
+// POST /booking answers 202 with this when the room is full.
+export type WaitlistEntry = {
+  id: string
+  sessionDate: string
+  status: WaitlistStatus
+  priorityScore: number
+  joinedAt: string
+  room: { id: string; name: string }
+  child: { id: string; name: string; tier: Tier }
+}
+
+// POST /booking/:id/check-in and /check-out
+export type CheckinLog = {
+  id: string
+  checkInAt: string
+  checkOutAt: string | null
+  hoursUsed: string | null
+  booking: Booking
+}
+
+// POST /booking returns 201 (a confirmed Booking) or 202 (a WaitlistEntry). The HTTP status tells
+// them apart, so the API layer returns this tagged union.
+export type CreateBookingResult =
+  | { outcome: 'confirmed'; booking: Booking }
+  | { outcome: 'waitlisted'; entry: WaitlistEntry }
