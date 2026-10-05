@@ -9,6 +9,12 @@ export const ROLE_HOME_PATH: Record<Role, string> = {
 
 export const ROLE_PATH_PREFIX: Record<Role, string> = ROLE_HOME_PATH
 
+// The bKash return pages belong to the guardian who is topping up (see proxy.ts).
+export const PAYMENT_PATH_PREFIX = '/payment'
+
+// Only for visitors who are not logged in; a logged-in user is sent to their own dashboard.
+export const GUEST_ONLY_PATHS = ['/login', '/register']
+
 export const ROLE_LABEL: Record<Role, string> = {
   [Role.GUARDIAN]: 'Guardian',
   [Role.STAFF]: 'Staff',
