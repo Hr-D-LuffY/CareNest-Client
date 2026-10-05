@@ -1,4 +1,4 @@
-import { Role } from '@/types/enums'
+import { Role, StaffType } from '@/types/enums'
 
 // Where each role lands after login, and the URL prefix that only that role may open.
 export const ROLE_HOME_PATH: Record<Role, string> = {
@@ -19,6 +19,12 @@ export const ROLE_LABEL: Record<Role, string> = {
   [Role.GUARDIAN]: 'Guardian',
   [Role.STAFF]: 'Staff',
   [Role.ADMIN]: 'Admin',
+}
+
+export const STAFF_TYPE_LABEL: Record<StaffType, string> = {
+  [StaffType.SITTER]: 'Sitter',
+  [StaffType.DRIVER]: 'Driver',
+  [StaffType.BOTH]: 'Sitter & driver',
 }
 
 // Session cookies, all httpOnly on the frontend domain (see AGENTS.md → Architecture).

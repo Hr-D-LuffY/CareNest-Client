@@ -1,10 +1,9 @@
+import { NextResponse } from 'next/server'
 import { jsonSuccess } from '@/lib/api/respond'
 import { serverApi } from '@/lib/api/server'
 import { clearAuthCookies, getRefreshToken } from '@/lib/auth/session'
 
-// POST /api/auth/logout
-// Revokes the refresh token on the backend, then clears the three session cookies.
-export async function POST() {
+async function endSession() {
   const refreshToken = await getRefreshToken()
 
   if (refreshToken) {
@@ -17,5 +16,19 @@ export async function POST() {
   }
 
   await clearAuthCookies()
+}
+
+// POST /api/auth/logout
+// Revokes the refresh token on the backend, then clears the three session cookies.
+export async function POST() {
+  await endSession()
   return jsonSuccess('Logged out successfully', null)
+}
+
+// GET /api/auth/logout
+// Only for the dashboard layouts (requireSession): a signed-in user whose session cookie is gone or
+// unreadable is signed out cleanly and sent to /login, instead of looping between the two.
+export async function GET(request: Request) {
+  await endSession()
+  return NextResponse.redirect(new URL('/login', request.url))
 }

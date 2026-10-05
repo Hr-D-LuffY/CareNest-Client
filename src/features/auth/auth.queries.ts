@@ -60,6 +60,16 @@ export function useDemoLoginMutation(redirect: string | null | undefined) {
   })
 }
 
+// A full page load to /login, not a client-side navigation: it drops the whole TanStack Query cache
+// and every bit of React state, so nothing of the last user is left behind for the next one. A
+// failure (the network is down) gets the global toast.
+export function useLogoutMutation() {
+  return useMutation({
+    mutationFn: () => authApi.post<null>('/logout'),
+    onSuccess: () => window.location.assign('/login'),
+  })
+}
+
 export function useGoogleLoginMutation(redirect: string | null | undefined) {
   const afterLogin = useAfterLogin(redirect)
   return useMutation({

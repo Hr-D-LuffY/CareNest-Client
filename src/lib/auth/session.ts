@@ -1,7 +1,8 @@
 import 'server-only'
 import { cookies } from 'next/headers'
+import { redirect } from 'next/navigation'
 import { z } from 'zod'
-import { ACCESS_COOKIE, REFRESH_COOKIE, SESSION_COOKIE } from '@/lib/constants'
+import { ACCESS_COOKIE, REFRESH_COOKIE, ROLE_HOME_PATH, SESSION_COOKIE } from '@/lib/constants'
 import { Role, StaffType, VerificationStatus } from '@/types/enums'
 import type { SessionUser } from '@/types/user'
 
@@ -71,4 +72,15 @@ export async function getSession(): Promise<SessionUser | null> {
   } catch {
     return null
   }
+}
+
+// For the layouts of /dashboard, /staff and /admin: the signed-in user of the given role.
+// proxy.ts already keeps other roles out, so a mismatch here is only a stale cookie.
+export async function requireSession(role: Role): Promise<SessionUser> {
+  const session = await getSession()
+  // A valid access token with no readable cn_session cookie would bounce between /login (which sends
+  // a signed-in user to their dashboard) and here forever. The logout route clears everything first.
+  if (!session) redirect('/api/auth/logout')
+  if (session.role !== role) redirect(ROLE_HOME_PATH[session.role])
+  return session
 }
