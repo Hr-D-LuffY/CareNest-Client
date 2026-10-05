@@ -40,6 +40,8 @@
   --color-warning-soft: var(--warning-soft);
   --color-info: var(--info);
   --color-info-soft: var(--info-soft);
+  --color-brand-care: var(--brand-care);
+  --color-brand-nest: var(--brand-nest);
 
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
@@ -104,6 +106,10 @@
   --info: oklch(0.5 0.119 242.7);
   --info-soft: oklch(0.951 0.025 236.8);
 
+  /* Wordmark colours from the logo: "Care" amber, "Nest" deep navy (white in dark mode). */
+  --brand-care: oklch(0.666 0.157 58.3); /* #D97706 */
+  --brand-nest: oklch(0.391 0.085 240.9); /* #0C4A6E */
+
   --chart-1: oklch(0.5 0.119 242.7); /* sky 700 */
   --chart-2: oklch(0.754 0.139 232.7); /* sky 400 */
   --chart-3: oklch(0.627 0.17 149.2); /* green 600 */
@@ -125,35 +131,38 @@
 }
 
 .dark {
-  --background: oklch(0.212 0.035 246.8); /* #0A1A28 */
-  --foreground: oklch(0.951 0.025 236.8); /* #E0F2FE */
-  --card: oklch(0.261 0.047 248); /* #10263A */
-  --card-foreground: oklch(0.951 0.025 236.8);
-  --popover: oklch(0.261 0.047 248);
-  --popover-foreground: oklch(0.951 0.025 236.8);
-  --primary: oklch(0.754 0.139 232.7); /* #38BDF8 */
-  --primary-foreground: oklch(0.293 0.063 243.2); /* #082F49 */
-  --secondary: oklch(0.316 0.057 246.8); /* #17344D */
-  --secondary-foreground: oklch(0.951 0.025 236.8);
-  --muted: oklch(0.316 0.057 246.8);
-  --muted-foreground: oklch(0.765 0.036 241.6); /* #9FB6C8 */
-  --accent: oklch(0.316 0.057 246.8);
-  --accent-foreground: oklch(0.951 0.025 236.8);
+  --background: oklch(0.145 0 0);
+  --foreground: oklch(0.985 0 0);
+  --card: oklch(0.18 0 0);
+  --card-foreground: oklch(0.985 0 0);
+  --popover: oklch(0.18 0 0);
+  --popover-foreground: oklch(0.985 0 0);
+  --primary: oklch(0.985 0 0);
+  --primary-foreground: oklch(0.145 0 0);
+  --secondary: oklch(0.24 0 0);
+  --secondary-foreground: oklch(0.985 0 0);
+  --muted: oklch(0.24 0 0);
+  --muted-foreground: oklch(0.708 0 0);
+  --accent: oklch(0.27 0 0);
+  --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.711 0.166 22.2); /* #F87171 */
   --destructive-soft: oklch(0.3 0.07 22);
   --border: oklch(1 0 0 / 12%);
   --input: oklch(1 0 0 / 18%);
-  --ring: oklch(0.754 0.139 232.7);
+  --ring: oklch(0.708 0 0);
 
-  --cta: oklch(0.723 0.192 149.6); /* #22C55E */
-  --cta-foreground: oklch(0.266 0.063 152.9); /* #052E16 */
+  --cta: oklch(0.985 0 0);
+  --cta-foreground: oklch(0.145 0 0);
 
   --success: oklch(0.8 0.17 152);
   --success-soft: oklch(0.3 0.06 152);
   --warning: oklch(0.837 0.164 84.4); /* #FBBF24 */
   --warning-soft: oklch(0.32 0.06 80);
   --info: oklch(0.754 0.139 232.7);
-  --info-soft: oklch(0.316 0.057 246.8);
+  --info-soft: oklch(0.28 0.04 240);
+
+  --brand-care: oklch(0.666 0.157 58.3);
+  --brand-nest: oklch(0.985 0 0);
 
   --chart-1: oklch(0.754 0.139 232.7);
   --chart-2: oklch(0.6 0.12 240);
@@ -161,14 +170,14 @@
   --chart-4: oklch(0.837 0.164 84.4);
   --chart-5: oklch(0.765 0.036 241.6);
 
-  --sidebar: oklch(0.24 0.042 247);
-  --sidebar-foreground: oklch(0.951 0.025 236.8);
-  --sidebar-primary: oklch(0.754 0.139 232.7);
-  --sidebar-primary-foreground: oklch(0.293 0.063 243.2);
-  --sidebar-accent: oklch(0.316 0.057 246.8);
-  --sidebar-accent-foreground: oklch(0.951 0.025 236.8);
+  --sidebar: oklch(0.17 0 0);
+  --sidebar-foreground: oklch(0.985 0 0);
+  --sidebar-primary: oklch(0.985 0 0);
+  --sidebar-primary-foreground: oklch(0.145 0 0);
+  --sidebar-accent: oklch(0.24 0 0);
+  --sidebar-accent-foreground: oklch(0.985 0 0);
   --sidebar-border: oklch(1 0 0 / 12%);
-  --sidebar-ring: oklch(0.754 0.139 232.7);
+  --sidebar-ring: oklch(0.708 0 0);
 
   --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.3);
   --shadow-md: 0 4px 12px oklch(0 0 0 / 0.35);
@@ -205,5 +214,17 @@
   [role="button"]:not([aria-disabled="true"]),
   a[href] {
     cursor: pointer;
+  }
+}
+
+/* Shared page width and side gutters: navbar, footer and every public section line up on it. */
+@utility page-container {
+  margin-inline: auto;
+  width: 100%;
+  max-width: 72rem;
+  padding-inline: 1rem;
+
+  @media (min-width: 48rem) {
+    padding-inline: 1.5rem;
   }
 }

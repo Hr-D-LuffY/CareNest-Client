@@ -1,6 +1,5 @@
 import { Reveal } from '@/components/motion/reveal'
 import { Stagger, StaggerItem } from '@/components/motion/stagger'
-import { ThemeToggle } from '@/components/shared/theme-toggle'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
@@ -14,11 +13,8 @@ const STATUS_BADGES = [
 // Temporary foundation page. Replaced by the real landing page in Phase 1.
 export default function HomePage() {
   return (
-    <main className="mx-auto flex min-h-screen max-w-3xl flex-col gap-8 px-4 py-16">
-      <div className="flex items-center justify-between">
-        <h1 className="text-4xl">CareNest</h1>
-        <ThemeToggle />
-      </div>
+    <div className="page-container flex max-w-3xl flex-col gap-8 py-16">
+      <h1 className="text-4xl">CareNest</h1>
 
       <Reveal>
         <p className="text-lg text-muted-foreground">
@@ -58,6 +54,6 @@ export default function HomePage() {
           </Card>
         </StaggerItem>
       </Stagger>
-    </main>
+    </div>
   )
 }

@@ -5,6 +5,10 @@ import { ApiError } from './errors'
 // token ever reaches the browser. Server code uses lib/api/server.ts instead.
 const api = createApiClient({ baseURL: '/api/backend' })
 
+// Our own auth route handlers (/api/auth/*: login, logout, session). Same envelope and ApiError as
+// the backend, but no 401 redirect: a wrong password is a 401 the form has to show itself.
+export const authApi = createApiClient({ baseURL: '/api/auth' })
+
 const AUTH_PAGES = ['/login', '/register']
 
 // The BFF already tried to refresh the session once. A 401 here means the user is signed out.
