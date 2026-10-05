@@ -1,5 +1,6 @@
 import 'server-only'
-import type { LoginPayload } from '@/features/auth/auth.schema'
+import type { LoginPayload, RegisterPayload } from '@/features/auth/auth.schema'
+import { ApiError, isApiError } from '@/lib/api/errors'
 import { serverApi } from '@/lib/api/server'
 import { Role } from '@/types/enums'
 import type { StaffProfile } from '@/types/staff'
@@ -67,4 +68,28 @@ export async function signInWithGoogle(
     headers: forwarded,
   })
   return startSession(data, forwarded)
+}
+
+// Guardian sign-up: create the account, then log in with the same credentials so the user lands in
+// their dashboard without a second form. A failure while registering (duplicate email, bad field)
+// passes through unchanged, so the form can show it.
+export async function registerAndSignIn(
+  payload: RegisterPayload,
+  clientIp: string | null,
+): Promise<SessionUser> {
+  await serverApi.request('/auth/register', {
+    method: 'POST',
+    body: payload,
+    headers: forwardedHeaders(clientIp),
+  })
+
+  try {
+    return await signIn({ email: payload.email, password: payload.password }, clientIp)
+  } catch (error) {
+    // The account exists now, so tell the user to log in rather than to register again.
+    throw new ApiError({
+      status: isApiError(error) && !error.isNetworkError ? error.status : 502,
+      message: 'Your account was created, but we could not log you in. Please log in.',
+    })
+  }
 }

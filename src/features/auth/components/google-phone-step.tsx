@@ -2,9 +2,10 @@
 
 import { Phone } from 'lucide-react'
 import { toast } from 'sonner'
+import { mapServerFieldErrors } from '@/components/forms/server-errors'
 import { Button } from '@/components/ui/button'
 import { useAppForm } from '@/hooks/use-app-form'
-import { getErrorMessage, isApiError } from '@/lib/api/errors'
+import { getErrorMessage } from '@/lib/api/errors'
 import { useGoogleLoginMutation } from '../auth.queries'
 import { type GooglePhoneInput, googlePhoneSchema } from '../auth.schema'
 
@@ -26,13 +27,7 @@ export function GooglePhoneStep({ idToken, redirect, onCancel }: GooglePhoneStep
       try {
         await google.mutateAsync({ idToken, phone: value.phone.trim() })
       } catch (error) {
-        const phoneError = isApiError(error) ? error.fieldErrors.phone : undefined
-        if (phoneError) {
-          formApi.setFieldMeta('phone', (meta) => ({
-            ...meta,
-            errorMap: { ...meta.errorMap, onSubmit: phoneError },
-          }))
-        } else {
+        if (!mapServerFieldErrors(formApi, error, ['phone'])) {
           toast.error(getErrorMessage(error))
         }
       }

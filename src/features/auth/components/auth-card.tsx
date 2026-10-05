@@ -2,7 +2,7 @@ import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { cn } from '@/lib/utils'
 
-type AuthMode = 'login' | 'register'
+type AuthMode = 'login' | 'register' | 'forgot-password'
 
 type AuthCardProps = {
   mode: AuthMode
@@ -11,7 +11,8 @@ type AuthCardProps = {
   children: ReactNode
 }
 
-// Shell shared by the login and sign-up pages: heading, the Log In / Sign Up switch, the content.
+// Shell shared by the login, sign-up and forgot-password pages: heading, the Log In / Sign Up switch
+// (not on forgot-password, which has a way back to log in instead), the content.
 export function AuthCard({ mode, redirect, children }: AuthCardProps) {
   const query = redirect ? `?redirect=${encodeURIComponent(redirect)}` : ''
   const tabs = [
@@ -22,32 +23,43 @@ export function AuthCard({ mode, redirect, children }: AuthCardProps) {
   return (
     <div className="flex w-full max-w-[440px] flex-col gap-5">
       <div className="rounded-2xl border bg-card p-6 shadow-float sm:p-8">
-        <h1 className="text-3xl">Welcome</h1>
-        <p className="mt-1 text-sm text-muted-foreground">Log in or create an account</p>
+        {mode === 'forgot-password' ? (
+          <>
+            <h1 className="text-3xl">Forgot password?</h1>
+            <p className="mt-1 text-sm text-muted-foreground">
+              Enter your account email and we will send you a reset link.
+            </p>
+          </>
+        ) : (
+          <>
+            <h1 className="text-3xl">Welcome</h1>
+            <p className="mt-1 text-sm text-muted-foreground">Log in or create an account</p>
 
-        <nav
-          aria-label="Account"
-          className="mt-6 grid grid-cols-2 gap-1 rounded-xl border bg-background p-1"
-        >
-          {tabs.map((tab) => {
-            const active = tab.mode === mode
-            return (
-              <Link
-                key={tab.mode}
-                href={tab.href}
-                aria-current={active ? 'page' : undefined}
-                className={cn(
-                  'grid h-10 place-items-center rounded-lg border text-sm font-semibold outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50',
-                  active
-                    ? 'border-border bg-card text-foreground shadow-soft'
-                    : 'border-transparent text-muted-foreground hover:text-foreground',
-                )}
-              >
-                {tab.label}
-              </Link>
-            )
-          })}
-        </nav>
+            <nav
+              aria-label="Account"
+              className="mt-6 grid grid-cols-2 gap-1 rounded-xl border bg-background p-1"
+            >
+              {tabs.map((tab) => {
+                const active = tab.mode === mode
+                return (
+                  <Link
+                    key={tab.mode}
+                    href={tab.href}
+                    aria-current={active ? 'page' : undefined}
+                    className={cn(
+                      'grid h-10 place-items-center rounded-lg border text-sm font-semibold outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50',
+                      active
+                        ? 'border-border bg-card text-foreground shadow-soft'
+                        : 'border-transparent text-muted-foreground hover:text-foreground',
+                    )}
+                  >
+                    {tab.label}
+                  </Link>
+                )
+              })}
+            </nav>
+          </>
+        )}
 
         <div className="mt-6">{children}</div>
       </div>

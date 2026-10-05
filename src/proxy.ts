@@ -54,5 +54,6 @@ export const config = {
     '/payment/:path*',
     '/login',
     '/register',
+    '/forgot-password',
   ],
 }

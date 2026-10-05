@@ -7,7 +7,7 @@ import { authApi } from '@/lib/api/client'
 import { getErrorMessage } from '@/lib/api/errors'
 import { resolvePostLoginPath } from '@/lib/auth/redirect'
 import type { SessionUser } from '@/types/user'
-import type { LoginInput } from './auth.schema'
+import type { LoginInput, RegisterInput } from './auth.schema'
 import type { DemoRole } from './demo-roles'
 
 // Login and logout must keep authKeys.session in step so the navbar switches state.
@@ -47,6 +47,19 @@ export function useLoginMutation(redirect: string | null | undefined) {
     mutationFn: (values: LoginInput) => authApi.post<SessionUser>('/login', values),
     meta: { skipGlobalError: true },
     onSuccess: afterLogin,
+  })
+}
+
+// Sign-up logs the new guardian in as well (the BFF route does both), so it ends like a login.
+export function useRegisterMutation(redirect: string | null | undefined) {
+  const afterLogin = useAfterLogin(redirect)
+  return useMutation({
+    mutationFn: (values: RegisterInput) => authApi.post<SessionUser>('/register', values),
+    meta: { skipGlobalError: true },
+    onSuccess: (session) => {
+      toast.success('Account created. Welcome to CareNest!')
+      afterLogin(session)
+    },
   })
 }
 

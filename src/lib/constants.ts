@@ -13,7 +13,7 @@ export const ROLE_PATH_PREFIX: Record<Role, string> = ROLE_HOME_PATH
 export const PAYMENT_PATH_PREFIX = '/payment'
 
 // Only for visitors who are not logged in; a logged-in user is sent to their own dashboard.
-export const GUEST_ONLY_PATHS = ['/login', '/register']
+export const GUEST_ONLY_PATHS = ['/login', '/register', '/forgot-password']
 
 export const ROLE_LABEL: Record<Role, string> = {
   [Role.GUARDIAN]: 'Guardian',

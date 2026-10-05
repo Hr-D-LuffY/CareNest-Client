@@ -3,7 +3,7 @@
 import type { LucideIcon } from 'lucide-react'
 import { useId } from 'react'
 import { Input } from '@/components/ui/input'
-import { FieldShell } from './field-shell'
+import { FieldShell, getDescribedBy } from './field-shell'
 import { useFieldContext } from './form-context'
 import { getFieldError } from './use-field-error'
 
@@ -13,6 +13,8 @@ type TextFieldProps = {
   placeholder?: string
   autoComplete?: string
   icon?: LucideIcon
+  optional?: boolean
+  hint?: string
 }
 
 // Text input with an optional leading icon, bound to the surrounding form field.
@@ -22,13 +24,15 @@ export function TextField({
   placeholder,
   autoComplete,
   icon: Icon,
+  optional,
+  hint,
 }: TextFieldProps) {
   const field = useFieldContext<string>()
   const id = useId()
   const error = getFieldError(field)
 
   return (
-    <FieldShell id={id} label={label} error={error}>
+    <FieldShell id={id} label={label} error={error} optional={optional} hint={hint}>
       <div className="relative">
         {Icon && (
           <Icon
@@ -46,7 +50,7 @@ export function TextField({
           onBlur={field.handleBlur}
           onChange={(event) => field.handleChange(event.target.value)}
           aria-invalid={error ? true : undefined}
-          aria-describedby={error ? `${id}-error` : undefined}
+          aria-describedby={getDescribedBy(id, error, hint)}
           className={Icon ? 'h-12 rounded-xl pl-11' : 'h-12 rounded-xl'}
         />
       </div>

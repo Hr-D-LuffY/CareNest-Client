@@ -1,9 +1,11 @@
 'use client'
 
 import { CircleAlert, Mail } from 'lucide-react'
+import Link from 'next/link'
 import { useState } from 'react'
+import { mapServerFieldErrors } from '@/components/forms/server-errors'
 import { useAppForm } from '@/hooks/use-app-form'
-import { getErrorMessage, isApiError } from '@/lib/api/errors'
+import { getErrorMessage } from '@/lib/api/errors'
 import { useLoginMutation } from '../auth.queries'
 import { type LoginInput, loginSchema } from '../auth.schema'
 import type { DemoRole } from '../demo-roles'
@@ -36,18 +38,9 @@ export function LoginForm({ redirect, demoRoles, googleClientId }: LoginFormProp
       } catch (error) {
         // Field errors from the backend go onto their field. Anything else ("Invalid email or
         // password", rate limit, server asleep) is shown above the button.
-        const fieldErrors = isApiError(error) ? error.fieldErrors : {}
-        let mapped = false
-        for (const name of FIELD_NAMES) {
-          const message = fieldErrors[name]
-          if (!message) continue
-          mapped = true
-          formApi.setFieldMeta(name, (meta) => ({
-            ...meta,
-            errorMap: { ...meta.errorMap, onSubmit: message },
-          }))
+        if (!mapServerFieldErrors(formApi, error, FIELD_NAMES)) {
+          setServerError(getErrorMessage(error))
         }
-        if (!mapped) setServerError(getErrorMessage(error))
       }
     },
   })
@@ -93,6 +86,15 @@ export function LoginForm({ redirect, demoRoles, googleClientId }: LoginFormProp
             />
           )}
         </form.AppField>
+
+        <div className="-mt-2 flex justify-end">
+          <Link
+            href="/forgot-password"
+            className="rounded-sm text-sm font-medium text-primary outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
+          >
+            Forgot password?
+          </Link>
+        </div>
 
         {serverError && (
           <div
