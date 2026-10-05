@@ -6,10 +6,13 @@ const publicEnvSchema = z.object({
   NEXT_PUBLIC_APP_URL: z
     .url('NEXT_PUBLIC_APP_URL must be a valid URL, e.g. http://localhost:3000')
     .transform((url) => url.replace(/\/+$/, '')),
+  // Google OAuth client ID. Leave it blank and the "Continue with Google" button is simply not shown.
+  NEXT_PUBLIC_GOOGLE_CLIENT_ID: z.string().optional(),
 })
 
 const result = publicEnvSchema.safeParse({
   NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL || 'http://localhost:3000',
+  NEXT_PUBLIC_GOOGLE_CLIENT_ID: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || undefined,
 })
 
 if (!result.success) {

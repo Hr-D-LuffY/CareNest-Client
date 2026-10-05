@@ -20,7 +20,7 @@ const varela = Varela_Round({
 })
 
 export const metadata: Metadata = {
-  title: 'CareNest',
+  title: { default: 'CareNest', template: '%s | CareNest' },
   description: 'Trusted childcare and supervised transport for your little ones.',
 }
 

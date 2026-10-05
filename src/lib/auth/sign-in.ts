@@ -6,22 +6,16 @@ import type { StaffProfile } from '@/types/staff'
 import type { LoginResult, SessionUser } from '@/types/user'
 import { setAuthCookies, setSessionCookie } from './session'
 
-// Shared by every route that starts a session (login now, demo login and register later):
-// backend login → staff details → the three cookies. Returns what the UI keeps in SessionProvider.
-export async function signIn(
-  credentials: LoginPayload,
-  clientIp: string | null,
-): Promise<SessionUser> {
-  // Forward the browser's IP so the backend's per-IP rate limit does not see one shared server.
-  const forwarded: Record<string, string> = clientIp ? { 'x-forwarded-for': clientIp } : {}
+// Shared by every route that starts a session (password login, demo login, Google login):
+// backend call → staff details → the three cookies. Returns what the UI keeps in SessionProvider.
 
-  const { accessToken, refreshToken, user } = (
-    await serverApi.request<LoginResult>('/auth/login', {
-      method: 'POST',
-      body: credentials,
-      headers: forwarded,
-    })
-  ).data
+// Forward the browser's IP so the backend's per-IP rate limit does not see one shared server.
+function forwardedHeaders(clientIp: string | null): Record<string, string> {
+  return clientIp ? { 'x-forwarded-for': clientIp } : {}
+}
+
+async function startSession(result: LoginResult, forwarded: Record<string, string>) {
+  const { accessToken, refreshToken, user } = result
 
   const session: SessionUser = {
     id: user.id,
@@ -45,4 +39,32 @@ export async function signIn(
   await setAuthCookies({ accessToken, refreshToken })
   await setSessionCookie(session)
   return session
+}
+
+export async function signIn(
+  credentials: LoginPayload,
+  clientIp: string | null,
+): Promise<SessionUser> {
+  const forwarded = forwardedHeaders(clientIp)
+  const { data } = await serverApi.request<LoginResult>('/auth/login', {
+    method: 'POST',
+    body: credentials,
+    headers: forwarded,
+  })
+  return startSession(data, forwarded)
+}
+
+// `phone` is only needed the first time an email signs in with Google (the backend creates the
+// guardian account then, and a guardian profile requires a phone number).
+export async function signInWithGoogle(
+  payload: { idToken: string; phone?: string },
+  clientIp: string | null,
+): Promise<SessionUser> {
+  const forwarded = forwardedHeaders(clientIp)
+  const { data } = await serverApi.request<LoginResult>('/auth/google', {
+    method: 'POST',
+    body: payload,
+    headers: forwarded,
+  })
+  return startSession(data, forwarded)
 }

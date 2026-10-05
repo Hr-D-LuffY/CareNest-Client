@@ -1,14 +1,7 @@
 import { type NextRequest, NextResponse } from 'next/server'
 import { decodeJwtPayload, isTokenExpired } from '@/lib/auth/jwt'
-import {
-  ACCESS_COOKIE,
-  GUEST_ONLY_PATHS,
-  PAYMENT_PATH_PREFIX,
-  REFRESH_COOKIE,
-  ROLE_HOME_PATH,
-  ROLE_PATH_PREFIX,
-} from '@/lib/constants'
-import { Role } from '@/types/enums'
+import { requiredRole } from '@/lib/auth/routes'
+import { ACCESS_COOKIE, GUEST_ONLY_PATHS, REFRESH_COOKIE, ROLE_HOME_PATH } from '@/lib/constants'
 
 // Route guard (Next 16 name for middleware). First of the two places role is enforced; the second
 // is the UI (sidebar and buttons from the session). The backend still verifies every API call.
@@ -19,19 +12,6 @@ import { Role } from '@/types/enums'
 //
 // Only decodes the access token's role and expiry. It never trusts it for anything the backend
 // would not check again.
-
-function matchesPrefix(pathname: string, prefix: string) {
-  return pathname === prefix || pathname.startsWith(`${prefix}/`)
-}
-
-// The one role allowed under this path, or null for a public page.
-function requiredRole(pathname: string): Role | null {
-  if (matchesPrefix(pathname, PAYMENT_PATH_PREFIX)) return Role.GUARDIAN
-  for (const role of Object.values(Role)) {
-    if (matchesPrefix(pathname, ROLE_PATH_PREFIX[role])) return role
-  }
-  return null
-}
 
 function redirectTo(request: NextRequest, path: string) {
   return NextResponse.redirect(new URL(path, request.url))

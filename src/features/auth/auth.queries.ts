@@ -1,10 +1,16 @@
 'use client'
 
-import { useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
 import { authApi } from '@/lib/api/client'
+import { getErrorMessage } from '@/lib/api/errors'
+import { resolvePostLoginPath } from '@/lib/auth/redirect'
 import type { SessionUser } from '@/types/user'
+import type { LoginInput } from './auth.schema'
+import type { DemoRole } from './demo-roles'
 
-// Login and logout must invalidate authKeys.session so the navbar switches state.
+// Login and logout must keep authKeys.session in step so the navbar switches state.
 export const authKeys = {
   session: ['auth', 'session'] as const,
 }
@@ -17,5 +23,50 @@ export function useSessionQuery() {
     queryFn: () => authApi.get<SessionUser | null>('/session'),
     // A failed check just shows the logged-out navbar. No toast for it.
     meta: { skipGlobalError: true },
+  })
+}
+
+// Runs after any successful login: share the user with the navbar, then go to the requested page
+// (only if it is theirs to open) or their own dashboard.
+function useAfterLogin(redirect: string | null | undefined) {
+  const queryClient = useQueryClient()
+  const router = useRouter()
+  return (session: SessionUser) => {
+    queryClient.setQueryData(authKeys.session, session)
+    router.replace(resolvePostLoginPath(redirect, session.role))
+    router.refresh()
+  }
+}
+
+// The login mutations handle their own errors (an inline message, a field error, a toast), so the
+// global toast is switched off for them. A 401 here is "wrong password", never "session expired".
+
+export function useLoginMutation(redirect: string | null | undefined) {
+  const afterLogin = useAfterLogin(redirect)
+  return useMutation({
+    mutationFn: (values: LoginInput) => authApi.post<SessionUser>('/login', values),
+    meta: { skipGlobalError: true },
+    onSuccess: afterLogin,
+  })
+}
+
+export function useDemoLoginMutation(redirect: string | null | undefined) {
+  const afterLogin = useAfterLogin(redirect)
+  return useMutation({
+    mutationFn: (role: DemoRole) => authApi.post<SessionUser>('/demo-login', { role }),
+    meta: { skipGlobalError: true },
+    onSuccess: afterLogin,
+    onError: (error) => toast.error(getErrorMessage(error)),
+  })
+}
+
+export function useGoogleLoginMutation(redirect: string | null | undefined) {
+  const afterLogin = useAfterLogin(redirect)
+  return useMutation({
+    mutationFn: (values: { idToken: string; phone?: string }) =>
+      authApi.post<SessionUser>('/google', values),
+    // The caller decides: a missing phone number opens the extra step, anything else is a toast.
+    meta: { skipGlobalError: true },
+    onSuccess: afterLogin,
   })
 }
