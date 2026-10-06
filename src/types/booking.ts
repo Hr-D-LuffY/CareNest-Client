@@ -7,6 +7,19 @@ export type CreateBookingPayload = {
   sessionDate: string
 }
 
+// Query params of GET /booking and GET /booking/waitlist. `status` filters; paging is 1-based.
+export type BookingListParams = {
+  page: number
+  limit: number
+  status?: BookingStatus
+}
+
+export type WaitlistListParams = {
+  page: number
+  limit: number
+  status?: WaitlistStatus
+}
+
 export type Booking = {
   id: string
   sessionDate: string
