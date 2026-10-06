@@ -6,6 +6,7 @@ import { useEffect } from 'react'
 import { Reveal } from '@/components/motion/reveal'
 import { EmptyState } from '@/components/shared/empty-state'
 import { Button, buttonVariants } from '@/components/ui/button'
+import { TopUpCard } from '@/features/payment/components/top-up-card'
 import { useQueryParams } from '@/hooks/use-query-params'
 import { cn } from '@/lib/utils'
 import { WalletTransactionType } from '@/types'
@@ -84,7 +85,10 @@ export function WalletView() {
       </Reveal>
 
       <Reveal>
-        <BalanceCard />
+        <div className="grid gap-4 lg:grid-cols-[minmax(0,3fr)_minmax(0,2fr)]">
+          <BalanceCard />
+          <TopUpCard />
+        </div>
       </Reveal>
 
       <section aria-labelledby="history-heading" className="flex flex-col gap-4">

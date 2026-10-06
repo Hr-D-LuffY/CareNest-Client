@@ -7,6 +7,11 @@ export type TopUpResult = {
   checkoutUrl: string
 }
 
+// POST /payment/top-up body. The backend wants a number here, not a string.
+export type TopUpPayload = {
+  amount: number
+}
+
 // GET /payment/bkash/callback
 export type PaymentResult = {
   id: string
