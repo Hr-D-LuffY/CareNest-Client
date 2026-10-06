@@ -1,8 +1,7 @@
-import { ArrowDown, ArrowUp, ArrowUpDown, RotateCw, TriangleAlert } from 'lucide-react'
+import { ArrowDown, ArrowUp, ArrowUpDown } from 'lucide-react'
 import type { ReactNode } from 'react'
-import { EmptyState } from '@/components/shared/empty-state'
+import { ListErrorState } from '@/components/shared/list-error-state'
 import { PaginationBar } from '@/components/shared/pagination-bar'
-import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
 import {
   Table,
@@ -138,23 +137,7 @@ export function DataTable<T>({
 }: DataTableProps<T>) {
   if (isLoading) return <DataTableSkeleton columns={columns.length} rows={skeletonRows} />
 
-  if (isError) {
-    return (
-      <EmptyState
-        icon={TriangleAlert}
-        title="Could not load this list"
-        description="Something went wrong while fetching the data. Check your connection and try again."
-        action={
-          onRetry && (
-            <Button type="button" variant="outline" className="h-10 px-4" onClick={onRetry}>
-              <RotateCw aria-hidden="true" />
-              Try again
-            </Button>
-          )
-        }
-      />
-    )
-  }
+  if (isError) return <ListErrorState onRetry={onRetry} />
 
   if (!rows || rows.length === 0) return <>{empty}</>
 

@@ -1,4 +1,4 @@
-import { Role, StaffType } from '@/types/enums'
+import { Role, StaffType, Tier } from '@/types/enums'
 
 // Where each role lands after login, and the URL prefix that only that role may open.
 export const ROLE_HOME_PATH: Record<Role, string> = {
@@ -27,6 +27,12 @@ export const STAFF_TYPE_LABEL: Record<StaffType, string> = {
   [StaffType.BOTH]: 'Sitter & driver',
 }
 
+export const TIER_LABEL: Record<Tier, string> = {
+  [Tier.DAILY]: 'Daily',
+  [Tier.WEEKLY]: 'Weekly',
+  [Tier.MONTHLY]: 'Monthly',
+}
+
 // Session cookies, all httpOnly on the frontend domain (see AGENTS.md → Architecture).
 export const ACCESS_COOKIE = 'cn_access'
 export const REFRESH_COOKIE = 'cn_refresh'
@@ -52,6 +58,9 @@ export const PASSWORD_MAX_LENGTH = 72
 // File uploads: JPEG, PNG or WEBP under 5 MB (backend: middleware/upload.ts).
 export const MAX_UPLOAD_BYTES = 5 * 1024 * 1024
 export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'] as const
+
+// Every timestamp is shown in the platform's local time, not the server's (Vercel runs in UTC).
+export const APP_TIME_ZONE = 'Asia/Dhaka'
 
 // Search inputs wait this long after the last keystroke before updating the URL.
 export const SEARCH_DEBOUNCE_MS = 400

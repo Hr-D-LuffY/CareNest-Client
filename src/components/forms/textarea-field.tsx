@@ -40,7 +40,7 @@ export function TextareaField({
         onChange={(event) => field.handleChange(event.target.value)}
         aria-invalid={error ? true : undefined}
         aria-describedby={getDescribedBy(id, error, hint)}
-        className="min-h-32 w-full resize-y rounded-xl border border-input bg-transparent px-3 py-3 text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40"
+        className="min-h-20 w-full resize-y rounded-xl border border-input bg-transparent px-3 py-3 text-base transition-colors outline-none placeholder:text-muted-foreground focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 aria-invalid:border-destructive aria-invalid:ring-3 aria-invalid:ring-destructive/20 md:text-sm dark:bg-input/30 dark:aria-invalid:border-destructive/50 dark:aria-invalid:ring-destructive/40"
       />
     </FieldShell>
   )

@@ -29,7 +29,12 @@ export function UserAvatar({ name, photo, size = 32, className }: UserAvatarProp
   return (
     <span
       aria-hidden="true"
-      style={{ width: size, height: size }}
+      style={{
+        width: size,
+        height: size,
+        // Initials grow with a big avatar. Small ones keep the text-xs below.
+        fontSize: size >= 48 ? Math.round(size * 0.36) : undefined,
+      }}
       className={cn(
         'relative inline-flex shrink-0 items-center justify-center overflow-hidden rounded-full bg-secondary text-xs font-semibold text-secondary-foreground ring-1 ring-border select-none',
         className,

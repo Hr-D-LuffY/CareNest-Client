@@ -1,5 +1,6 @@
 import { createApiClient } from './core'
 import { ApiError } from './errors'
+import { type UploadOptions, uploadFile } from './upload'
 
 // For Client Components. Calls our own BFF (/api/backend/*), which attaches the token, so no
 // token ever reaches the browser. Server code uses lib/api/server.ts instead.
@@ -39,6 +40,8 @@ export const clientApi = {
   patch: <T>(...args: Parameters<typeof api.patch<T>>) => guard(api.patch<T>(...args)),
   put: <T>(...args: Parameters<typeof api.put<T>>) => guard(api.put<T>(...args)),
   delete: <T = null>(...args: Parameters<typeof api.delete<T>>) => guard(api.delete<T>(...args)),
+  // Multipart upload with progress (child photo, profile photo, verification document).
+  upload: <T>(options: UploadOptions) => guard(uploadFile<T>(options)),
 }
 
 // Asks our server to ping the backend's /health. A sleeping Render instance can take about a minute
