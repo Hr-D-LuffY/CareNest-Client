@@ -1,3 +1,5 @@
+import type { PaginationMeta } from './api'
+
 export type Rating = {
   id: string
   bookingId: string
@@ -17,3 +19,7 @@ export type StaffRatings = {
   count: number
   reviews: Rating[]
 }
+
+// What the ratings list hands to the UI: the summary and one page of reviews, plus the paging meta
+// the backend sends beside them.
+export type StaffRatingsPage = StaffRatings & { meta: PaginationMeta }

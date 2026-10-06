@@ -1,9 +1,9 @@
 import { DEFAULT_PAGE } from '@/lib/constants'
-import { todayIso } from '@/lib/format'
+import { addDaysIso, todayIso } from '@/lib/format'
 import { DAYS_OF_WEEK, type DayOfWeek, type RoomListParams, RoomStatus, Tier } from '@/types'
 
 // Rooms shown per page (three cards a row on a wide screen).
-export const ROOMS_PAGE_SIZE = 9
+const ROOMS_PAGE_SIZE = 9
 
 // Longest search text kept in the URL.
 const MAX_SEARCH_LENGTH = 100
@@ -63,6 +63,25 @@ function isUpcomingDate(date: string): boolean {
   const parsed = new Date(`${date}T00:00:00Z`)
   const isRealDay = !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === date
   return isRealDay && date >= todayIso()
+}
+
+// A session date from the URL (?date=), or undefined when it is missing, not a real day or in the
+// past. The backend would answer 400 for those.
+export function parseSessionDateParam(raw: string | null | undefined): string | undefined {
+  return raw && isUpcomingDate(raw) ? raw : undefined
+}
+
+// How many upcoming sessions the detail page offers to pick from.
+const SESSION_CHOICES = 4
+const DAYS_IN_WEEK = 7
+
+// A room repeats every week: its next few session dates, starting from `nextSession` (the date the
+// backend reports for the room), plus the picked date when it is a later one.
+export function upcomingSessions(nextSession: string, picked?: string): string[] {
+  const dates = Array.from({ length: SESSION_CHOICES }, (_, week) =>
+    addDaysIso(nextSession, week * DAYS_IN_WEEK),
+  )
+  return picked && !dates.includes(picked) ? [...dates, picked] : dates
 }
 
 // The view's params from the raw URL values. A hand-edited URL falls back to "page 1, no filter"

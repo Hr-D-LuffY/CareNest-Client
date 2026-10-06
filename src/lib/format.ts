@@ -16,6 +16,13 @@ export function formatBDT(amount: string | number): string {
   return `${negative ? '-' : ''}${CURRENCY_SYMBOL}${formatted}`
 }
 
+// "Sara Khan" -> "Sara K.", for reviews written by other guardians: a first name and an initial.
+export function formatShortName(name: string): string {
+  const [first = '', ...rest] = name.trim().split(/\s+/)
+  const last = rest.at(-1)
+  return last ? `${first} ${last[0]?.toUpperCase()}.` : first
+}
+
 // A room's price multiplier without trailing zeros: "1.00" -> "1×", "1.50" -> "1.5×". Works on the
 // string, like formatBDT.
 export function formatMultiplier(multiplier: string): string {

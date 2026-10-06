@@ -15,6 +15,8 @@ export type Room = {
     id: string
     staffType: StaffType
     user: { name: string }
+    // The sitter's price per hour, as a string, or null while the sitter has no rate yet.
+    hourlyRate: string | null
   }
 }
 

@@ -16,6 +16,7 @@ import {
   toRoomListParams,
 } from '../room.params'
 import { useRoomsQuery } from '../room.queries'
+import { FareExplainer } from './fare-explainer'
 import { RoomCards } from './room-cards'
 import { RoomFilters } from './room-filters'
 import { RoomListSkeleton } from './room-skeleton'
@@ -93,18 +94,28 @@ export function RoomsView() {
         </header>
       </Reveal>
 
-      <RoomFilters params={params} total={data ? total : undefined} />
+      {/* The list and its filters on the left; the fare box sits beside them on a wide screen and
+          drops below the list on a phone. */}
+      <div className="grid items-start gap-6 lg:grid-cols-[minmax(0,1fr)_18rem]">
+        <div className="flex min-w-0 flex-col gap-6">
+          <RoomFilters params={params} total={data ? total : undefined} />
 
-      <div
-        aria-busy={isFetching || undefined}
-        className={cn('transition-opacity', isFetching && !isPending && 'opacity-60')}
-      >
-        {renderList()}
+          <div
+            aria-busy={isFetching || undefined}
+            className={cn('transition-opacity', isFetching && !isPending && 'opacity-60')}
+          >
+            {renderList()}
+          </div>
+
+          {data && items.length > 0 && (
+            <PaginationBar meta={data.meta} onPageChange={query.setPage} disabled={isFetching} />
+          )}
+        </div>
+
+        <aside className="lg:sticky lg:top-24">
+          <FareExplainer />
+        </aside>
       </div>
-
-      {data && items.length > 0 && (
-        <PaginationBar meta={data.meta} onPageChange={query.setPage} disabled={isFetching} />
-      )}
     </div>
   )
 }

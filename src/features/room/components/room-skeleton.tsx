@@ -7,7 +7,7 @@ export function RoomListSkeleton() {
   return (
     <div aria-busy="true" aria-live="polite">
       <span className="sr-only">Loading care rooms</span>
-      <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-4 sm:grid-cols-2 2xl:grid-cols-3">
         {CARD_IDS.map((id) => (
           <div key={id} className="flex flex-col rounded-2xl border bg-card shadow-soft">
             <div className="flex flex-col gap-4 p-5">

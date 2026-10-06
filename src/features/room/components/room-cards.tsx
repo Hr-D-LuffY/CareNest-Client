@@ -1,51 +1,27 @@
-import { ArrowRight, CalendarClock, CalendarDays, Hourglass, Users } from 'lucide-react'
+import { ArrowRight, CalendarClock, CalendarDays } from 'lucide-react'
 import Link from 'next/link'
 import { StatusBadge } from '@/components/shared/status-badge'
 import { TierBadge } from '@/components/shared/tier-badge'
 import { UserAvatar } from '@/components/shared/user-avatar'
 import { DAY_LABEL, STAFF_TYPE_LABEL } from '@/lib/constants'
-import { formatMultiplier, formatSessionDate, formatTimeRange } from '@/lib/format'
-import { cn } from '@/lib/utils'
+import { formatBDT, formatSessionDate, formatTimeRange } from '@/lib/format'
 import { RoomStatus, type RoomWithSeats } from '@/types'
+import { getHourlyPrice } from '../room-price'
+import { SeatMeter } from './room-seat-meter'
 
-// The bar turns amber when a quarter of the seats or fewer are left, and red when the room is full.
-const LOW_SEATS_SHARE = 0.25
+// The price for one hour: the sitter's rate × the room multiplier.
+function HourlyPrice({ room }: { room: RoomWithSeats }) {
+  const hourly = getHourlyPrice(room)
 
-function getSeatTone(room: RoomWithSeats) {
-  if (room.seatsLeft === 0) return 'bg-destructive'
-  return room.seatsLeft <= room.capacity * LOW_SEATS_SHARE ? 'bg-warning' : 'bg-success'
-}
-
-function SeatMeter({ room }: { room: RoomWithSeats }) {
-  const full = room.seatsLeft === 0
-  const share = room.capacity > 0 ? Math.min(100, (room.bookedSeats / room.capacity) * 100) : 100
-
-  return (
-    <div className="flex flex-col gap-2">
-      <div className="flex items-center justify-between gap-2 text-sm">
-        <span className="flex items-center gap-1.5 font-medium">
-          <Users aria-hidden="true" className="size-4 text-muted-foreground" />
-          {full ? 'No seats left' : `${room.seatsLeft} of ${room.capacity} seats left`}
-        </span>
-        <span className="text-xs text-muted-foreground tabular-nums">
-          {room.bookedSeats}/{room.capacity} booked
-        </span>
-      </div>
-      {/* Decorative: the seats left are already stated in words above. */}
-      <div aria-hidden="true" className="h-2 overflow-hidden rounded-full bg-muted">
-        <div
-          className={cn('h-full rounded-full', getSeatTone(room))}
-          style={{ width: `${share}%` }}
-        />
-      </div>
-      {full && (
-        <p className="flex items-start gap-1.5 text-sm text-warning">
-          <Hourglass aria-hidden="true" className="mt-0.5 size-4 shrink-0" />
-          Booking this session puts your child on the waitlist.
-        </p>
-      )}
-    </div>
-  )
+  if (hourly) {
+    return (
+      <span className="text-muted-foreground">
+        <span className="font-semibold text-foreground tabular-nums">{formatBDT(hourly)}</span> per
+        hour
+      </span>
+    )
+  }
+  return <span className="text-muted-foreground">Price not set yet</span>
 }
 
 function RoomCard({ room }: { room: RoomWithSeats }) {
@@ -109,12 +85,7 @@ function RoomCard({ room }: { room: RoomWithSeats }) {
       </div>
 
       <div className="flex items-center justify-between gap-2 border-t bg-muted/40 px-4 py-3 text-sm sm:px-5">
-        <span className="text-muted-foreground">
-          Rate{' '}
-          <span className="font-semibold text-foreground tabular-nums">
-            {formatMultiplier(room.priceMultiplier)}
-          </span>
-        </span>
+        <HourlyPrice room={room} />
         <span aria-hidden="true" className="flex items-center gap-1 font-medium text-info">
           View room
           <ArrowRight className="size-4" />
@@ -128,7 +99,7 @@ function RoomCard({ room }: { room: RoomWithSeats }) {
 // card that mounts after the page loaded would stay hidden), and data lists should not animate.
 export function RoomCards({ items }: { items: readonly RoomWithSeats[] }) {
   return (
-    <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-4 sm:grid-cols-2 2xl:grid-cols-3">
       {items.map((room) => (
         <RoomCard key={room.id} room={room} />
       ))}
