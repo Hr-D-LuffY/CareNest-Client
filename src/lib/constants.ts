@@ -42,6 +42,9 @@ export const TOP_UP_MIN_AMOUNT = 10
 export const TOP_UP_MAX_AMOUNT = 25000
 export const CURRENCY_CODE = 'BDT'
 
+// Flat charge every supervised ride starts from, in BDT (backend: transport.service.ts).
+export const TRANSPORT_BASE_FARE = 50
+
 // Password rules (backend: auth.interface.ts).
 export const PASSWORD_MIN_LENGTH = 8
 export const PASSWORD_MAX_LENGTH = 72

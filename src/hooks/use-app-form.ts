@@ -3,6 +3,7 @@ import { fieldContext, formContext } from '@/components/forms/form-context'
 import { PasswordField } from '@/components/forms/password-field'
 import { SubmitButton } from '@/components/forms/submit-button'
 import { TextField } from '@/components/forms/text-field'
+import { TextareaField } from '@/components/forms/textarea-field'
 
 // The one way to build a form in this app. Every form gets the same fields and submit button, so
 // they all look and behave alike. Pass a Zod schema as `validators.onChange`/`onBlur`.
@@ -12,6 +13,6 @@ import { TextField } from '@/components/forms/text-field'
 export const { useAppForm } = createFormHook({
   fieldContext,
   formContext,
-  fieldComponents: { TextField, PasswordField },
+  fieldComponents: { TextField, TextareaField, PasswordField },
   formComponents: { SubmitButton },
 })
