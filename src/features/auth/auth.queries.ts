@@ -83,6 +83,22 @@ export function useLogoutMutation() {
   })
 }
 
+// After a profile edit: rebuilds the session cookie from the backend, shares the new name and photo
+// with the navbar, and refreshes the server layout so the top bar and sidebar show them. A failure
+// is not worth a toast: the edit itself was saved, and the old name shows until the next sign-in.
+export function useSyncSession() {
+  const queryClient = useQueryClient()
+  const router = useRouter()
+  return useMutation({
+    mutationFn: () => authApi.post<SessionUser>('/session'),
+    meta: { skipGlobalError: true },
+    onSuccess: (session) => {
+      queryClient.setQueryData(authKeys.session, session)
+      router.refresh()
+    },
+  })
+}
+
 export function useGoogleLoginMutation(redirect: string | null | undefined) {
   const afterLogin = useAfterLogin(redirect)
   return useMutation({

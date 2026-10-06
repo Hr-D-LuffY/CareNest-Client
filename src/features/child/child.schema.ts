@@ -1,6 +1,6 @@
 import { z } from 'zod'
-import { ACCEPTED_IMAGE_TYPES, MAX_UPLOAD_BYTES } from '@/lib/constants'
 import { todayIso } from '@/lib/format'
+import { photoSchema } from '@/lib/photo-schema'
 import { type Child, type ChildPayload, Tier } from '@/types'
 
 // Mirrors the backend's createChildSchema / updateChildSchema (child.interface.ts), plus the
@@ -25,15 +25,6 @@ const dateOfBirth = z
   .refine(isCalendarDay, DATE_ERROR)
   .refine((value) => value <= todayIso(), 'Date of birth cannot be in the future')
 
-const photo = z
-  .instanceof(File)
-  .refine(
-    (file) => ACCEPTED_IMAGE_TYPES.some((type) => type === file.type),
-    'Photo must be a JPEG, PNG or WEBP image',
-  )
-  .refine((file) => file.size <= MAX_UPLOAD_BYTES, 'Photo must be 5 MB or smaller')
-  .nullable()
-
 export const childFormSchema = z.object({
   name: requiredText('Name'),
   dateOfBirth,
@@ -43,7 +34,7 @@ export const childFormSchema = z.object({
   conditions: z.string().trim(),
   emergencyContactName: requiredText('Emergency contact name'),
   emergencyContactPhone: requiredText('Emergency contact phone'),
-  photo,
+  photo: photoSchema,
 })
 
 export type ChildFormInput = z.input<typeof childFormSchema>

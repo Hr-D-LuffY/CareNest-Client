@@ -53,6 +53,13 @@ export type GuardianProfile = User & {
   }
 }
 
+// PATCH /guardian/me: at least one field. A blank address is sent as null, which clears it.
+export type UpdateGuardianPayload = {
+  name?: string
+  phone?: string
+  address?: string | null
+}
+
 // GET /admin/users
 export type AdminUser = User & {
   updatedAt: string

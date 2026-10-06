@@ -1,6 +1,6 @@
 'use client'
 
-import { CircleAlert, Phone, UserRound } from 'lucide-react'
+import { Phone, UserRound } from 'lucide-react'
 import { TIER_LABEL } from '@/lib/constants'
 import { todayIso } from '@/lib/format'
 import { Tier } from '@/types'
@@ -148,19 +148,7 @@ export function EmergencyPhoneField({ form }: FieldProps) {
   )
 }
 
-// A failure that does not belong to one field (409, 429, offline), shown above the submit button.
-export function FormError({ message }: { message: string | null }) {
-  if (!message) return null
-  return (
-    <div
-      role="alert"
-      className="flex items-start gap-2 rounded-xl border border-destructive/30 bg-destructive-soft p-3 text-sm"
-    >
-      <CircleAlert className="mt-0.5 size-4 shrink-0 text-destructive" aria-hidden="true" />
-      {message}
-    </div>
-  )
-}
+export { FormError } from '@/components/forms/form-error'
 
 export function SectionTitle({ children }: { children: string }) {
   return (
