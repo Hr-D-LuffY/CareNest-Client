@@ -1,8 +1,8 @@
 import { CircleX, TriangleAlert, Wallet } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
+import { OutcomeView } from '@/components/shared/outcome-view'
 import { buttonVariants } from '@/components/ui/button'
-import { PaymentOutcome } from '@/features/payment/components/payment-outcome'
 import { parseCancelReason } from '@/features/payment/payment.outcome'
 import { cn } from '@/lib/utils'
 
@@ -21,7 +21,7 @@ export default async function PaymentCancelPage({ searchParams }: CancelPageProp
   const failed = reason === 'failed'
 
   return (
-    <PaymentOutcome
+    <OutcomeView
       icon={failed ? TriangleAlert : CircleX}
       tone={failed ? 'danger' : 'warning'}
       title={failed ? 'The payment did not go through' : 'Payment cancelled'}
@@ -44,6 +44,6 @@ export default async function PaymentCancelPage({ searchParams }: CancelPageProp
       >
         {failed ? 'Contact us' : 'Back to dashboard'}
       </Link>
-    </PaymentOutcome>
+    </OutcomeView>
   )
 }

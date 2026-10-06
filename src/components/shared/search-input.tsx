@@ -62,7 +62,11 @@ export function SearchInput({ value, onSearch, label, placeholder, className }: 
         autoComplete="off"
         onChange={(event) => setText(event.target.value)}
         onKeyDown={(event) => {
-          if (event.key === 'Enter') onSearch(text.trim())
+          if (event.key === 'Enter') {
+            // Enter searches now. It must not also submit a form this box sits inside.
+            event.preventDefault()
+            onSearch(text.trim())
+          }
         }}
         className="h-11 rounded-xl pr-11 pl-11 [&::-webkit-search-cancel-button]:appearance-none"
       />

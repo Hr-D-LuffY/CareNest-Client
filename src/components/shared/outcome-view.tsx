@@ -11,28 +11,31 @@ const TONE_CLASSES: Record<Tone, string> = {
   danger: 'bg-destructive-soft text-destructive',
 }
 
-type PaymentOutcomeProps = {
+type OutcomeViewProps = {
   icon: LucideIcon
   tone: Tone
   title: string
   description: string
-  // Facts about the payment (amount, new balance, bKash reference). Left out when there are none.
+  // Facts about what happened (amount, child, date). Left out when there are none.
   details?: { label: string; value: ReactNode }[]
+  // Anything else worth reading before the buttons, e.g. how a waitlist score works.
+  body?: ReactNode
   // The buttons or links.
   children: ReactNode
 }
 
-// The result of a top-up, centred in the content area: an icon, what happened, the facts, and where
-// to go next. Plain markup with no hooks, so the server pages render it directly. The icon has a
+// The result of an action (a top-up, a booking), centred in the content area: an icon, what happened,
+// the facts, and where to go next. Plain markup with no hooks, so the server pages render it directly. The icon has a
 // shape as well as a colour, and the title says the outcome in words.
-export function PaymentOutcome({
+export function OutcomeView({
   icon: Icon,
   tone,
   title,
   description,
   details,
+  body,
   children,
-}: PaymentOutcomeProps) {
+}: OutcomeViewProps) {
   return (
     <div className="mx-auto flex w-full max-w-lg flex-col items-center gap-4 py-8 text-center sm:py-14">
       <span
@@ -55,13 +58,15 @@ export function PaymentOutcome({
         </dl>
       )}
 
+      {body}
+
       <div className="mt-2 flex flex-col gap-3 sm:flex-row">{children}</div>
     </div>
   )
 }
 
-// The loading shape of PaymentOutcome, for the callback and success pages' loading.tsx.
-export function PaymentOutcomeSkeleton({ label }: { label: string }) {
+// The loading shape of OutcomeView, for the loading.tsx of result pages.
+export function OutcomeSkeleton({ label }: { label: string }) {
   return (
     <div
       aria-busy="true"

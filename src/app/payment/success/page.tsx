@@ -2,9 +2,9 @@ import { CircleCheck, Clock, RotateCw, Wallet } from 'lucide-react'
 import type { Metadata } from 'next'
 import Link from 'next/link'
 import { notFound, redirect } from 'next/navigation'
+import { OutcomeView } from '@/components/shared/outcome-view'
 import { buttonVariants } from '@/components/ui/button'
 import { getGuardianProfile } from '@/features/guardian/guardian.server'
-import { PaymentOutcome } from '@/features/payment/components/payment-outcome'
 import { RefreshWalletData } from '@/features/payment/components/refresh-wallet-data'
 import { destinationFor } from '@/features/payment/payment.outcome'
 import { getPayment } from '@/features/payment/payment.server'
@@ -45,7 +45,7 @@ export default async function PaymentSuccessPage({ searchParams }: SuccessPagePr
 
   if (payment.status === PaymentStatus.PENDING) {
     return (
-      <PaymentOutcome
+      <OutcomeView
         icon={Clock}
         tone="warning"
         title="Still confirming your payment"
@@ -66,7 +66,7 @@ export default async function PaymentSuccessPage({ searchParams }: SuccessPagePr
           <Wallet aria-hidden="true" />
           Go to wallet
         </Link>
-      </PaymentOutcome>
+      </OutcomeView>
     )
   }
 
@@ -76,7 +76,7 @@ export default async function PaymentSuccessPage({ searchParams }: SuccessPagePr
   return (
     <>
       <RefreshWalletData />
-      <PaymentOutcome
+      <OutcomeView
         icon={CircleCheck}
         tone="success"
         title="Wallet topped up"
@@ -105,7 +105,7 @@ export default async function PaymentSuccessPage({ searchParams }: SuccessPagePr
         >
           Browse care rooms
         </Link>
-      </PaymentOutcome>
+      </OutcomeView>
     </>
   )
 }

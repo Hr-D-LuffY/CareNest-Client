@@ -6,4 +6,6 @@ export const roomKeys = {
   all: ['rooms'] as const,
   lists: () => [...roomKeys.all, 'list'] as const,
   list: (params: RoomListParams) => [...roomKeys.lists(), params] as const,
+  // One room with its seats for a session date ("next" when no date is given).
+  detail: (id: string, date?: string) => [...roomKeys.all, 'detail', id, date ?? 'next'] as const,
 }

@@ -15,10 +15,14 @@ export function useQueryParams() {
   const pathname = usePathname()
   const searchParams = useSearchParams()
 
-  function replace(next: URLSearchParams) {
+  // `push` adds a history entry (a wizard step the Back button should return to); the default
+  // replaces the current one, so a filter change does not fill the history.
+  function replace(next: URLSearchParams, push = false) {
     const query = next.toString()
+    const url = query ? `${pathname}?${query}` : pathname
     // scroll: false keeps the reader where they are when a filter changes.
-    router.replace(query ? `${pathname}?${query}` : pathname, { scroll: false })
+    if (push) router.push(url, { scroll: false })
+    else router.replace(url, { scroll: false })
   }
 
   // The raw string, or undefined when the param is absent or empty.
@@ -41,7 +45,7 @@ export function useQueryParams() {
 
   // Changes filters, search or sort. The page goes back to 1 unless `updates` sets it, because the
   // old page number rarely exists in the new result set.
-  function set(updates: QueryParamUpdates) {
+  function set(updates: QueryParamUpdates, options: { push?: boolean } = {}) {
     const next = new URLSearchParams(searchParams.toString())
     if (!('page' in updates)) next.delete('page')
 
@@ -49,7 +53,7 @@ export function useQueryParams() {
       if (value === undefined || value === null || value === '') next.delete(key)
       else next.set(key, String(value))
     }
-    replace(next)
+    replace(next, options.push)
   }
 
   // Changes only the page. Page 1 is the default, so it is left out of the URL.

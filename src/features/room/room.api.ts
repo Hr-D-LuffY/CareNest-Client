@@ -6,4 +6,7 @@ import type { RoomListParams, RoomWithSeats } from '@/types'
 export const roomApi = {
   list: (params: RoomListParams, signal?: AbortSignal) =>
     clientApi.getList<RoomWithSeats>('/room', params, signal),
+  // One room with its seats for `date`, or for its next session when `date` is left out.
+  get: (id: string, date?: string, signal?: AbortSignal) =>
+    clientApi.get<RoomWithSeats>(`/room/${id}`, { date }, signal),
 }

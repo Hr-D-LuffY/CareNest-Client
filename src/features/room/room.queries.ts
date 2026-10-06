@@ -14,3 +14,13 @@ export function useRoomsQuery(params: RoomListParams) {
     placeholderData: keepPreviousData,
   })
 }
+
+// One room with its seats for a session date, or for its next session without a date. Pass
+// `enabled: false` while there is nothing to look up yet.
+export function useRoomQuery(id: string, date: string | undefined, enabled = true) {
+  return useQuery({
+    queryKey: roomKeys.detail(id, date),
+    queryFn: ({ signal }) => roomApi.get(id, date, signal),
+    enabled: enabled && id !== '',
+  })
+}

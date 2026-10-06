@@ -1,5 +1,5 @@
-import { PaymentOutcomeSkeleton } from '@/features/payment/components/payment-outcome'
+import { OutcomeSkeleton } from '@/components/shared/outcome-view'
 
 export default function PaymentSuccessLoading() {
-  return <PaymentOutcomeSkeleton label="Loading your payment" />
+  return <OutcomeSkeleton label="Loading your payment" />
 }

@@ -1,5 +1,12 @@
 import type { BookingStatus, DayOfWeek, Tier, WaitlistStatus } from './enums'
 
+// POST /booking body. `sessionDate` is "YYYY-MM-DD" and must fall on the room's weekday.
+export type CreateBookingPayload = {
+  childId: string
+  roomId: string
+  sessionDate: string
+}
+
 export type Booking = {
   id: string
   sessionDate: string
