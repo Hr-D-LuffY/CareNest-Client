@@ -28,6 +28,9 @@ export type GuardianOverview = {
 const MAX_PAGE_SIZE = 100
 const RECENT_TRANSACTIONS = 5
 
+// The signed-in guardian's profile, with the wallet balance.
+export const getGuardianProfile = () => serverApi.get<GuardianProfile>('/guardian/me')
+
 function settle<T>(result: PromiseSettledResult<T>): Loaded<T> {
   if (result.status === 'fulfilled') return { ok: true, data: result.value }
   // No session: let the error boundary handle it instead of showing six "could not load" cards.

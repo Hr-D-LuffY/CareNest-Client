@@ -11,3 +11,10 @@ export type WalletTransaction = {
   paymentId: string | null
   createdAt: string
 }
+
+// GET /wallet/transactions?page=&limit=&type=
+export type WalletListParams = {
+  page: number
+  limit: number
+  type?: WalletTransactionType
+}
