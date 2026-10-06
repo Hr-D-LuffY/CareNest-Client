@@ -3,6 +3,7 @@
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { useState } from 'react'
+import { ActivateBackendButton } from '@/components/landing/activate-backend-button'
 import { ThemeToggle } from '@/components/shared/theme-toggle'
 import { Button } from '@/components/ui/button'
 import {
@@ -63,7 +64,7 @@ function DropdownItem({ item, layout }: { item: NavItem; layout: 'description' |
 
 function DesktopNav({ pathname }: { pathname: string }) {
   return (
-    <NavigationMenu className="max-md:hidden" aria-label="Main">
+    <NavigationMenu className="max-lg:hidden" aria-label="Main">
       <NavigationMenuList className="gap-1">
         {PUBLIC_NAV.map((entry) => {
           const active = isEntryActive(pathname, entry)
@@ -192,23 +193,24 @@ export function PublicNavbar() {
   return (
     <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/70">
       <div className="page-container flex h-16 items-center justify-between gap-4">
-        <div className="flex items-center gap-2 md:gap-8">
+        <div className="flex items-center gap-2 lg:gap-8">
           <Popover open={menuOpen} onOpenChange={setMenuOpen}>
             <PopoverTrigger
               render={
                 <Button
                   variant="ghost"
                   size="icon"
-                  className="group size-11 md:hidden"
+                  className="group size-11 lg:hidden"
                   aria-label={menuOpen ? 'Close menu' : 'Open menu'}
                 />
               }
             >
               <MenuIcon />
             </PopoverTrigger>
-            <PopoverContent align="start" className="w-64 gap-3 p-2 md:hidden">
+            <PopoverContent align="start" className="w-64 gap-3 p-2 lg:hidden">
               <MobileNav pathname={pathname} onNavigate={closeMenu} />
               <Separator />
+              <ActivateBackendButton size="stacked" />
               <AuthActions stacked onNavigate={closeMenu} />
             </PopoverContent>
           </Popover>
@@ -219,6 +221,7 @@ export function PublicNavbar() {
 
         <div className="flex items-center gap-2">
           <ThemeToggle />
+          <ActivateBackendButton size="nav" className="max-lg:hidden" />
           <AuthActions />
         </div>
       </div>

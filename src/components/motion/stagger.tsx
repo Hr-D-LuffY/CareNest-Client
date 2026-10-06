@@ -1,7 +1,8 @@
 'use client'
 
-import { motion, useReducedMotion } from 'motion/react'
+import { motion } from 'motion/react'
 import type { ReactNode } from 'react'
+import { usePrefersReducedMotion } from '@/hooks/use-prefers-reduced-motion'
 
 type StaggerProps = {
   children: ReactNode
@@ -9,15 +10,18 @@ type StaggerProps = {
   gap?: number
 }
 
-// Reveals its StaggerItem children one after another when scrolled into view.
+// Reveals its StaggerItem children one after another when scrolled into view. With reduced motion
+// they all appear at once.
 export function Stagger({ children, className, gap = 0.08 }: StaggerProps) {
+  const reduce = usePrefersReducedMotion()
+
   return (
     <motion.div
       className={className}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: '-48px' }}
-      variants={{ hidden: {}, visible: { transition: { staggerChildren: gap } } }}
+      variants={{ hidden: {}, visible: { transition: { staggerChildren: reduce ? 0 : gap } } }}
     >
       {children}
     </motion.div>
@@ -31,14 +35,14 @@ type StaggerItemProps = {
 }
 
 export function StaggerItem({ children, className, y = 16 }: StaggerItemProps) {
-  const reduce = useReducedMotion()
+  const reduce = usePrefersReducedMotion()
 
   return (
     <motion.div
       className={className}
       variants={{
-        hidden: { opacity: 0, y: reduce ? 0 : y },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.4, ease: 'easeOut' } },
+        hidden: { opacity: 0, y },
+        visible: { opacity: 1, y: 0, transition: { duration: reduce ? 0 : 0.4, ease: 'easeOut' } },
       }}
     >
       {children}

@@ -2,8 +2,8 @@ import Link from 'next/link'
 import { useId } from 'react'
 import { cn } from '@/lib/utils'
 
-// The CareNest emblem: a guardian's arm and a child resting in a nest. This is the supplied logo
-// artwork, so its fixed colours are the one place hex values are allowed. It sits on its own light
+// The CareNest emblem: a guardian's arm and a child resting in a nest. This is the logo artwork, recoloured
+// to the Caffeine theme, so its fixed colours are the one place hex values are allowed. It sits on its own light
 // tile, so it reads on both the light and the dark theme.
 function Emblem({ className }: { className?: string }) {
   const gradientId = useId()
@@ -11,14 +11,14 @@ function Emblem({ className }: { className?: string }) {
     <svg viewBox="0 0 140 140" fill="none" aria-hidden="true" className={className}>
       <defs>
         <linearGradient id={gradientId} x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stopColor="#0284C7" />
-          <stop offset="100%" stopColor="#0369A1" />
+          <stop offset="0%" stopColor="#7A5C4F" />
+          <stop offset="100%" stopColor="#644A40" />
         </linearGradient>
       </defs>
-      <rect width="140" height="140" rx="38" fill="#F0F9FF" />
-      <circle cx="70" cy="70" r="54" stroke="#BAE6FD" strokeWidth="2" strokeDasharray="4 4" />
-      <circle cx="84" cy="62" r="9" fill="#38BDF8" />
-      <circle cx="58" cy="50" r="13" fill="#0369A1" />
+      <rect width="140" height="140" rx="38" fill="#FBEFE0" />
+      <circle cx="70" cy="70" r="54" stroke="#ECD3B4" strokeWidth="2" strokeDasharray="4 4" />
+      <circle cx="84" cy="62" r="9" fill="#D9A877" />
+      <circle cx="58" cy="50" r="13" fill="#644A40" />
       <path
         d="M 40 85 C 38 68, 52 64, 62 68 C 72 72, 78 82, 80 92 C 82 102, 94 105, 102 96 C 104 93, 105 88, 106 82"
         stroke={`url(#${gradientId})`}
@@ -28,7 +28,7 @@ function Emblem({ className }: { className?: string }) {
       />
       <path
         d="M 32 94 C 42 118, 98 120, 110 88 C 112 82, 111 74, 107 70"
-        stroke="#0C4A6E"
+        stroke="#3E2A22"
         strokeWidth="5"
         strokeLinecap="round"
         strokeLinejoin="round"

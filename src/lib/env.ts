@@ -16,12 +16,28 @@ const optionalEmail = z.preprocess(
   z.email().optional(),
 )
 
+const LOCAL_HOSTS = new Set(['localhost', '127.0.0.1', '[::1]'])
+
+// http is fine on this machine; anywhere else it must be https (see the message below).
+function isSecureOrLocal(value: string) {
+  try {
+    const { protocol, hostname } = new URL(value)
+    return protocol === 'https:' || LOCAL_HOSTS.has(hostname)
+  } catch {
+    return true // not a URL at all: the .url() check above reports that
+  }
+}
+
 const envSchema = z.object({
   NODE_ENV: z.enum(['development', 'test', 'production']).default('development'),
 
   // Backend API base URL, for example http://localhost:5000/api/v1 (no trailing slash needed).
   BACKEND_API_URL: z
     .url('BACKEND_API_URL must be a valid URL, e.g. http://localhost:5000/api/v1')
+    .refine(isSecureOrLocal, {
+      message:
+        'BACKEND_API_URL must start with https:// for a hosted backend. Render redirects http to https, and that redirect drops the login token, so staff logins fail with 401.',
+    })
     .transform((url) => url.replace(/\/+$/, '')),
 
   // Credentials behind the one-click demo buttons. Optional so the app still boots without them;

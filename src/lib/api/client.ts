@@ -9,6 +9,9 @@ const api = createApiClient({ baseURL: '/api/backend' })
 // the backend, but no 401 redirect: a wrong password is a 401 the form has to show itself.
 export const authApi = createApiClient({ baseURL: '/api/auth' })
 
+// Our own small route handlers that are not auth (/api/*), e.g. waking the backend.
+const appApi = createApiClient({ baseURL: '/api' })
+
 const AUTH_PAGES = ['/login', '/register', '/forgot-password']
 
 // The BFF already tried to refresh the session once. A 401 here means the user is signed out.
@@ -37,3 +40,7 @@ export const clientApi = {
   put: <T>(...args: Parameters<typeof api.put<T>>) => guard(api.put<T>(...args)),
   delete: <T = null>(...args: Parameters<typeof api.delete<T>>) => guard(api.delete<T>(...args)),
 }
+
+// Asks our server to ping the backend's /health. A sleeping Render instance can take about a minute
+// to answer, so this resolves only once the backend is really up.
+export const wakeBackend = () => appApi.get<null>('/backend-health')

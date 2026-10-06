@@ -5,7 +5,8 @@
 @custom-variant dark (&:is(.dark *));
 
 /*
- * CareNest design tokens. Source of truth: design-system/carenest/MASTER.md (option A: Soft UI).
+ * CareNest design tokens (Soft UI). Dark is the default theme: neutral black with sky, green and amber
+ * accents. Light is a near-white base with the same accents. MASTER.md describes the first palette.
  * Components use these tokens (bg-primary, text-muted-foreground, ...). Never hard-code colours.
  */
 @theme inline {
@@ -71,113 +72,118 @@
   --shadow-float: var(--shadow-lg);
 }
 
+/*
+ * Caffeine theme (from the 21st.dev theme screenshots): warm brown and peach, 0.5rem radius.
+ * Our own tokens (cta, success, warning, info, brand) are mapped onto it below.
+ */
 :root {
-  --radius: 0.75rem;
+  --radius: 0.5rem;
 
-  --background: oklch(0.977 0.012 236.6); /* #F0F9FF */
-  --foreground: oklch(0.391 0.085 240.9); /* #0C4A6E */
-  --card: oklch(1 0 0);
-  --card-foreground: oklch(0.391 0.085 240.9);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.391 0.085 240.9);
-  --primary: oklch(0.5 0.119 242.7); /* #0369A1 */
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.951 0.025 236.8); /* #E0F2FE */
-  --secondary-foreground: oklch(0.391 0.085 240.9);
-  --muted: oklch(0.948 0.012 239.9); /* #E7EFF5 */
-  --muted-foreground: oklch(0.446 0.037 257.3); /* #475569 */
-  --accent: oklch(0.951 0.025 236.8);
-  --accent-foreground: oklch(0.391 0.085 240.9);
-  --destructive: oklch(0.577 0.215 27.3); /* #DC2626 */
+  --background: #f9f9f9;
+  --foreground: #202020;
+  --card: #fcfcfc;
+  --card-foreground: #202020;
+  --popover: #fcfcfc;
+  --popover-foreground: #202020;
+  --primary: #644a40;
+  --primary-foreground: #ffffff;
+  --secondary: #ffdfb5;
+  --secondary-foreground: #582d1d;
+  --muted: #efefef;
+  --muted-foreground: #646464;
+  --accent: #e8e8e8;
+  --accent-foreground: #202020;
+  --destructive: #e54d2e;
   --destructive-soft: oklch(0.96 0.03 17);
-  --border: oklch(0.91 0.03 235.7); /* #CFE5F3 */
-  --input: oklch(0.852 0.041 236.7); /* #B6D3E6 */
-  --ring: oklch(0.5 0.119 242.7);
+  --border: #d8d8d8;
+  --input: #d8d8d8;
+  --ring: #644a40;
 
-  /* Call-to-action (primary buttons on marketing pages, "Book now"). Dark text keeps AA contrast. */
-  --cta: oklch(0.627 0.17 149.2); /* #16A34A */
-  --cta-foreground: oklch(0.24 0.06 153);
+  /* Call-to-action: the theme's primary, so buttons match the rest of the site. */
+  --cta: #644a40;
+  --cta-foreground: #ffffff;
 
   /* Status colours: one set, used by StatusBadge for every status enum. */
   --success: oklch(0.45 0.13 151);
   --success-soft: oklch(0.955 0.045 152);
-  --warning: oklch(0.473 0.125 46.2); /* #92400E */
+  --warning: oklch(0.473 0.125 46.2);
   --warning-soft: oklch(0.962 0.059 95.6);
-  --info: oklch(0.5 0.119 242.7);
-  --info-soft: oklch(0.951 0.025 236.8);
+  /* "info" follows the theme (brown on a soft peach) instead of sky blue. */
+  --info: #644a40;
+  --info-soft: #f6e8d8;
 
-  /* Wordmark colours from the logo: "Care" amber, "Nest" deep navy (white in dark mode). */
-  --brand-care: oklch(0.666 0.157 58.3); /* #D97706 */
-  --brand-nest: oklch(0.391 0.085 240.9); /* #0C4A6E */
+  /* Wordmark colours from the logo: "Care" amber, "Nest" the theme's brown. */
+  --brand-care: oklch(0.666 0.157 58.3);
+  --brand-nest: #644a40;
 
-  --chart-1: oklch(0.5 0.119 242.7); /* sky 700 */
-  --chart-2: oklch(0.754 0.139 232.7); /* sky 400 */
-  --chart-3: oklch(0.627 0.17 149.2); /* green 600 */
-  --chart-4: oklch(0.666 0.157 58.3); /* amber 600 */
-  --chart-5: oklch(0.446 0.037 257.3); /* slate 600 */
+  --chart-1: #644a40;
+  --chart-2: #ffdfb5;
+  --chart-3: #e8e8e8;
+  --chart-4: #ffe6c4;
+  --chart-5: #66493e;
 
-  --sidebar: oklch(1 0 0);
-  --sidebar-foreground: oklch(0.391 0.085 240.9);
-  --sidebar-primary: oklch(0.5 0.119 242.7);
-  --sidebar-primary-foreground: oklch(1 0 0);
-  --sidebar-accent: oklch(0.951 0.025 236.8);
-  --sidebar-accent-foreground: oklch(0.391 0.085 240.9);
-  --sidebar-border: oklch(0.91 0.03 235.7);
-  --sidebar-ring: oklch(0.5 0.119 242.7);
+  --sidebar: #fbfbfb;
+  --sidebar-foreground: #252525;
+  --sidebar-primary: #343434;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #f7f7f7;
+  --sidebar-accent-foreground: #252525;
+  --sidebar-border: #ebebeb;
+  --sidebar-ring: #644a40;
 
-  --shadow-sm: 0 1px 2px oklch(0.3 0.08 241 / 0.06);
-  --shadow-md: 0 4px 12px oklch(0.3 0.08 241 / 0.08);
-  --shadow-lg: 0 12px 28px oklch(0.3 0.08 241 / 0.12);
+  --shadow-sm: 0 1px 2px oklch(0.3 0.03 50 / 0.07);
+  --shadow-md: 0 4px 12px oklch(0.3 0.03 50 / 0.09);
+  --shadow-lg: 0 12px 28px oklch(0.3 0.03 50 / 0.13);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.18 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.18 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.145 0 0);
-  --secondary: oklch(0.24 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.24 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.27 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.711 0.166 22.2); /* #F87171 */
+  --background: #111111;
+  --foreground: #eeeeee;
+  --card: #191919;
+  --card-foreground: #eeeeee;
+  --popover: #191919;
+  --popover-foreground: #eeeeee;
+  --primary: #ffe0c2;
+  --primary-foreground: #202020;
+  --secondary: #393028;
+  --secondary-foreground: #ffe0c2;
+  --muted: #222222;
+  --muted-foreground: #b4b4b4;
+  --accent: #2a2a2a;
+  --accent-foreground: #eeeeee;
+  --destructive: #e54d2e;
   --destructive-soft: oklch(0.3 0.07 22);
-  --border: oklch(1 0 0 / 12%);
-  --input: oklch(1 0 0 / 18%);
-  --ring: oklch(0.708 0 0);
+  --border: #201e18;
+  --input: #484848;
+  --ring: #ffe0c2;
 
-  --cta: oklch(0.985 0 0);
-  --cta-foreground: oklch(0.145 0 0);
+  --cta: #ffe0c2;
+  --cta-foreground: #202020;
 
   --success: oklch(0.8 0.17 152);
   --success-soft: oklch(0.3 0.06 152);
-  --warning: oklch(0.837 0.164 84.4); /* #FBBF24 */
+  --warning: oklch(0.837 0.164 84.4);
   --warning-soft: oklch(0.32 0.06 80);
-  --info: oklch(0.754 0.139 232.7);
-  --info-soft: oklch(0.28 0.04 240);
+  --info: #ffe0c2;
+  --info-soft: #393028;
 
   --brand-care: oklch(0.666 0.157 58.3);
-  --brand-nest: oklch(0.985 0 0);
+  --brand-nest: #ffe0c2;
 
-  --chart-1: oklch(0.754 0.139 232.7);
-  --chart-2: oklch(0.6 0.12 240);
-  --chart-3: oklch(0.723 0.192 149.6);
-  --chart-4: oklch(0.837 0.164 84.4);
-  --chart-5: oklch(0.765 0.036 241.6);
+  --chart-1: #ffe0c2;
+  --chart-2: #393028;
+  --chart-3: #2a2a2a;
+  --chart-4: #42382e;
+  --chart-5: #ffe0c1;
 
-  --sidebar: oklch(0.17 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.985 0 0);
-  --sidebar-primary-foreground: oklch(0.145 0 0);
-  --sidebar-accent: oklch(0.24 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(1 0 0 / 12%);
-  --sidebar-ring: oklch(0.708 0 0);
+  --sidebar: #18181b;
+  --sidebar-foreground: #f4f4f5;
+  --sidebar-primary: #1d4ed8;
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #27272a;
+  --sidebar-accent-foreground: #f4f4f5;
+  --sidebar-border: #27272a;
+  --sidebar-ring: #ffe0c2;
 
   --shadow-sm: 0 1px 2px oklch(0 0 0 / 0.3);
   --shadow-md: 0 4px 12px oklch(0 0 0 / 0.35);
@@ -206,7 +212,7 @@
   h6 {
     font-family: var(--font-varela), var(--font-nunito), sans-serif;
     font-weight: 400;
-    letter-spacing: -0.01em;
+    letter-spacing: 0em;
   }
 
   /* Every clickable control shows the pointer (UX checklist from the design system). */
