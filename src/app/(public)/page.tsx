@@ -6,6 +6,7 @@ import { HowItWorks } from '@/components/landing/how-it-works'
 import { RolesSection } from '@/components/landing/roles-section'
 import { TransportSection } from '@/components/landing/transport-section'
 import { WaitlistSection } from '@/components/landing/waitlist-section'
+import { socialMetadata } from '@/lib/seo'
 
 const TITLE = 'CareNest | Trusted childcare and supervised transport'
 const DESCRIPTION =
@@ -14,7 +15,7 @@ const DESCRIPTION =
 export const metadata: Metadata = {
   title: { absolute: TITLE },
   description: DESCRIPTION,
-  openGraph: { title: TITLE, description: DESCRIPTION, type: 'website' },
+  ...socialMetadata(TITLE, DESCRIPTION),
 }
 
 // The landing page: all Server Components. Only the two illustrations and the scroll reveals are

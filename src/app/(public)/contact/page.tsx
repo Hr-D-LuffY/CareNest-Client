@@ -6,6 +6,7 @@ import { Reveal } from '@/components/motion/reveal'
 import { PageIntro } from '@/components/shared/page-intro'
 import { ContactForm } from '@/features/contact/components/contact-form'
 import { publicEnv } from '@/lib/public-env'
+import { socialMetadata } from '@/lib/seo'
 
 const TITLE = 'Contact'
 const DESCRIPTION = 'Questions about CareNest, care rooms, rides or your wallet? Send us a message.'
@@ -13,7 +14,7 @@ const DESCRIPTION = 'Questions about CareNest, care rooms, rides or your wallet?
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  openGraph: { title: `${TITLE} | CareNest`, description: DESCRIPTION, type: 'website' },
+  ...socialMetadata(`${TITLE} | CareNest`, DESCRIPTION),
 }
 
 export default function ContactPage() {

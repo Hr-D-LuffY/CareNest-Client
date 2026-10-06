@@ -8,6 +8,7 @@ import { Reveal } from '@/components/motion/reveal'
 import { Stagger, StaggerItem } from '@/components/motion/stagger'
 import { PageIntro } from '@/components/shared/page-intro'
 import { buttonVariants } from '@/components/ui/button'
+import { socialMetadata } from '@/lib/seo'
 import { SITE_AUTHOR, SOCIAL_LINKS } from '@/lib/site-config'
 import { cn } from '@/lib/utils'
 
@@ -18,7 +19,7 @@ const DESCRIPTION =
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  openGraph: { title: `${TITLE} | CareNest`, description: DESCRIPTION, type: 'website' },
+  ...socialMetadata(`${TITLE} | CareNest`, DESCRIPTION),
 }
 
 const PRINCIPLES = [

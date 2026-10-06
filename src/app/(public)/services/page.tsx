@@ -16,6 +16,7 @@ import {
   TOP_UP_MIN_AMOUNT,
   TRANSPORT_BASE_FARE,
 } from '@/lib/constants'
+import { socialMetadata } from '@/lib/seo'
 import { cn } from '@/lib/utils'
 
 const TITLE = 'Services'
@@ -25,7 +26,7 @@ const DESCRIPTION =
 export const metadata: Metadata = {
   title: TITLE,
   description: DESCRIPTION,
-  openGraph: { title: `${TITLE} | CareNest`, description: DESCRIPTION, type: 'website' },
+  ...socialMetadata(`${TITLE} | CareNest`, DESCRIPTION),
 }
 
 const TOP_UP_RANGE = `${TOP_UP_MIN_AMOUNT} to ${TOP_UP_MAX_AMOUNT.toLocaleString('en-US')} ${CURRENCY_CODE}`
