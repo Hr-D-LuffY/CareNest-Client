@@ -1,20 +1,9 @@
-import {
-  CalendarDays,
-  CalendarRange,
-  HeartPulse,
-  type LucideIcon,
-  Pencil,
-  Phone,
-  Sun,
-  Trash2,
-  TriangleAlert,
-} from 'lucide-react'
+import { HeartPulse, Pencil, Phone, Trash2, TriangleAlert } from 'lucide-react'
 import { UserAvatar } from '@/components/shared/user-avatar'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
-import { TIER_LABEL } from '@/lib/constants'
 import { cn } from '@/lib/utils'
-import { type Child, Tier } from '@/types'
+import type { Child } from '@/types'
 
 // Small pieces every design of the children list is built from, so a child looks the same
 // whichever layout shows it. Plain markup, no hooks.
@@ -25,23 +14,6 @@ export type ChildListProps = {
   onDelete: (child: Child) => void
   // Open the child's full profile: a click, a tap or Enter on the card.
   onView: (child: Child) => void
-}
-
-const TIER_ICON: Record<Tier, LucideIcon> = {
-  [Tier.DAILY]: Sun,
-  [Tier.WEEKLY]: CalendarDays,
-  [Tier.MONTHLY]: CalendarRange,
-}
-
-// Not a status, so it does not go through StatusBadge: it is the child's care tier.
-export function TierBadge({ tier, className }: { tier: Tier; className?: string }) {
-  const Icon = TIER_ICON[tier]
-  return (
-    <Badge variant="secondary" className={cn('h-6 bg-info-soft px-2.5 text-info', className)}>
-      <Icon aria-hidden="true" />
-      {TIER_LABEL[tier]}
-    </Badge>
-  )
 }
 
 // Allergies and conditions as labelled chips (the label, not just the colour, says which is which).

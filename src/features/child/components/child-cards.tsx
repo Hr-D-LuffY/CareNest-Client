@@ -1,4 +1,5 @@
 import { Phone, Stethoscope } from 'lucide-react'
+import { TierBadge } from '@/components/shared/tier-badge'
 import { formatAge, formatDate } from '@/lib/format'
 import type { Child } from '@/types'
 import {
@@ -7,7 +8,6 @@ import {
   type ChildListProps,
   EmergencyContact,
   HealthNotes,
-  TierBadge,
 } from './child-parts'
 
 type ChildCardProps = Pick<ChildListProps, 'onEdit' | 'onDelete' | 'onView'> & {

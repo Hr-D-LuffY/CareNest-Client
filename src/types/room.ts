@@ -1,4 +1,4 @@
-import type { DayOfWeek, StaffType, Tier } from './enums'
+import type { DayOfWeek, RoomStatus, StaffType, Tier } from './enums'
 
 export type Room = {
   id: string
@@ -23,4 +23,18 @@ export type RoomWithSeats = Room & {
   bookedSeats: number
   seatsLeft: number
   sessionDate: string
+}
+
+// Query params of GET /room (backend: room.interface.ts). `date` is "YYYY-MM-DD"; `q` matches the
+// room name or the staff member's name.
+export type RoomListParams = {
+  page: number
+  limit: number
+  tier?: Tier
+  status?: RoomStatus
+  dayOfWeek?: DayOfWeek
+  date?: string
+  q?: string
+  sortBy: 'createdAt' | 'name' | 'startTime' | 'capacity' | 'priceMultiplier' | 'seatsLeft'
+  sortOrder: 'asc' | 'desc'
 }

@@ -16,6 +16,13 @@ export function formatBDT(amount: string | number): string {
   return `${negative ? '-' : ''}${CURRENCY_SYMBOL}${formatted}`
 }
 
+// A room's price multiplier without trailing zeros: "1.00" -> "1×", "1.50" -> "1.5×". Works on the
+// string, like formatBDT.
+export function formatMultiplier(multiplier: string): string {
+  const text = multiplier.trim()
+  return `${text.includes('.') ? text.replace(/\.?0+$/, '') : text}×`
+}
+
 // A session date is a calendar day with no time zone, so it is read as UTC to never shift a day.
 function parseSessionDate(date: string): Date {
   return new Date(`${date}T00:00:00Z`)

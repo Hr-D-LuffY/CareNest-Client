@@ -3,6 +3,7 @@
 import { HeartPulse, Phone, TriangleAlert, X } from 'lucide-react'
 import Image from 'next/image'
 import { type ReactNode, useState } from 'react'
+import { TierBadge } from '@/components/shared/tier-badge'
 import { Button, buttonVariants } from '@/components/ui/button'
 import {
   Dialog,
@@ -14,7 +15,6 @@ import {
 import { formatAge, formatDate } from '@/lib/format'
 import { cn } from '@/lib/utils'
 import type { Child } from '@/types'
-import { TierBadge } from './child-parts'
 
 type ChildDetailDialogProps = {
   open: boolean

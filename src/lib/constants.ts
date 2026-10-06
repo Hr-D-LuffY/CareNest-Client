@@ -1,4 +1,4 @@
-import { Role, StaffType, Tier } from '@/types/enums'
+import { DayOfWeek, Role, StaffType, Tier } from '@/types/enums'
 
 // Where each role lands after login, and the URL prefix that only that role may open.
 export const ROLE_HOME_PATH: Record<Role, string> = {
@@ -31,6 +31,16 @@ export const TIER_LABEL: Record<Tier, string> = {
   [Tier.DAILY]: 'Daily',
   [Tier.WEEKLY]: 'Weekly',
   [Tier.MONTHLY]: 'Monthly',
+}
+
+export const DAY_LABEL: Record<DayOfWeek, string> = {
+  [DayOfWeek.MONDAY]: 'Monday',
+  [DayOfWeek.TUESDAY]: 'Tuesday',
+  [DayOfWeek.WEDNESDAY]: 'Wednesday',
+  [DayOfWeek.THURSDAY]: 'Thursday',
+  [DayOfWeek.FRIDAY]: 'Friday',
+  [DayOfWeek.SATURDAY]: 'Saturday',
+  [DayOfWeek.SUNDAY]: 'Sunday',
 }
 
 // Session cookies, all httpOnly on the frontend domain (see AGENTS.md → Architecture).
