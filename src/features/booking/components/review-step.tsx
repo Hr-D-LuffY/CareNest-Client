@@ -1,12 +1,12 @@
 'use client'
 
 import { CircleAlert, Hourglass, Wallet } from 'lucide-react'
-import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { EmptyState } from '@/components/shared/empty-state'
 import { TierBadge } from '@/components/shared/tier-badge'
-import { Button, buttonVariants } from '@/components/ui/button'
+import { Button } from '@/components/ui/button'
 import { Skeleton } from '@/components/ui/skeleton'
+import { TopUpLink } from '@/features/wallet/components/top-up-link'
 import { DAY_LABEL } from '@/lib/constants'
 import { formatBDT, formatMultiplier, formatSessionDate, formatTimeRange } from '@/lib/format'
 import { cn } from '@/lib/utils'
@@ -84,18 +84,6 @@ function Callout({
       />
       <div className="flex flex-col gap-2">{children}</div>
     </div>
-  )
-}
-
-function TopUpLink() {
-  return (
-    <Link
-      href="/dashboard/wallet"
-      className={cn(buttonVariants({ variant: 'outline' }), 'h-10 w-fit px-4')}
-    >
-      <Wallet aria-hidden="true" />
-      Top up wallet
-    </Link>
   )
 }
 

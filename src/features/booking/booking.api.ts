@@ -11,6 +11,8 @@ import type {
 // One function per endpoint, for the browser (through the BFF). The server page uses
 // booking.server.ts instead.
 export const bookingApi = {
+  get: (id: string, signal?: AbortSignal) =>
+    clientApi.get<Booking>(`/booking/${id}`, undefined, signal),
   list: (params: BookingListParams, signal?: AbortSignal) =>
     clientApi.getList<Booking>('/booking', params, signal),
   // The guardian's own waitlist entries (a full room answers a booking with a waitlist spot).

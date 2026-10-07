@@ -4,6 +4,7 @@ import { DateField } from '@/components/forms/date-field'
 import { fieldContext, formContext } from '@/components/forms/form-context'
 import { ImageField } from '@/components/forms/image-field'
 import { PasswordField } from '@/components/forms/password-field'
+import { RatingField } from '@/components/forms/rating-field'
 import { SubmitButton } from '@/components/forms/submit-button'
 import { TextField } from '@/components/forms/text-field'
 import { TextareaField } from '@/components/forms/textarea-field'
@@ -23,6 +24,7 @@ export const { useAppForm } = createFormHook({
     DateField,
     ChoiceField,
     ImageField,
+    RatingField,
   },
   formComponents: { SubmitButton },
 })

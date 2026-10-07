@@ -16,11 +16,18 @@ type ChoiceFieldProps = {
   label: string
   options: readonly ChoiceOption[]
   hint?: string
+  // The grid of cards from sm up. Three across by default; use fewer when the descriptions are long.
+  columnsClassName?: string
 }
 
 // One choice out of a few, shown as cards (radio buttons underneath, so arrow keys and screen
 // readers work as they should). The selected card carries a check mark as well as a colour.
-export function ChoiceField({ label, options, hint }: ChoiceFieldProps) {
+export function ChoiceField({
+  label,
+  options,
+  hint,
+  columnsClassName = 'sm:grid-cols-3',
+}: ChoiceFieldProps) {
   const field = useFieldContext<string>()
   const id = useId()
   const error = getFieldError(field)
@@ -29,7 +36,7 @@ export function ChoiceField({ label, options, hint }: ChoiceFieldProps) {
   return (
     <fieldset className="flex flex-col gap-2" aria-describedby={describedBy}>
       <legend className="mb-2 text-sm font-medium">{label}</legend>
-      <div className="grid gap-2 sm:grid-cols-3">
+      <div className={cn('grid gap-2', columnsClassName)}>
         {options.map((option) => {
           const checked = field.state.value === option.value
           return (

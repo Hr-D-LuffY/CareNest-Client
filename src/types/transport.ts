@@ -44,3 +44,25 @@ export type Transport = {
 export type EndedTransport = Transport & {
   charged: boolean
 }
+
+// Query params of GET /transport. `status` filters; paging is 1-based.
+export type TransportListParams = {
+  page: number
+  limit: number
+  status?: TransportStatus
+}
+
+// Query params of GET /transport/vehicles (the vehicles a guardian can book a ride with).
+export type VehicleListParams = {
+  page: number
+  limit: number
+  vehicleType?: VehicleType
+}
+
+// POST /transport body. One ride per booking.
+export type CreateTransportPayload = {
+  bookingId: string
+  vehicleId: string
+  pickupAddress: string
+  dropoffAddress: string
+}

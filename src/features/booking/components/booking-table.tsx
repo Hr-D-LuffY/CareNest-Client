@@ -1,10 +1,12 @@
-import { CalendarX2 } from 'lucide-react'
+import { CalendarX2, Eye } from 'lucide-react'
+import Link from 'next/link'
 import type { ReactNode } from 'react'
 import { DataTable, type DataTableColumn } from '@/components/shared/data-table'
 import { StatusBadge } from '@/components/shared/status-badge'
-import { Button } from '@/components/ui/button'
+import { Button, buttonVariants } from '@/components/ui/button'
 import { DAY_LABEL } from '@/lib/constants'
 import { formatBDT, formatSessionDate, formatTimeRange, todayIso } from '@/lib/format'
+import { cn } from '@/lib/utils'
 import { type Booking, BookingStatus, type Paginated } from '@/types'
 import { BOOKINGS_PAGE_SIZE } from '../booking-list.params'
 
@@ -96,22 +98,36 @@ export function BookingTable({
       header: 'Actions',
       actions: true,
       align: 'right',
-      cell: (row) =>
-        canCancel(row) ? (
-          <Button
-            type="button"
-            variant="outline"
-            className="h-10 px-3 text-destructive hover:text-destructive"
-            onClick={() => onCancel(row)}
+      cell: (row) => (
+        <span className="inline-flex flex-wrap items-center justify-end gap-2">
+          <Link
+            href={`/dashboard/bookings/${row.id}`}
+            className={cn(buttonVariants({ variant: 'outline' }), 'h-10 px-3')}
           >
-            <CalendarX2 aria-hidden="true" />
-            Cancel
+            <Eye aria-hidden="true" />
+            Details
             <span className="sr-only">
               {' '}
-              booking for {row.child.name} on {formatSessionDate(row.sessionDate)}
+              of the booking for {row.child.name} on {formatSessionDate(row.sessionDate)}
             </span>
-          </Button>
-        ) : null,
+          </Link>
+          {canCancel(row) && (
+            <Button
+              type="button"
+              variant="outline"
+              className="h-10 px-3 text-destructive hover:text-destructive"
+              onClick={() => onCancel(row)}
+            >
+              <CalendarX2 aria-hidden="true" />
+              Cancel
+              <span className="sr-only">
+                {' '}
+                booking for {row.child.name} on {formatSessionDate(row.sessionDate)}
+              </span>
+            </Button>
+          )}
+        </span>
+      ),
     },
   ]
 

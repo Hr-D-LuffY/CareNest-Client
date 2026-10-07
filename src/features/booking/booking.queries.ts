@@ -3,6 +3,7 @@
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { roomKeys } from '@/features/room/room.keys'
+import { transportKeys } from '@/features/transport/transport.keys'
 import {
   type Booking,
   type BookingListParams,
@@ -20,6 +21,14 @@ export function useBookingsQuery(params: BookingListParams) {
     queryFn: ({ signal }) => bookingApi.list(params, signal),
     // Keep showing the old page while the next one loads, so paging does not flash a skeleton.
     placeholderData: keepPreviousData,
+  })
+}
+
+// One booking, for its detail page. The server page has already loaded it.
+export function useBookingQuery(id: string) {
+  return useQuery({
+    queryKey: bookingKeys.detail(id),
+    queryFn: ({ signal }) => bookingApi.get(id, signal),
   })
 }
 
@@ -96,10 +105,11 @@ export function useCancelBooking() {
     onSuccess: () =>
       toast.success('Booking cancelled. If a child was waiting for this seat, they were promoted.'),
     // The seat is free again and the waitlist may have moved, so everything that shows either is
-    // refetched.
+    // refetched. The backend also cancels a ride that was only requested for this booking.
     onSettled: () => {
       queryClient.invalidateQueries({ queryKey: bookingKeys.all })
       queryClient.invalidateQueries({ queryKey: roomKeys.all })
+      queryClient.invalidateQueries({ queryKey: transportKeys.all })
     },
   })
 }

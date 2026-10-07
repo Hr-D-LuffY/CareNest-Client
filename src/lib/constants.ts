@@ -1,4 +1,4 @@
-import { DayOfWeek, Role, StaffType, Tier } from '@/types/enums'
+import { DayOfWeek, Role, StaffType, Tier, VehicleType } from '@/types/enums'
 
 // Where each role lands after login, and the URL prefix that only that role may open.
 export const ROLE_HOME_PATH: Record<Role, string> = {
@@ -31,6 +31,12 @@ export const TIER_LABEL: Record<Tier, string> = {
   [Tier.DAILY]: 'Daily',
   [Tier.WEEKLY]: 'Weekly',
   [Tier.MONTHLY]: 'Monthly',
+}
+
+export const VEHICLE_TYPE_LABEL: Record<VehicleType, string> = {
+  [VehicleType.CAR]: 'Car',
+  [VehicleType.VAN]: 'Van',
+  [VehicleType.BUS]: 'Bus',
 }
 
 export const DAY_LABEL: Record<DayOfWeek, string> = {
@@ -75,6 +81,11 @@ export const APP_TIME_ZONE = 'Asia/Dhaka'
 // Search inputs wait this long after the last keystroke before updating the URL.
 export const SEARCH_DEBOUNCE_MS = 400
 
-// Rating scale (backend: rating.interface.ts).
+// Rating scale and comment length (backend: rating.interface.ts).
 export const RATING_MIN = 1
 export const RATING_MAX = 5
+export const RATING_COMMENT_MAX_LENGTH = 500
+
+// Ride addresses (backend: transport.interface.ts).
+export const ADDRESS_MIN_LENGTH = 5
+export const ADDRESS_MAX_LENGTH = 255

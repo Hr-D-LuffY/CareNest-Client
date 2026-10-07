@@ -23,3 +23,11 @@ export type StaffRatings = {
 // What the ratings list hands to the UI: the summary and one page of reviews, plus the paging meta
 // the backend sends beside them.
 export type StaffRatingsPage = StaffRatings & { meta: PaginationMeta }
+
+// POST /rating body. A blank comment is left out, not sent as "".
+export type CreateRatingPayload = {
+  bookingId: string
+  staffId: string
+  score: number
+  comment?: string
+}
