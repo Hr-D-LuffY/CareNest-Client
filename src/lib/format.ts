@@ -123,6 +123,12 @@ function localDayKey(date: Date): string {
   return new Intl.DateTimeFormat('en-CA', { timeZone: APP_TIME_ZONE }).format(date)
 }
 
+// The platform-clock calendar day ("YYYY-MM-DD") an ISO timestamp falls on: which day a payment or a
+// check-out counts for.
+export function dayInAppZone(iso: string): string {
+  return localDayKey(new Date(iso))
+}
+
 // Today as "YYYY-MM-DD" on the platform's clock (Asia/Dhaka), for the periods an earnings chart groups by.
 export function todayInAppZone(): string {
   return localDayKey(new Date())

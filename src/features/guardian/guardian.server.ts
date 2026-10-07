@@ -1,5 +1,5 @@
 import 'server-only'
-import { ApiError } from '@/lib/api/errors'
+import { type Loaded, mapLoaded, settle } from '@/lib/api/loaded'
 import { serverApi } from '@/lib/api/server'
 import { todayIso } from '@/lib/format'
 import type { Paginated } from '@/types/api'
@@ -9,10 +9,6 @@ import { BookingStatus, TransportStatus } from '@/types/enums'
 import type { Transport } from '@/types/transport'
 import type { GuardianProfile } from '@/types/user'
 import type { WalletTransaction } from '@/types/wallet'
-
-// A section of the overview that loaded, or one that failed. A failed section shows an inline
-// message while the rest of the page still renders.
-export type Loaded<T> = { ok: true; data: T } | { ok: false }
 
 export type GuardianOverview = {
   profile: Loaded<GuardianProfile>
@@ -30,17 +26,6 @@ const RECENT_TRANSACTIONS = 5
 
 // The signed-in guardian's profile, with the wallet balance.
 export const getGuardianProfile = () => serverApi.get<GuardianProfile>('/guardian/me')
-
-function settle<T>(result: PromiseSettledResult<T>): Loaded<T> {
-  if (result.status === 'fulfilled') return { ok: true, data: result.value }
-  // No session: let the error boundary handle it instead of showing six "could not load" cards.
-  if (result.reason instanceof ApiError && result.reason.isUnauthorized) throw result.reason
-  return { ok: false }
-}
-
-function mapLoaded<T, R>(loaded: Loaded<T>, convert: (data: T) => R): Loaded<R> {
-  return loaded.ok ? { ok: true, data: convert(loaded.data) } : { ok: false }
-}
 
 // Everything the guardian overview needs, fetched in parallel. Bookings come newest session first,
 // so one page of 100 holds every upcoming session unless there are more than 100 of them.

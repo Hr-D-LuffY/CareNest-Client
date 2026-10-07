@@ -2,7 +2,8 @@ import type { Role } from './enums'
 
 export type TopRatedStaff = {
   staffId: string
-  name: string
+  // The backend sends null if the staff profile can no longer be found.
+  name: string | null
   averageScore: number
   ratingCount: number
 }

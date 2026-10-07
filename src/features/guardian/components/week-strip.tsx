@@ -1,4 +1,5 @@
 import { CalendarCheck } from 'lucide-react'
+import { SectionError } from '@/components/shared/section-error'
 import { Card, CardContent, CardHeader } from '@/components/ui/card'
 import type { GuardianOverview } from '@/features/guardian/guardian.server'
 import {
@@ -9,7 +10,6 @@ import {
   todayIso,
 } from '@/lib/format'
 import { cn } from '@/lib/utils'
-import { SectionError } from './section-error'
 
 const WEEK_DAYS = 7
 
