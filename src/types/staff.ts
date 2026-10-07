@@ -39,6 +39,13 @@ export type AvailabilitySlot = {
   updatedAt: string
 }
 
+// Query params of GET /staff/me/bookings. `date` ("YYYY-MM-DD") keeps one session day only.
+export type StaffTaskListParams = {
+  page: number
+  limit: number
+  date?: string
+}
+
 // GET /staff/me/bookings: confirmed bookings still needing a check-in or check-out.
 export type AssignedBooking = {
   id: string

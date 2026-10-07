@@ -2,6 +2,7 @@ import { clientApi } from '@/lib/api/client'
 import type {
   Booking,
   BookingListParams,
+  CheckinLog,
   CreateBookingPayload,
   CreateBookingResult,
   WaitlistEntry,
@@ -31,4 +32,8 @@ export const bookingApi = {
   },
   // Frees the seat. The backend then promotes the top waitlist entry for that session.
   cancel: (id: string) => clientApi.delete<Booking>(`/booking/${id}`),
+  // Staff only, for the sitter who runs the room. Check-in works on the session date, once.
+  checkIn: (id: string) => clientApi.post<CheckinLog>(`/booking/${id}/check-in`),
+  // Completes the booking and charges the guardian's wallet for the time used.
+  checkOut: (id: string) => clientApi.post<CheckinLog>(`/booking/${id}/check-out`),
 }

@@ -95,6 +95,12 @@ export function formatAge(dateOfBirth: string, today: string = todayIso()): stri
   return `${years} ${years === 1 ? 'yr' : 'yrs'}`
 }
 
+// The backend's hoursUsed ("1.2500") -> "1.25 h". Display only: the fee is computed by the backend.
+export function formatHours(hours: string): string {
+  const value = Number(hours)
+  return `${Number.isFinite(value) ? Number(value.toFixed(2)) : hours} h`
+}
+
 // "14:30" -> "2:30 PM"
 export function formatTime(time: string): string {
   const [hours = 0, minutes = 0] = time.split(':').map(Number)
