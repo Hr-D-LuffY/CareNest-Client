@@ -128,7 +128,11 @@ export function useEndTrip() {
         )
       }
     },
-    onSettled: () => queryClient.invalidateQueries({ queryKey: staffKeys.trips() }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: staffKeys.trips() })
+      // An ended trip is what turns a ride into earnings.
+      queryClient.invalidateQueries({ queryKey: staffKeys.earnings() })
+    },
   })
 }
 

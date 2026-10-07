@@ -49,6 +49,7 @@
   --color-chart-3: var(--chart-3);
   --color-chart-4: var(--chart-4);
   --color-chart-5: var(--chart-5);
+  --color-chart-trips: var(--chart-trips);
 
   --color-sidebar: var(--sidebar);
   --color-sidebar-foreground: var(--sidebar-foreground);
@@ -121,6 +122,9 @@
   --chart-3: #e8e8e8;
   --chart-4: #ffe6c4;
   --chart-5: #66493e;
+  /* The second series of the earnings charts (trip fares) next to --chart-1 (care fees): an amber
+     that stays clearly lighter than the brown in light mode and richer than the peach in dark mode. */
+  --chart-trips: oklch(0.6 0.16 58);
 
   --sidebar: #fbfbfb;
   --sidebar-foreground: #252525;
@@ -175,6 +179,7 @@
   --chart-3: #2a2a2a;
   --chart-4: #42382e;
   --chart-5: #ffe0c1;
+  --chart-trips: oklch(0.72 0.16 55);
 
   --sidebar: #18181b;
   --sidebar-foreground: #f4f4f5;

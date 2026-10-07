@@ -30,6 +30,11 @@ export function formatMultiplier(multiplier: string): string {
   return `${text.includes('.') ? text.replace(/\.?0+$/, '') : text}×`
 }
 
+// A short amount for a chart axis: 1500 -> "৳1.5K". Display only; every exact amount uses formatBDT.
+export function formatCompactBDT(amount: number): string {
+  return `${CURRENCY_SYMBOL}${new Intl.NumberFormat('en-US', { notation: 'compact', maximumFractionDigits: 1 }).format(amount)}`
+}
+
 // A session date is a calendar day with no time zone, so it is read as UTC to never shift a day.
 function parseSessionDate(date: string): Date {
   return new Date(`${date}T00:00:00Z`)
@@ -116,6 +121,11 @@ export function formatTimeRange(start: string, end: string): string {
 // A calendar day key ("YYYY-MM-DD") for an instant, in the platform's time zone.
 function localDayKey(date: Date): string {
   return new Intl.DateTimeFormat('en-CA', { timeZone: APP_TIME_ZONE }).format(date)
+}
+
+// Today as "YYYY-MM-DD" on the platform's clock (Asia/Dhaka), for the periods an earnings chart groups by.
+export function todayInAppZone(): string {
+  return localDayKey(new Date())
 }
 
 // "Today, 3:45 PM" / "Yesterday, 9:10 AM" / "5 Oct, 3:45 PM" for an ISO timestamp.

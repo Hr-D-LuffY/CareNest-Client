@@ -144,7 +144,11 @@ export function useCheckOut() {
         )
       }
     },
-    onSettled: () => queryClient.invalidateQueries({ queryKey: staffKeys.tasks() }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: staffKeys.tasks() })
+      // A check-out is what turns a booking into earnings.
+      queryClient.invalidateQueries({ queryKey: staffKeys.earnings() })
+    },
   })
 }
 

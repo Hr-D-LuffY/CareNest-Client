@@ -77,6 +77,9 @@ export const ACCEPTED_IMAGE_TYPES = ['image/jpeg', 'image/png', 'image/webp'] as
 
 // Every timestamp is shown in the platform's local time, not the server's (Vercel runs in UTC).
 export const APP_TIME_ZONE = 'Asia/Dhaka'
+// Asia/Dhaka's offset from UTC. It has no daylight saving, so one fixed value is right all year. Used to
+// ask the backend for a window that starts and ends at local midnight.
+export const APP_UTC_OFFSET = '+06:00'
 
 // Search inputs wait this long after the last keystroke before updating the URL.
 export const SEARCH_DEBOUNCE_MS = 400

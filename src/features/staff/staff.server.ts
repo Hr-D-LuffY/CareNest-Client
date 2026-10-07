@@ -4,12 +4,14 @@ import { serverApi } from '@/lib/api/server'
 import type {
   AssignedBooking,
   AvailabilitySlot,
+  Earnings,
   StaffProfile,
   StaffRatings,
   StaffTaskListParams,
   StaffTripListParams,
   Trip,
 } from '@/types'
+import type { EarningsWindow } from './earnings.params'
 import {
   type StaffRatingsParams,
   toStaffRatingsPage,
@@ -35,3 +37,6 @@ export const getStaffTasksPage = async (params: StaffTaskListParams) =>
 
 export const getStaffTripsPage = async (params: StaffTripListParams) =>
   toTripsPage(await serverApi.getList<Trip>('/staff/me/trips', params))
+
+export const getStaffEarnings = (window: EarningsWindow) =>
+  serverApi.get<Earnings>('/staff/me/earnings', window)

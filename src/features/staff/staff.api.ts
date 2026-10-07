@@ -2,6 +2,7 @@ import { clientApi } from '@/lib/api/client'
 import type {
   AssignedBooking,
   AvailabilitySlot,
+  Earnings,
   SlotPayload,
   StaffProfile,
   StaffRatings,
@@ -11,6 +12,7 @@ import type {
   UpdateSlotPayload,
   UpdateStaffProfilePayload,
 } from '@/types'
+import type { EarningsWindow } from './earnings.params'
 import {
   type StaffRatingsParams,
   toStaffRatingsPage,
@@ -54,6 +56,9 @@ export const staffApi = {
   // Confirmed bookings in the sitter's rooms that still need a check-in or a check-out.
   tasks: async (params: StaffTaskListParams, signal?: AbortSignal) =>
     toTasksPage(await clientApi.getList<AssignedBooking>('/staff/me/bookings', params, signal)),
+  // The care fees and trip fares from work finished inside the window.
+  earnings: (window: EarningsWindow, signal?: AbortSignal) =>
+    clientApi.get<Earnings>('/staff/me/earnings', window, signal),
   // The driver's trips, filtered by status.
   trips: async (params: StaffTripListParams, signal?: AbortSignal) =>
     toTripsPage(await clientApi.getList<Trip>('/staff/me/trips', params, signal)),
