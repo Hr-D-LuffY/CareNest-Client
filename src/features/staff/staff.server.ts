@@ -1,4 +1,5 @@
 import 'server-only'
+import { cache } from 'react'
 import { serverApi } from '@/lib/api/server'
 import type {
   AssignedBooking,
@@ -22,8 +23,9 @@ export const getStaffRatings = async (staffId: string, params: StaffRatingsParam
   )
 
 // The signed-in staff member's own profile. Its `id` is the staff id that rooms, ratings and
-// availability use (it is not the user id).
-export const getMyStaffProfile = () => serverApi.get<StaffProfile>('/staff/me')
+// availability use (it is not the user id). Cached for the request, so the layout and the page that
+// both need it make one backend call.
+export const getMyStaffProfile = cache(() => serverApi.get<StaffProfile>('/staff/me'))
 
 export const getStaffAvailability = (staffId: string) =>
   serverApi.get<AvailabilitySlot[]>(`/staff/${staffId}/availability`)

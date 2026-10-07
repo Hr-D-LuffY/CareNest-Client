@@ -39,6 +39,24 @@ export type AvailabilitySlot = {
   updatedAt: string
 }
 
+// PATCH /staff/me body: any of the fields, at least one. Type, rates and verification are
+// admin-managed. A bio cannot be blank, so clearing it is sent as null.
+export type UpdateStaffProfilePayload = {
+  name?: string
+  bio?: string | null
+  experience?: number
+}
+
+// POST /staff/availability body. Times are 24-hour "HH:mm"; a slot must not overlap another one.
+export type SlotPayload = {
+  dayOfWeek: DayOfWeek
+  startTime: string
+  endTime: string
+}
+
+// PATCH /staff/availability/:id body: any of the fields, at least one.
+export type UpdateSlotPayload = Partial<SlotPayload>
+
 // Query params of GET /staff/me/bookings. `date` ("YYYY-MM-DD") keeps one session day only.
 export type StaffTaskListParams = {
   page: number

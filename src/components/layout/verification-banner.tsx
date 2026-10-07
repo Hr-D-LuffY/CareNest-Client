@@ -30,7 +30,7 @@ export function VerificationBanner() {
           </span>{' '}
           {rejected
             ? 'Upload a new verification document in your profile so an admin can review it again.'
-            : 'An admin has to verify your account before you can take bookings or trips. Make sure your verification document is uploaded.'}
+            : 'An admin has to verify your account before you can take bookings or trips. They may ask for an ID or certificate, which you can upload from your profile.'}
         </p>
       </div>
       <Link

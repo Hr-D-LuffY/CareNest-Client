@@ -86,6 +86,9 @@ export const RATING_MIN = 1
 export const RATING_MAX = 5
 export const RATING_COMMENT_MAX_LENGTH = 500
 
+// Staff profile (backend: staff.interface.ts).
+export const MAX_EXPERIENCE_YEARS = 60
+
 // Vehicles (backend: transport.interface.ts).
 export const PLATE_NUMBER_MIN_LENGTH = 3
 export const PLATE_NUMBER_MAX_LENGTH = 20

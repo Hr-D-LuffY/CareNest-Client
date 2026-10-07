@@ -2,13 +2,17 @@
 
 import { Reveal } from '@/components/motion/reveal'
 import { ListErrorState } from '@/components/shared/list-error-state'
+import { ProfileIdentityCard } from '@/components/shared/profile-identity-card'
+import { ProfileSkeleton } from '@/components/shared/profile-skeleton'
+import { Badge } from '@/components/ui/badge'
 import { useGuardianProfile } from '../guardian.queries'
 import { DeleteAccountCard } from './delete-account-card'
-import { ProfileForm } from './profile-form'
-import { ProfileSkeleton } from './profile-skeleton'
+import { ProfileDetails } from './profile-details'
 
-// The guardian's profile page. The server page has already prefetched the profile, so this normally
-// renders with data; if that failed, it shows a retry instead of an empty form.
+// The guardian's profile page: who they are on the left (a large picture, name and email), their
+// details on the right to read first and edit on request, and closing the account below. The server
+// page has already prefetched the profile, so this normally renders with data; if that failed, it
+// shows a retry instead of an empty page.
 export function ProfileView() {
   const { data, isPending, isError, refetch } = useGuardianProfile()
 
@@ -17,7 +21,19 @@ export function ProfileView() {
     if (isError || !data) return <ListErrorState onRetry={() => refetch()} />
     return (
       <>
-        <ProfileForm profile={data} />
+        <div className="grid items-start gap-6 lg:grid-cols-[20rem_minmax(0,1fr)]">
+          <ProfileIdentityCard
+            name={data.name}
+            email={data.email}
+            photo={data.profilePhoto}
+            badges={
+              <Badge variant="secondary" className="h-6 bg-info-soft px-2.5 text-info">
+                Guardian
+              </Badge>
+            }
+          />
+          <ProfileDetails profile={data} />
+        </div>
         <DeleteAccountCard />
       </>
     )

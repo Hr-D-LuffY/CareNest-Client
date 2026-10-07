@@ -11,7 +11,16 @@ import {
 import { toast } from 'sonner'
 import { bookingApi } from '@/features/booking/booking.api'
 import { formatBDT, formatHours } from '@/lib/format'
-import type { AssignedBooking, Paginated, StaffTaskListParams } from '@/types'
+import type {
+  AssignedBooking,
+  AvailabilitySlot,
+  Paginated,
+  SlotPayload,
+  StaffProfile,
+  StaffTaskListParams,
+  UpdateSlotPayload,
+  UpdateStaffProfilePayload,
+} from '@/types'
 import { staffApi } from './staff.api'
 import { staffKeys } from './staff.keys'
 import type { StaffRatingsParams } from './staff.params'
@@ -154,4 +163,77 @@ export function useBusyTaskIds(): ReadonlySet<string> {
     select: (mutation) => idOfVariables(mutation.state.variables),
   })
   return new Set(ids.filter((id): id is string => id !== null))
+}
+
+// The profile form shows its own errors (field errors under the field, a message above the button),
+// so the global toast is switched off for the edit and the upload. The saved profile goes into the
+// cache, which is also what the form restarts from.
+
+export function useUpdateStaffProfile() {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (payload: UpdateStaffProfilePayload) => staffApi.updateMe(payload),
+    meta: { skipGlobalError: true },
+    onSuccess: (profile) => queryClient.setQueryData(staffKeys.me(), profile),
+  })
+}
+
+// Both uploads (the photo, the verification document) answer with the saved profile.
+function useProfileUpload(
+  upload: (file: File, onProgress?: (percent: number) => void) => Promise<StaffProfile>,
+) {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: ({ file, onProgress }: { file: File; onProgress?: (percent: number) => void }) =>
+      upload(file, onProgress),
+    meta: { skipGlobalError: true },
+    onSuccess: (profile) => queryClient.setQueryData(staffKeys.me(), profile),
+  })
+}
+
+export const useUploadStaffPhoto = () => useProfileUpload(staffApi.uploadPhoto)
+
+export const useUploadVerificationDocument = () =>
+  useProfileUpload(staffApi.uploadVerificationDocument)
+
+// Adding and editing a time show their own errors (a 409 overlap above the button), so the global
+// toast is switched off. The Tasks calendar reads the same availability, so it updates too.
+
+export function useCreateSlot(staffId: string) {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: (payload: SlotPayload) => staffApi.createSlot(payload),
+    meta: { skipGlobalError: true },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: staffKeys.availability(staffId) }),
+  })
+}
+
+export function useUpdateSlot(staffId: string) {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: ({ id, payload }: { id: string; payload: UpdateSlotPayload }) =>
+      staffApi.updateSlot(id, payload),
+    meta: { skipGlobalError: true },
+    onSuccess: () => queryClient.invalidateQueries({ queryKey: staffKeys.availability(staffId) }),
+  })
+}
+
+// Optimistic: the time leaves the week at once, and comes back if the backend refuses.
+export function useDeleteSlot(staffId: string) {
+  const queryClient = useQueryClient()
+  const key = staffKeys.availability(staffId)
+  return useMutation({
+    mutationFn: (id: string) => staffApi.deleteSlot(id),
+    onMutate: async (id) => {
+      await queryClient.cancelQueries({ queryKey: key })
+      const previous = queryClient.getQueryData<AvailabilitySlot[]>(key)
+      queryClient.setQueryData<AvailabilitySlot[]>(key, (slots) =>
+        slots?.filter((slot) => slot.id !== id),
+      )
+      return { previous }
+    },
+    onError: (_error, _id, context) => queryClient.setQueryData(key, context?.previous),
+    onSuccess: () => toast.success('Time removed.'),
+    onSettled: () => queryClient.invalidateQueries({ queryKey: key }),
+  })
 }

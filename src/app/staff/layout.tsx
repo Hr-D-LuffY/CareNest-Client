@@ -1,11 +1,10 @@
 import type { Metadata } from 'next'
 import type { ReactNode } from 'react'
 import { DashboardShell } from '@/components/layout/dashboard-shell'
-import { serverApi } from '@/lib/api/server'
+import { getMyStaffProfile } from '@/features/staff/staff.server'
 import { requireSession } from '@/lib/auth/session'
 import { SessionProvider } from '@/providers/session-provider'
 import { Role } from '@/types/enums'
-import type { StaffProfile } from '@/types/staff'
 import type { SessionUser } from '@/types/user'
 
 export const metadata: Metadata = {
@@ -19,7 +18,7 @@ export const metadata: Metadata = {
 // be reached, the cookie values still work.
 async function withFreshStaffDetails(session: SessionUser): Promise<SessionUser> {
   try {
-    const staff = await serverApi.get<StaffProfile>('/staff/me')
+    const staff = await getMyStaffProfile()
     return {
       ...session,
       staffType: staff.staffType,

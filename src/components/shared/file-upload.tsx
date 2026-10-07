@@ -1,10 +1,12 @@
 'use client'
 
 import { ImagePlus, Trash2 } from 'lucide-react'
-import { type ChangeEvent, useEffect, useId, useRef, useState } from 'react'
+import { type ChangeEvent, useId, useRef } from 'react'
+import { UploadProgress } from '@/components/shared/upload-progress'
 import { UserAvatar } from '@/components/shared/user-avatar'
 import { Button } from '@/components/ui/button'
 import { Label } from '@/components/ui/label'
+import { useObjectUrl } from '@/hooks/use-object-url'
 import { ACCEPTED_IMAGE_TYPES, MAX_UPLOAD_BYTES } from '@/lib/constants'
 import { cn } from '@/lib/utils'
 
@@ -49,18 +51,7 @@ export function FileUpload({
 }: FileUploadProps) {
   const inputId = useId()
   const inputRef = useRef<HTMLInputElement>(null)
-  const [previewUrl, setPreviewUrl] = useState<string | null>(null)
-
-  // A blob URL for the chosen file, released when it changes or the component goes away.
-  useEffect(() => {
-    if (!file) {
-      setPreviewUrl(null)
-      return
-    }
-    const url = URL.createObjectURL(file)
-    setPreviewUrl(url)
-    return () => URL.revokeObjectURL(url)
-  }, [file])
+  const previewUrl = useObjectUrl(file)
 
   function handleChange(event: ChangeEvent<HTMLInputElement>) {
     onFileChange(event.target.files?.[0] ?? null)
@@ -121,26 +112,7 @@ export function FileUpload({
         />
       </div>
 
-      {uploading && (
-        <div className="flex items-center gap-3">
-          <div
-            role="progressbar"
-            aria-label="Photo upload progress"
-            aria-valuemin={0}
-            aria-valuemax={100}
-            aria-valuenow={progress}
-            className="h-2 flex-1 overflow-hidden rounded-full bg-muted"
-          >
-            <div
-              className="h-full rounded-full bg-cta transition-[width] duration-200"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-          <span className="w-10 text-right text-xs text-muted-foreground tabular-nums">
-            {progress}%
-          </span>
-        </div>
-      )}
+      {uploading && <UploadProgress label="Photo upload progress" progress={progress} />}
 
       {error ? (
         <p id={`${inputId}-error`} role="alert" className="text-sm text-destructive">

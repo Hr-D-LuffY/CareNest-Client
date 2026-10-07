@@ -72,7 +72,7 @@ export function TaskBoard({ tasks, actions, availableDays, selected, onSelect }:
             )}s, so nobody can be booked on ${formatSessionDate(selected)}. Days you work are shaded on the calendar.`}
           action={
             <Link
-              href="/staff/profile"
+              href="/staff/availability"
               className={cn(buttonVariants({ variant: 'outline' }), 'h-10 px-4')}
             >
               Manage availability

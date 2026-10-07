@@ -2,8 +2,8 @@ import { CalendarRange } from 'lucide-react'
 import { StarRating } from '@/components/shared/star-rating'
 import { UserAvatar } from '@/components/shared/user-avatar'
 import { DAY_LABEL, STAFF_TYPE_LABEL } from '@/lib/constants'
-import { formatTimeRange } from '@/lib/format'
-import { type AvailabilitySlot, DAYS_OF_WEEK, type DayOfWeek, type StaffType } from '@/types'
+import type { AvailabilitySlot, DayOfWeek, StaffType } from '@/types'
+import { formatSlot, groupSlotsByDay } from '../availability-model'
 
 type StaffProfileCardProps = {
   name: string
@@ -31,10 +31,7 @@ function Availability({
     )
   }
 
-  const days = DAYS_OF_WEEK.map((day) => ({
-    day,
-    slots: slots.filter((slot) => slot.dayOfWeek === day),
-  })).filter((entry) => entry.slots.length > 0)
+  const days = groupSlotsByDay(slots).filter((entry) => entry.slots.length > 0)
 
   if (days.length === 0) {
     return <p className="text-sm text-muted-foreground">No weekly availability listed yet.</p>
@@ -49,7 +46,7 @@ function Availability({
             {day === roomDay && <span className="font-normal text-info"> · this room</span>}
           </dt>
           <dd className="text-right text-muted-foreground tabular-nums">
-            {daySlots.map((slot) => formatTimeRange(slot.startTime, slot.endTime)).join(', ')}
+            {daySlots.map(formatSlot).join(', ')}
           </dd>
         </div>
       ))}

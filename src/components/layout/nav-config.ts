@@ -2,6 +2,7 @@ import {
   Baby,
   Bus,
   CalendarCheck,
+  CalendarClock,
   CalendarPlus,
   Car,
   ClipboardList,
@@ -118,6 +119,14 @@ export const DASHBOARD_NAV: Record<Role, readonly DashboardNavItem[]> = {
       label: 'Vehicles',
       icon: Car,
       staffTypes: [StaffType.DRIVER, StaffType.BOTH],
+    },
+    {
+      href: '/staff/availability',
+      label: 'Availability',
+      icon: CalendarClock,
+      // Only care rooms read availability (an admin can only assign a room inside the sitter's
+      // hours). Rides never do, so a driver has no use for it.
+      staffTypes: [StaffType.SITTER, StaffType.BOTH],
     },
     { href: '/staff/earnings', label: 'Earnings', icon: TrendingUp },
   ],
