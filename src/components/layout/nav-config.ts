@@ -7,6 +7,7 @@ import {
   Car,
   ClipboardList,
   DoorOpen,
+  Hourglass,
   Info,
   LayoutDashboard,
   type LucideIcon,
@@ -106,6 +107,13 @@ export const DASHBOARD_NAV: Record<Role, readonly DashboardNavItem[]> = {
       label: 'Tasks',
       icon: ClipboardList,
       exact: true,
+      staffTypes: [StaffType.SITTER, StaffType.BOTH],
+    },
+    {
+      href: '/staff/rooms',
+      label: 'Waitlists',
+      icon: Hourglass,
+      // Only sitters run care rooms, so only they have a waitlist to look at.
       staffTypes: [StaffType.SITTER, StaffType.BOTH],
     },
     {

@@ -10,6 +10,8 @@ import {
 } from '@tanstack/react-query'
 import { toast } from 'sonner'
 import { bookingApi } from '@/features/booking/booking.api'
+import { roomApi } from '@/features/room/room.api'
+import { roomKeys } from '@/features/room/room.keys'
 import { formatBDT, formatHours } from '@/lib/format'
 import type {
   AssignedBooking,
@@ -21,6 +23,7 @@ import type {
   UpdateSlotPayload,
   UpdateStaffProfilePayload,
 } from '@/types'
+import { pickRoomsRunBy } from './my-rooms-model'
 import { staffApi } from './staff.api'
 import { staffKeys } from './staff.keys'
 import type { StaffRatingsParams } from './staff.params'
@@ -42,6 +45,18 @@ export function useStaffProfileQuery() {
     queryFn: ({ signal }) => staffApi.me(signal),
     // The rate is a nicety next to the trips, so a failed read is not worth a toast.
     meta: { skipGlobalError: true },
+  })
+}
+
+// The rooms this staff member runs. There is no backend filter for it, so every room is read (the
+// catalogue is small) and the ones whose staff id is theirs are kept, in weekday and time order.
+// Stays off until the staff id (from their profile) is known.
+export function useMyRoomsQuery(staffId: string | undefined) {
+  return useQuery({
+    queryKey: roomKeys.catalogue(),
+    queryFn: ({ signal }) => roomApi.listAll(signal),
+    enabled: Boolean(staffId),
+    select: (rooms) => pickRoomsRunBy(rooms, staffId),
   })
 }
 

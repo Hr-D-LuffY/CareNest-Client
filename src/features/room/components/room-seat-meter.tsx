@@ -13,7 +13,17 @@ function getSeatTone(room: RoomWithSeats) {
 // Seats left for one session as words and a bar, and the waitlist notice when the room is full.
 // `onBrand` is for the strong brand card: light track, light bar and a light waitlist notice, since
 // the status colours do not show up on brown. The words carry the meaning either way.
-export function SeatMeter({ room, onBrand = false }: { room: RoomWithSeats; onBrand?: boolean }) {
+export function SeatMeter({
+  room,
+  onBrand = false,
+  showWaitlistNote = true,
+}: {
+  room: RoomWithSeats
+  onBrand?: boolean
+  // The "booking this session puts your child on the waitlist" line is for guardians, so staff
+  // pages leave it out.
+  showWaitlistNote?: boolean
+}) {
   const full = room.seatsLeft === 0
   const share = room.capacity > 0 ? Math.min(100, (room.bookedSeats / room.capacity) * 100) : 100
 
@@ -49,7 +59,7 @@ export function SeatMeter({ room, onBrand = false }: { room: RoomWithSeats; onBr
           style={{ width: `${share}%` }}
         />
       </div>
-      {full && (
+      {full && showWaitlistNote && (
         <p
           className={cn(
             'flex items-start gap-1.5 text-sm',

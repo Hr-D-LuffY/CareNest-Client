@@ -49,6 +49,20 @@ export type WaitlistEntry = {
   child: { id: string; name: string; tier: Tier }
 }
 
+// GET /room/:id/waitlist (the staff member who runs the room, or an admin): the pending entries with
+// the guardian who is waiting.
+export type RoomWaitlistEntry = WaitlistEntry & {
+  guardian: { id: string; user: { name: string } }
+}
+
+// Query params of GET /room/:id/waitlist. `date` ("YYYY-MM-DD") limits it to one session's queue;
+// without it every session's queue comes back, best score first.
+export type RoomWaitlistParams = {
+  page: number
+  limit: number
+  date?: string
+}
+
 // POST /booking/:id/check-in and /check-out
 export type CheckinLog = {
   id: string
