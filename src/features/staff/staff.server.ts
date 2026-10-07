@@ -6,8 +6,15 @@ import type {
   StaffProfile,
   StaffRatings,
   StaffTaskListParams,
+  StaffTripListParams,
+  Trip,
 } from '@/types'
-import { type StaffRatingsParams, toStaffRatingsPage, toTasksPage } from './staff.params'
+import {
+  type StaffRatingsParams,
+  toStaffRatingsPage,
+  toTasksPage,
+  toTripsPage,
+} from './staff.params'
 
 export const getStaffRatings = async (staffId: string, params: StaffRatingsParams) =>
   toStaffRatingsPage(
@@ -23,3 +30,6 @@ export const getStaffAvailability = (staffId: string) =>
 
 export const getStaffTasksPage = async (params: StaffTaskListParams) =>
   toTasksPage(await serverApi.getList<AssignedBooking>('/staff/me/bookings', params))
+
+export const getStaffTripsPage = async (params: StaffTripListParams) =>
+  toTripsPage(await serverApi.getList<Trip>('/staff/me/trips', params))

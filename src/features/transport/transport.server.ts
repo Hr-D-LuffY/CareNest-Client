@@ -1,6 +1,6 @@
 import 'server-only'
 import { serverApi } from '@/lib/api/server'
-import type { Transport, TransportListParams } from '@/types'
+import type { Transport, TransportListParams, Vehicle, VehicleListParams } from '@/types'
 import { findRideForBooking, LOOKUP_PAGE_SIZE } from './transport.params'
 
 export const getTransportPage = (params: TransportListParams) =>
@@ -13,3 +13,6 @@ export async function getBookingRide(bookingId: string) {
     bookingId,
   )
 }
+
+export const getMyVehiclesPage = (params: VehicleListParams) =>
+  serverApi.getList<Vehicle>('/transport/vehicles/me', params)

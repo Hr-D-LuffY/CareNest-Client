@@ -46,6 +46,13 @@ export type StaffTaskListParams = {
   date?: string
 }
 
+// Query params of GET /staff/me/trips. `status` filters; paging is 1-based.
+export type StaffTripListParams = {
+  page: number
+  limit: number
+  status?: TransportStatus
+}
+
 // GET /staff/me/bookings: confirmed bookings still needing a check-in or check-out.
 export type AssignedBooking = {
   id: string

@@ -59,6 +59,16 @@ export type VehicleListParams = {
   vehicleType?: VehicleType
 }
 
+// POST /transport/vehicles body (a driver registers a vehicle). The backend upper-cases the plate.
+export type VehiclePayload = {
+  plateNumber: string
+  capacity: number
+  vehicleType: VehicleType
+}
+
+// PATCH /transport/vehicles/:id body: any of the fields, at least one.
+export type UpdateVehiclePayload = Partial<VehiclePayload>
+
 // POST /transport body. One ride per booking.
 export type CreateTransportPayload = {
   bookingId: string

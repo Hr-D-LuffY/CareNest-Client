@@ -25,6 +25,17 @@ export function useStaffRatingsQuery(staffId: string, params: StaffRatingsParams
   })
 }
 
+// The signed-in staff member's own profile (their rates, type and verification). The server page
+// has already prefetched it.
+export function useStaffProfileQuery() {
+  return useQuery({
+    queryKey: staffKeys.me(),
+    queryFn: ({ signal }) => staffApi.me(signal),
+    // The rate is a nicety next to the trips, so a failed read is not worth a toast.
+    meta: { skipGlobalError: true },
+  })
+}
+
 // The days a staff member works. Without a staff id (the profile could not be read) it stays off, and
 // the calendar simply does not mark days as available or not.
 export function useStaffAvailabilityQuery(staffId: string | undefined) {
@@ -128,7 +139,7 @@ export function useCheckOut() {
   })
 }
 
-function taskIdOf(variables: unknown): string | null {
+export function idOfVariables(variables: unknown): string | null {
   if (typeof variables === 'object' && variables !== null && 'id' in variables) {
     return typeof variables.id === 'string' ? variables.id : null
   }
@@ -140,7 +151,7 @@ function taskIdOf(variables: unknown): string | null {
 export function useBusyTaskIds(): ReadonlySet<string> {
   const ids = useMutationState({
     filters: { mutationKey: staffKeys.taskActions, status: 'pending' },
-    select: (mutation) => taskIdOf(mutation.state.variables),
+    select: (mutation) => idOfVariables(mutation.state.variables),
   })
   return new Set(ids.filter((id): id is string => id !== null))
 }

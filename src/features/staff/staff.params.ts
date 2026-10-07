@@ -1,5 +1,5 @@
 import type { ApiResult } from '@/lib/api/core'
-import type { AssignedBooking, Paginated, StaffRatings, StaffRatingsPage } from '@/types'
+import type { AssignedBooking, Paginated, StaffRatings, StaffRatingsPage, Trip } from '@/types'
 
 // Reviews shown per page on a room's detail page.
 export const REVIEWS_PAGE_SIZE = 5
@@ -16,6 +16,17 @@ export function toTasksPage({
 }: Paginated<AssignedBooking>): Paginated<AssignedBooking> {
   return {
     items: items.map((task) => ({ ...task, sessionDate: task.sessionDate.slice(0, 10) })),
+    meta,
+  }
+}
+
+// GET /staff/me/trips has the same quirk: `booking.sessionDate` is a full timestamp.
+export function toTripsPage({ items, meta }: Paginated<Trip>): Paginated<Trip> {
+  return {
+    items: items.map((trip) => ({
+      ...trip,
+      booking: { ...trip.booking, sessionDate: trip.booking.sessionDate.slice(0, 10) },
+    })),
     meta,
   }
 }

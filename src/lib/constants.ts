@@ -86,6 +86,12 @@ export const RATING_MIN = 1
 export const RATING_MAX = 5
 export const RATING_COMMENT_MAX_LENGTH = 500
 
+// Vehicles (backend: transport.interface.ts).
+export const PLATE_NUMBER_MIN_LENGTH = 3
+export const PLATE_NUMBER_MAX_LENGTH = 20
+export const VEHICLE_MIN_CAPACITY = 1
+export const VEHICLE_MAX_CAPACITY = 60
+
 // Ride addresses (backend: transport.interface.ts).
 export const ADDRESS_MIN_LENGTH = 5
 export const ADDRESS_MAX_LENGTH = 255

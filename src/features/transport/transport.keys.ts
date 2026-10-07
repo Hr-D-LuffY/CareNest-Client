@@ -10,4 +10,8 @@ export const transportKeys = {
   rides: () => [...transportKeys.all, 'booking'] as const,
   forBooking: (bookingId: string) => [...transportKeys.rides(), bookingId] as const,
   vehicles: (params: VehicleListParams) => [...transportKeys.all, 'vehicles', params] as const,
+  // The driver's own vehicles (GET /transport/vehicles/me), a different list from the bookable
+  // ones above.
+  myVehicleLists: () => [...transportKeys.all, 'my-vehicles'] as const,
+  myVehicles: (params: VehicleListParams) => [...transportKeys.myVehicleLists(), params] as const,
 }

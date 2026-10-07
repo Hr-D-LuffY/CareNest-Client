@@ -12,17 +12,7 @@ import {
   TriangleAlert,
   UserCheck,
 } from 'lucide-react'
-import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogMedia,
-  AlertDialogTitle,
-} from '@/components/ui/alert-dialog'
+import { ActionDialog } from '@/components/shared/action-dialog'
 import { Button } from '@/components/ui/button'
 import { formatActivityTime, formatSessionDate } from '@/lib/format'
 import { cn } from '@/lib/utils'
@@ -206,35 +196,25 @@ type CheckOutDialogProps = {
 export function CheckOutDialog({ task, onOpenChange, onConfirm }: CheckOutDialogProps) {
   const checkInAt = task?.checkinLog?.checkInAt
   return (
-    <AlertDialog open={task !== null} onOpenChange={onOpenChange}>
-      <AlertDialogContent>
-        <AlertDialogHeader>
-          <AlertDialogMedia className="bg-info-soft text-info">
-            <LogOut aria-hidden="true" />
-          </AlertDialogMedia>
-          <AlertDialogTitle>
-            {task ? `Check out ${task.child.name}?` : 'Check out this child?'}
-          </AlertDialogTitle>
-          <AlertDialogDescription>
-            {checkInAt && `Checked in ${formatActivityTime(checkInAt)}. `}
-            {task && `Session on ${formatSessionDate(task.sessionDate)}. `}
-            This ends the session and charges the guardian&apos;s wallet for the time used (hours ×
-            your hourly rate × the room&apos;s multiplier). If their wallet is short, nothing is
-            charged and the booking is flagged.
-          </AlertDialogDescription>
-        </AlertDialogHeader>
-        <AlertDialogFooter>
-          <AlertDialogCancel className="h-10 px-4">Not yet</AlertDialogCancel>
-          <AlertDialogAction
-            className="h-10 px-4"
-            onClick={() => {
-              if (task) onConfirm(task)
-            }}
-          >
-            Check out
-          </AlertDialogAction>
-        </AlertDialogFooter>
-      </AlertDialogContent>
-    </AlertDialog>
+    <ActionDialog
+      open={task !== null}
+      onOpenChange={onOpenChange}
+      icon={LogOut}
+      title={task ? `Check out ${task.child.name}?` : 'Check out this child?'}
+      description={
+        <>
+          {checkInAt && `Checked in ${formatActivityTime(checkInAt)}. `}
+          {task && `Session on ${formatSessionDate(task.sessionDate)}. `}
+          This ends the session and charges the guardian&apos;s wallet for the time used (hours ×
+          your hourly rate × the room&apos;s multiplier). If their wallet is short, nothing is
+          charged and the booking is flagged.
+        </>
+      }
+      confirmLabel="Check out"
+      cancelLabel="Not yet"
+      onConfirm={() => {
+        if (task) onConfirm(task)
+      }}
+    />
   )
 }
