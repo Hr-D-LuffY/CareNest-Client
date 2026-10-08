@@ -7,22 +7,25 @@ import type { StaffProfile, UpdateStaffProfilePayload } from '@/types'
 // and years of experience. Type, rates and verification are set by an admin. The experience is kept
 // as the text typed and becomes a number only in the payload.
 
+// Years of experience, kept as the text typed. The admin's staff forms use it too.
+export const experienceField = z
+  .string()
+  .trim()
+  .min(1, 'Experience is required')
+  .refine((value) => /^\d+$/.test(value), {
+    error: 'Experience must be a whole number of years',
+    abort: true,
+  })
+  .refine(
+    (value) => Number(value) <= MAX_EXPERIENCE_YEARS,
+    `Experience must be at most ${MAX_EXPERIENCE_YEARS} years`,
+  )
+
 export const staffProfileFormSchema = z.object({
   name: z.string().trim().min(1, 'Name is required'),
   // Blank is fine: it clears the bio (sent as null, because the backend refuses an empty string).
   bio: z.string().trim(),
-  experience: z
-    .string()
-    .trim()
-    .min(1, 'Experience is required')
-    .refine((value) => /^\d+$/.test(value), {
-      error: 'Experience must be a whole number of years',
-      abort: true,
-    })
-    .refine(
-      (value) => Number(value) <= MAX_EXPERIENCE_YEARS,
-      `Experience must be at most ${MAX_EXPERIENCE_YEARS} years`,
-    ),
+  experience: experienceField,
   // Optional. It goes to a separate endpoint after the details are saved.
   photo: photoSchema,
 })

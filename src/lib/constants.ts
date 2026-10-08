@@ -92,6 +92,9 @@ export const RATING_COMMENT_MAX_LENGTH = 500
 // Staff profile (backend: staff.interface.ts).
 export const MAX_EXPERIENCE_YEARS = 60
 
+// The highest hourly or per-minute rate an admin can set, in BDT (backend: admin.interface.ts).
+export const MAX_STAFF_RATE = 1_000_000
+
 // Vehicles (backend: transport.interface.ts).
 export const PLATE_NUMBER_MIN_LENGTH = 3
 export const PLATE_NUMBER_MAX_LENGTH = 20

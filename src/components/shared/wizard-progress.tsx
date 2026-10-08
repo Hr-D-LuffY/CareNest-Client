@@ -1,14 +1,22 @@
 import { Check } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { WIZARD_STEPS, type WizardStep } from '../booking.params'
 
-// "Step 2 of 3" as three labelled stages. The current one is marked for screen readers
-// (aria-current="step") and finished ones carry a check mark, so progress never relies on colour.
-export function WizardProgress({ step }: { step: WizardStep }) {
+type WizardProgressProps = {
+  // The steps in order, numbered from 1.
+  steps: readonly { step: number; label: string }[]
+  step: number
+  // Names the navigation for screen readers, e.g. "Booking progress".
+  label: string
+}
+
+// "Step 2 of 3" as three labelled stages (the layout is a three-column grid, so give it three
+// steps). The current one is marked for screen readers (aria-current="step") and finished ones
+// carry a check mark, so progress never relies on colour. Plain markup with no hooks.
+export function WizardProgress({ steps, step, label }: WizardProgressProps) {
   return (
-    <nav aria-label="Booking progress">
+    <nav aria-label={label}>
       <ol className="grid grid-cols-3 gap-2 sm:gap-4">
-        {WIZARD_STEPS.map(({ step: number, label }) => {
+        {steps.map(({ step: number, label: stepLabel }) => {
           const done = number < step
           const current = number === step
           return (
@@ -40,9 +48,9 @@ export function WizardProgress({ step }: { step: WizardStep }) {
                   className={cn('min-w-0', current ? 'font-semibold' : 'text-muted-foreground')}
                 >
                   <span className="sr-only">
-                    Step {number} of {WIZARD_STEPS.length}:{' '}
+                    Step {number} of {steps.length}:{' '}
                   </span>
-                  {label}
+                  {stepLabel}
                   {done && <span className="sr-only"> (done)</span>}
                 </span>
               </span>

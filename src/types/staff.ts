@@ -29,6 +29,45 @@ export type StaffProfile = {
   }
 }
 
+// Query params of GET /admin/staff. `search` matches the name or the email.
+export type AdminStaffListParams = {
+  page: number
+  limit: number
+  verificationStatus?: VerificationStatus
+  staffType?: StaffType
+  search?: string
+}
+
+// POST /admin/staff body. A sitter needs `hourlyRate`, a driver `perMinuteRate` and BOTH needs
+// both. Experience defaults to 0 on the backend.
+export type CreateStaffPayload = {
+  name: string
+  email: string
+  password: string
+  staffType: StaffType
+  experience?: number
+  bio?: string
+  hourlyRate?: number
+  perMinuteRate?: number
+}
+
+// PATCH /admin/staff/:id body: any of the fields, at least one. The email and verification are not
+// editable here. A rate and the bio can be cleared with null, but the rate(s) the staff type needs
+// must remain.
+export type UpdateStaffPayload = {
+  name?: string
+  staffType?: StaffType
+  bio?: string | null
+  experience?: number
+  hourlyRate?: number | null
+  perMinuteRate?: number | null
+}
+
+// PATCH /admin/staff/:id/verify body: approve, or reject with a reason the staff member can act on.
+export type VerifyStaffPayload =
+  | { status: 'VERIFIED' }
+  | { status: 'REJECTED'; rejectionReason: string }
+
 export type AvailabilitySlot = {
   id: string
   staffId: string
