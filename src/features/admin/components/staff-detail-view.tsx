@@ -27,7 +27,18 @@ import { StaffVerificationCard } from './staff-verification-card'
 // their details (editable), the hours they work, what guardians say about them, and removing the
 // account. The server page has already loaded the profile, the hours and the first reviews, so
 // this normally renders with data. Verifying and rejecting are optimistic.
-export function StaffDetailView({ id }: { id: string }) {
+type StaffDetailViewProps = {
+  id: string
+  // Where the "back" link and a finished delete go (the staff list by default).
+  backHref?: string
+  backLabel?: string
+}
+
+export function StaffDetailView({
+  id,
+  backHref = '/admin/staff',
+  backLabel = 'All staff',
+}: StaffDetailViewProps) {
   const router = useRouter()
   const { data: staff, isPending, isError, refetch } = useAdminStaffQuery(id)
   const verifyStaff = useVerifyStaff()
@@ -119,7 +130,7 @@ export function StaffDetailView({ id }: { id: string }) {
           onConfirm={() =>
             deleteStaff.mutate(staff, {
               // Back to the list, where they are already gone.
-              onSuccess: () => router.push('/admin/staff'),
+              onSuccess: () => router.push(backHref),
               onSettled: () => setConfirmingDelete(false),
             })
           }
@@ -133,11 +144,11 @@ export function StaffDetailView({ id }: { id: string }) {
       <Reveal>
         <header className="flex flex-col gap-3">
           <Link
-            href="/admin/staff"
+            href={backHref}
             className="inline-flex min-h-11 w-fit items-center gap-1.5 rounded-md text-sm text-muted-foreground outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
           >
             <ArrowLeft aria-hidden="true" className="size-4" />
-            All staff
+            {backLabel}
           </Link>
           <h1 className="text-2xl text-balance break-words md:text-3xl">
             {staff ? staff.user.name : 'Staff member'}

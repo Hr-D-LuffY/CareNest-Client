@@ -1,16 +1,19 @@
 import {
   Ban,
+  Briefcase,
   CheckCheck,
   CircleCheck,
   CircleX,
   Clock,
   Hourglass,
+  KeyRound,
   type LucideIcon,
   Play,
   ShieldAlert,
   ShieldCheck,
   Timer,
   TriangleAlert,
+  UserRound,
   Wallet,
 } from 'lucide-react'
 import { Badge } from '@/components/ui/badge'
@@ -18,6 +21,7 @@ import { cn } from '@/lib/utils'
 import type {
   BookingStatus,
   PaymentStatus,
+  Role,
   RoomStatus,
   TransportStatus,
   VerificationStatus,
@@ -39,6 +43,7 @@ type StatusValues = {
   verification: VerificationStatus
   room: RoomStatus
   transaction: WalletTransactionType
+  role: Role
 }
 
 export type StatusKind = keyof StatusValues
@@ -91,6 +96,11 @@ const STATUS_STYLES: { [K in StatusKind]: Record<StatusValues[K], StatusStyle> }
     TOPUP: { label: 'Top-up', tone: 'success', icon: Wallet },
     CARE_FEE: { label: 'Care fee', tone: 'neutral', icon: Wallet },
     TRANSPORT_FARE: { label: 'Transport fare', tone: 'neutral', icon: Wallet },
+  },
+  role: {
+    GUARDIAN: { label: 'Guardian', tone: 'info', icon: UserRound },
+    STAFF: { label: 'Staff', tone: 'success', icon: Briefcase },
+    ADMIN: { label: 'Admin', tone: 'neutral', icon: KeyRound },
   },
 }
 
