@@ -108,7 +108,6 @@ export function TaskWeekCalendar({
               <button
                 type="button"
                 aria-pressed={isSelected}
-                aria-label={tileLabel(day, today)}
                 onClick={() => onSelect(day.date)}
                 className={cn(
                   'flex min-h-24 w-full cursor-pointer flex-col items-center justify-center gap-1 rounded-xl border px-1 py-2.5 text-center outline-none transition-colors focus-visible:ring-3 focus-visible:ring-ring/50 sm:min-h-28 sm:py-3',
@@ -116,16 +115,23 @@ export function TaskWeekCalendar({
                   isToday && !isSelected && 'ring-2 ring-primary/60',
                 )}
               >
-                <span className="text-[10px] font-semibold uppercase sm:text-xs">
+                {/* The button's name is the sentence below. The printed pieces are for the eye only, so
+                    a screen reader does not read the same day twice. */}
+                <span className="sr-only">{tileLabel(day, today)}</span>
+                <span aria-hidden="true" className="text-[10px] font-semibold uppercase sm:text-xs">
                   {isToday ? 'Today' : formatWeekday(day.date)}
                 </span>
-                <span className="font-heading text-lg tabular-nums sm:text-xl">{dayNumber}</span>
-                <span className="hidden text-[10px] uppercase opacity-80 sm:block">{month}</span>
+                <span aria-hidden="true" className="font-heading text-lg tabular-nums sm:text-xl">
+                  {dayNumber}
+                </span>
+                <span aria-hidden="true" className="hidden text-[10px] uppercase sm:block">
+                  {month}
+                </span>
                 <span
                   aria-hidden="true"
                   className={cn(
                     'mt-0.5 flex h-5 items-center justify-center gap-0.5 text-xs font-semibold',
-                    day.count === 0 && 'text-[10px] opacity-60 sm:text-xs',
+                    day.count === 0 && 'text-[10px] sm:text-xs',
                   )}
                 >
                   {tileNote(day)}

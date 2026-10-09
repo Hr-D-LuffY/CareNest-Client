@@ -102,7 +102,7 @@ export function RoomFilters({ params, total }: { params: RoomViewParams; total?:
             min={todayIso()}
             // A date fixes the weekday, so the day filter is cleared with it.
             onChange={(event) => query.set({ date: event.target.value, day: undefined })}
-            className="h-10 rounded-lg"
+            className="h-10 rounded-lg pointer-coarse:h-11"
           />
           <span className="text-xs text-muted-foreground">
             {params.date ? 'Seats are counted for this day' : "Empty: each room's next session"}

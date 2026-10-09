@@ -3,14 +3,31 @@
 import { cn } from 'cn'
 import type * as React from 'react'
 
-function Table({ className, ...props }: React.ComponentProps<'table'>) {
+type TableProps = React.ComponentProps<'table'> & {
+  // For a table only screen readers see (the text version of a chart). It sits in a clipped,
+  // screen-reader-only wrapper instead of a scroll region: a table cannot clip its own overflow, and
+  // an invisible scroll region would be a keyboard stop with nothing to show.
+  bare?: boolean
+}
+
+function Table({ className, bare = false, ...props }: TableProps) {
+  const table = (
+    <table
+      data-slot="table"
+      className={cn('w-full caption-bottom text-sm', className)}
+      {...props}
+    />
+  )
+  if (bare) {
+    return (
+      <div data-slot="table-container" className="sr-only">
+        {table}
+      </div>
+    )
+  }
   return (
     <div data-slot="table-container" className="relative w-full overflow-x-auto">
-      <table
-        data-slot="table"
-        className={cn('w-full caption-bottom text-sm', className)}
-        {...props}
-      />
+      {table}
     </div>
   )
 }

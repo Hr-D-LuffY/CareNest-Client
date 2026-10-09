@@ -151,9 +151,9 @@ export function RateStaffCard({ bookingId, staffId, staffName, kind }: RateStaff
       aria-label={`Rate ${kind} ${staffName}`}
       className="flex flex-col gap-3 rounded-xl border bg-background p-4"
     >
-      <h3 className="text-base">
+      <h2 className="text-base">
         {heading}: {staffName}
-      </h3>
+      </h2>
       {renderBody()}
     </section>
   )

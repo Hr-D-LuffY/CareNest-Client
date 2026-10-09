@@ -48,7 +48,7 @@ export function RoomsTable({
         <span className="flex flex-col items-start gap-1.5">
           <Link
             href={`/admin/rooms/${row.id}`}
-            className="w-fit max-w-full rounded-sm font-medium break-words underline-offset-4 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
+            className="w-fit max-w-full rounded-sm font-medium break-words underline-offset-4 pointer-coarse:-my-3 pointer-coarse:py-3 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
           >
             {row.name}
           </Link>

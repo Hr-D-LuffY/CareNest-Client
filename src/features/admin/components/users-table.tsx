@@ -44,7 +44,7 @@ export function UsersTable({
           <span className="flex min-w-0 flex-col">
             <Link
               href={`/admin/users/${row.id}`}
-              className="w-fit max-w-full rounded-sm font-medium break-words underline-offset-4 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
+              className="w-fit max-w-full rounded-sm font-medium break-words underline-offset-4 pointer-coarse:-my-3 pointer-coarse:py-3 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
             >
               {row.name}
             </Link>

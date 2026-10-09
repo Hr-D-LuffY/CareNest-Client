@@ -190,7 +190,7 @@ export function TopStaffBars({ staff }: { staff: TopRatedStaff[] }) {
       >
         <TopStaffChart staff={scores} />
       </div>
-      <Table className="sr-only">
+      <Table bare className="sr-only">
         <TableHeader>
           <TableRow>
             <TableHead scope="col">Staff member</TableHead>
@@ -268,7 +268,7 @@ export function RoomFillList({ rooms }: { rooms: RoomFill[] }) {
 // The same seat numbers as a table, for screen readers (the chart above it is a picture).
 export function SeatsTable({ days }: { days: OccupancyDay[] }) {
   return (
-    <Table className="sr-only">
+    <Table bare className="sr-only">
       <TableHeader>
         <TableRow>
           <TableHead scope="col">Day</TableHead>
@@ -468,7 +468,7 @@ export function ActivityFeed({ logs }: { logs: AuditLog[] }) {
 // The money per day as a table, for screen readers (the charts are pictures).
 export function MoneyTable({ days }: { days: DayPoint[] }) {
   return (
-    <Table className="sr-only">
+    <Table bare className="sr-only">
       <TableHeader>
         <TableRow>
           <TableHead scope="col">Day</TableHead>

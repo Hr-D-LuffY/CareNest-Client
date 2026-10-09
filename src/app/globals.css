@@ -94,7 +94,7 @@
   --muted-foreground: #646464;
   --accent: #e8e8e8;
   --accent-foreground: #202020;
-  --destructive: #e54d2e;
+  --destructive: #c52d1f;
   --destructive-soft: oklch(0.96 0.03 17);
   --border: #d8d8d8;
   --input: #d8d8d8;
@@ -114,7 +114,7 @@
   --info-soft: #f6e8d8;
 
   /* Wordmark colours from the logo: "Care" amber, "Nest" the theme's brown. */
-  --brand-care: oklch(0.666 0.157 58.3);
+  --brand-care: oklch(0.56 0.14 58.3);
   --brand-nest: #644a40;
 
   --chart-1: #644a40;
@@ -155,7 +155,7 @@
   --muted-foreground: #b4b4b4;
   --accent: #2a2a2a;
   --accent-foreground: #eeeeee;
-  --destructive: #e54d2e;
+  --destructive: #ff6c58;
   --destructive-soft: oklch(0.3 0.07 22);
   --border: #201e18;
   --input: #484848;

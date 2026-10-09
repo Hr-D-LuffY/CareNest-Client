@@ -19,7 +19,7 @@ function InfoRow({
   children: ReactNode
 }) {
   return (
-    <div className={cn('flex items-start', compact ? 'gap-2.5' : 'gap-3')}>
+    <li className={cn('flex items-start', compact ? 'gap-2.5' : 'gap-3')}>
       <span
         aria-hidden="true"
         className={cn(
@@ -30,12 +30,12 @@ function InfoRow({
         <Icon className={compact ? 'size-4' : 'size-[18px]'} />
       </span>
       <div className="flex min-w-0 flex-col">
-        <dt className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
+        <span className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">
           {label}
-        </dt>
-        <dd className="text-sm">{children}</dd>
+        </span>
+        <div className="text-sm">{children}</div>
       </div>
-    </div>
+    </li>
   )
 }
 
@@ -86,7 +86,7 @@ export function RoomInfo({ room, surface, compact = false }: RoomInfoProps) {
       <h2 id="room-info-heading" className={compact ? 'text-lg' : 'text-xl'}>
         About this room
       </h2>
-      <dl className={cn('flex flex-col', compact ? 'gap-3' : 'gap-4')}>
+      <ul className={cn('flex flex-col', compact ? 'gap-3' : 'gap-4')}>
         <InfoRow icon={Layers} label="Care tier" compact={compact}>
           <TierBadge tier={room.tier} />
         </InfoRow>
@@ -99,7 +99,7 @@ export function RoomInfo({ room, surface, compact = false }: RoomInfoProps) {
         <InfoRow icon={Wallet} label="Price" compact={compact}>
           <RoomPrice room={room} />
         </InfoRow>
-      </dl>
+      </ul>
     </section>
   )
 }

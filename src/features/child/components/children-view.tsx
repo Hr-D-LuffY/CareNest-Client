@@ -170,7 +170,7 @@ export function ChildrenView() {
                   sort: event.target.value === 'newest' ? undefined : event.target.value,
                 })
               }
-              className="h-10 cursor-pointer rounded-lg border border-input bg-background px-3 text-sm text-foreground outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30"
+              className="h-10 cursor-pointer pointer-coarse:h-11 rounded-lg border border-input bg-background px-3 text-sm text-foreground outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 dark:bg-input/30"
             >
               {CHILD_SORTS.map(({ value, label }) => (
                 <option key={value} value={value} className="bg-popover text-popover-foreground">

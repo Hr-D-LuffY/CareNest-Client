@@ -5,12 +5,7 @@ import { ListErrorState } from '@/components/shared/list-error-state'
 import { Skeleton } from '@/components/ui/skeleton'
 import { SeatMeter } from '@/features/room/components/room-seat-meter'
 import { DAY_LABEL } from '@/lib/constants'
-import {
-  formatSessionDate,
-  formatTimeRange,
-  formatWeekday,
-  getSessionDateParts,
-} from '@/lib/format'
+import { formatTimeRange, formatWeekday, getSessionDateParts } from '@/lib/format'
 import { cn } from '@/lib/utils'
 import type { SelectedRoom } from '../use-selected-room'
 
@@ -76,7 +71,6 @@ export function SessionPicker({ selected, value, error, onPick }: SessionPickerP
                     value={date}
                     checked={checked}
                     onChange={() => onPick(date)}
-                    aria-label={formatSessionDate(date)}
                     className="sr-only"
                   />
                   <span className="text-xs font-semibold tracking-wide text-muted-foreground uppercase">

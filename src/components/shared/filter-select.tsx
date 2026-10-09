@@ -32,7 +32,7 @@ export function FilterSelect<T extends string>({
           const next = options.find((option) => option.value === event.target.value)
           if (next) onChange(next.value)
         }}
-        className="h-10 w-full cursor-pointer rounded-lg border border-input bg-background px-3 text-sm text-foreground outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-input/30"
+        className="h-10 w-full cursor-pointer pointer-coarse:h-11 rounded-lg border border-input bg-background px-3 text-sm text-foreground outline-none focus-visible:border-ring focus-visible:ring-3 focus-visible:ring-ring/50 disabled:cursor-not-allowed disabled:opacity-60 dark:bg-input/30"
       >
         {options.map((option) => (
           <option

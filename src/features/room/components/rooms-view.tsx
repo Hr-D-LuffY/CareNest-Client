@@ -112,7 +112,7 @@ export function RoomsView() {
           )}
         </div>
 
-        <aside className="lg:sticky lg:top-24">
+        <aside aria-label="How fares are worked out" className="lg:sticky lg:top-24">
           <FareExplainer />
         </aside>
       </div>

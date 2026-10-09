@@ -36,7 +36,7 @@ function RecordCell({ log }: { log: AuditLog }) {
       {linkable ? (
         <Link
           href={`${basePath}/${log.entityId}`}
-          className="w-fit rounded-sm text-xs text-muted-foreground underline underline-offset-4 outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
+          className="w-fit rounded-sm text-xs text-muted-foreground underline underline-offset-4 pointer-coarse:-my-3 pointer-coarse:py-3 outline-none hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50"
         >
           {shortId}
           <span className="sr-only"> (open record)</span>

@@ -27,17 +27,14 @@ export function UserMenu() {
 
   return (
     <DropdownMenu>
-      <DropdownMenuTrigger
-        render={
-          <Button
-            variant="ghost"
-            className="h-11 gap-2 px-2"
-            aria-label={`Account menu for ${session.name}`}
-          />
-        }
-      >
+      <DropdownMenuTrigger render={<Button variant="ghost" className="h-11 gap-2 px-2" />}>
         <UserAvatar name={session.name} photo={session.profilePhoto} size={32} />
-        <span className="max-w-32 truncate text-sm font-medium max-sm:hidden">{session.name}</span>
+        {/* The button's name comes from its content (the avatar is decorative), so the name the
+            screen reader speaks always includes the words on screen. */}
+        <span className="sr-only">Account menu for {session.name}</span>
+        <span aria-hidden="true" className="max-w-32 truncate text-sm font-medium max-sm:hidden">
+          {session.name}
+        </span>
         <ChevronDown aria-hidden="true" className="text-muted-foreground max-sm:hidden" />
       </DropdownMenuTrigger>
 

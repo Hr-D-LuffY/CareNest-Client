@@ -93,6 +93,7 @@ export function RoomWaitlistView({ roomId, backHref, backLabel }: RoomWaitlistVi
         </header>
       </Reveal>
 
+      <h2 className="sr-only">The queue</h2>
       <RoomWaitlistPanel roomId={roomId} />
     </div>
   )

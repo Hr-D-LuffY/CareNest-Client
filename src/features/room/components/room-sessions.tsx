@@ -59,7 +59,6 @@ export function RoomSessions({ room, sessions, selected }: RoomSessionsProps) {
                   }
                   scroll={false}
                   aria-current={active ? 'date' : undefined}
-                  aria-label={formatSessionDate(date)}
                   className={cn(
                     'flex min-h-20 w-18 cursor-pointer flex-col items-center justify-center rounded-xl border px-2 py-2 text-center transition-colors outline-none focus-visible:ring-3 focus-visible:ring-primary-foreground/60',
                     active

@@ -52,7 +52,7 @@ export function BrandLogo({ size = 'default', className }: BrandLogoProps) {
       href="/"
       aria-label="CareNest home"
       className={cn(
-        'inline-flex items-center rounded-lg outline-none transition-opacity hover:opacity-85 focus-visible:ring-3 focus-visible:ring-ring/50',
+        'inline-flex items-center rounded-lg pointer-coarse:min-h-11 outline-none transition-opacity hover:opacity-85 focus-visible:ring-3 focus-visible:ring-ring/50',
         large ? 'gap-3' : 'gap-2.5',
         className,
       )}

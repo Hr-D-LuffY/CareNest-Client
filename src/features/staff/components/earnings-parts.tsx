@@ -135,7 +135,7 @@ export function EarningsTable({
 }) {
   const showSplit = showCare && showTrips
   return (
-    <Table className={className}>
+    <Table bare className={className}>
       <TableHeader>
         <TableRow>
           <TableHead scope="col" className="capitalize">

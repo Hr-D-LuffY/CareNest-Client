@@ -59,7 +59,7 @@ export function WeekStrip({ upcoming }: { upcoming: GuardianOverview['upcoming']
                   {formatWeekday(day)}
                 </span>
                 <span className="font-heading text-lg tabular-nums sm:text-xl">{dayNumber}</span>
-                <span className="hidden text-[10px] uppercase opacity-80 sm:block">{month}</span>
+                <span className="hidden text-[10px] uppercase sm:block">{month}</span>
                 <span
                   className={cn(
                     'mt-0.5 flex h-5 items-center justify-center gap-0.5 text-xs font-semibold',
