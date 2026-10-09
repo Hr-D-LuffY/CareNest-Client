@@ -4,6 +4,9 @@ import { jsonFailure, jsonFromError, jsonFromZod, jsonSuccess, readJson } from '
 import { getDemoCredentials } from '@/lib/auth/demo-credentials'
 import { signIn } from '@/lib/auth/sign-in'
 
+// The free-tier backend can take about a minute to wake up, so Vercel must not cut this off first.
+export const maxDuration = 60
+
 const demoLoginSchema = z.object({ role: z.enum(DEMO_ROLES) })
 
 // POST /api/auth/demo-login { role: "GUARDIAN" | "SITTER" | "DRIVER" | "ADMIN" }

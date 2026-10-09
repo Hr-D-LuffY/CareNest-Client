@@ -7,6 +7,9 @@ import { QueryProvider } from '@/providers/query-provider'
 import { ThemeProvider } from '@/providers/theme-provider'
 import './globals.css'
 
+// The free-tier backend can take about a minute to wake up, so Vercel must not cut this off first.
+export const maxDuration = 60
+
 const nunito = Nunito_Sans({
   subsets: ['latin'],
   variable: '--font-nunito',

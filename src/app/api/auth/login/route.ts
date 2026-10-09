@@ -2,6 +2,9 @@ import { loginSchema } from '@/features/auth/auth.schema'
 import { jsonFromError, jsonFromZod, jsonSuccess, readJson } from '@/lib/api/respond'
 import { signIn } from '@/lib/auth/sign-in'
 
+// The free-tier backend can take about a minute to wake up, so Vercel must not cut this off first.
+export const maxDuration = 60
+
 // POST /api/auth/login { email, password }
 // Logs in against the backend and stores the session in httpOnly cookies on this domain.
 export async function POST(request: Request) {

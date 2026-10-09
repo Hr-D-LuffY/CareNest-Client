@@ -5,6 +5,9 @@ import { refreshAccessToken } from '@/lib/auth/refresh'
 import { getAccessToken } from '@/lib/auth/session'
 import { env } from '@/lib/env'
 
+// The free-tier backend can take about a minute to wake up, so Vercel must not cut this off first.
+export const maxDuration = 60
+
 // BFF proxy: the browser calls /api/backend/<path>, this forwards to the backend with the Bearer
 // token from the httpOnly cookie. On a 401 it refreshes the session once and retries once.
 // This is the only place besides lib/api/* that talks to the backend.

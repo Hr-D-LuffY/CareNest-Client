@@ -3,6 +3,9 @@ import { jsonSuccess } from '@/lib/api/respond'
 import { serverApi } from '@/lib/api/server'
 import { clearAuthCookies, getRefreshToken } from '@/lib/auth/session'
 
+// The free-tier backend can take about a minute to wake up, so Vercel must not cut this off first.
+export const maxDuration = 60
+
 async function endSession() {
   const refreshToken = await getRefreshToken()
 

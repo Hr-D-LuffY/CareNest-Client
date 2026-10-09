@@ -6,6 +6,9 @@ import { safeRedirectPath } from '@/lib/auth/redirect'
 import { refreshAccessToken } from '@/lib/auth/refresh'
 import { clearAuthCookies } from '@/lib/auth/session'
 
+// The free-tier backend can take about a minute to wake up, so Vercel must not cut this off first.
+export const maxDuration = 60
+
 // Exchanges the refresh cookie for a new token pair and rotates both cookies. Server Components
 // cannot write cookies, so renewing an expired access token has to happen in a route handler.
 // The BFF proxy refreshes by itself on a 401, so API calls never need this.
