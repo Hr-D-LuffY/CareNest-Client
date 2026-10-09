@@ -30,6 +30,17 @@ export function useAdminStaffListQuery(params: AdminStaffListParams) {
   })
 }
 
+// The verified sitters a room can be given to, for the room form. Stays off until the form opens.
+export function useAssignableStaffQuery(enabled = true) {
+  return useQuery({
+    queryKey: adminStaffKeys.assignable(),
+    queryFn: ({ signal }) => adminStaffApi.assignable(signal),
+    enabled,
+    // The form shows its own message under the field.
+    meta: { skipGlobalError: true },
+  })
+}
+
 // One staff member, for their detail page. The server page has already loaded it.
 export function useAdminStaffQuery(id: string) {
   return useQuery({
@@ -46,7 +57,10 @@ export function useCreateStaff() {
   return useMutation({
     mutationFn: (payload: CreateStaffPayload) => adminStaffApi.create(payload),
     meta: { skipGlobalError: true },
-    onSuccess: () => queryClient.invalidateQueries({ queryKey: adminStaffKeys.lists() }),
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: adminStaffKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: adminStaffKeys.assignable() })
+    },
   })
 }
 
@@ -59,6 +73,7 @@ export function useUpdateStaff() {
     onSuccess: (staff) => {
       queryClient.setQueryData(adminStaffKeys.detail(staff.id), staff)
       queryClient.invalidateQueries({ queryKey: adminStaffKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: adminStaffKeys.assignable() })
       // Rooms show the staff member's name, type and rate.
       queryClient.invalidateQueries({ queryKey: roomKeys.all })
     },
@@ -133,6 +148,9 @@ export function useDeleteStaff() {
       for (const [key, data] of context?.previous ?? []) queryClient.setQueryData(key, data)
     },
     onSuccess: (_result, staff) => toast.success(`${staff.user.name} was removed.`),
-    onSettled: () => queryClient.invalidateQueries({ queryKey: adminStaffKeys.lists() }),
+    onSettled: () => {
+      queryClient.invalidateQueries({ queryKey: adminStaffKeys.lists() })
+      queryClient.invalidateQueries({ queryKey: adminStaffKeys.assignable() })
+    },
   })
 }

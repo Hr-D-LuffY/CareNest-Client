@@ -7,7 +7,7 @@ import { type AvailabilitySlot, DayOfWeek, type UpdateSlotPayload } from '@/type
 
 const TIME_PATTERN = /^([01]\d|2[0-3]):[0-5]\d$/
 
-const timeSchema = (label: string) =>
+export const timeSchema = (label: string) =>
   z
     .string()
     .min(1, `${label} is required`)

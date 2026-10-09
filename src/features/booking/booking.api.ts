@@ -5,6 +5,8 @@ import type {
   CheckinLog,
   CreateBookingPayload,
   CreateBookingResult,
+  RoomBooking,
+  RoomBookingParams,
   WaitlistEntry,
   WaitlistListParams,
 } from '@/types'
@@ -16,6 +18,10 @@ export const bookingApi = {
     clientApi.get<Booking>(`/booking/${id}`, undefined, signal),
   list: (params: BookingListParams, signal?: AbortSignal) =>
     clientApi.getList<Booking>('/booking', params, signal),
+  // Everyone booked into one session of a room. Only the staff member who runs the room and admins
+  // may read it (anyone else gets a 404).
+  room: (roomId: string, params: RoomBookingParams, signal?: AbortSignal) =>
+    clientApi.getList<RoomBooking>(`/room/${roomId}/bookings`, params, signal),
   // The guardian's own waitlist entries (a full room answers a booking with a waitlist spot).
   waitlist: (params: WaitlistListParams, signal?: AbortSignal) =>
     clientApi.getList<WaitlistEntry>('/booking/waitlist', params, signal),

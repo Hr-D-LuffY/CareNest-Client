@@ -40,3 +40,19 @@ export type RoomListParams = {
   sortBy: 'createdAt' | 'name' | 'startTime' | 'capacity' | 'priceMultiplier' | 'seatsLeft'
   sortOrder: 'asc' | 'desc'
 }
+
+// POST /room body (admin). The sitter must be verified and free at that time, and the room's window
+// must sit inside the sitter's weekly availability. `priceMultiplier` defaults to 1 on the backend.
+export type CreateRoomPayload = {
+  name: string
+  tier: Tier
+  capacity: number
+  dayOfWeek: DayOfWeek
+  startTime: string
+  endTime: string
+  staffId: string
+  priceMultiplier?: number
+}
+
+// PATCH /room/:id body (admin): any of the fields, at least one.
+export type UpdateRoomPayload = Partial<CreateRoomPayload>

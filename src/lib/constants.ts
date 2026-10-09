@@ -95,6 +95,12 @@ export const MAX_EXPERIENCE_YEARS = 60
 // The highest hourly or per-minute rate an admin can set, in BDT (backend: admin.interface.ts).
 export const MAX_STAFF_RATE = 1_000_000
 
+// Care rooms (backend: room.interface.ts).
+export const ROOM_MIN_CAPACITY = 1
+export const ROOM_MAX_CAPACITY = 100
+export const ROOM_MAX_PRICE_MULTIPLIER = 99.99
+export const ROOM_DEFAULT_PRICE_MULTIPLIER = 1
+
 // Vehicles (backend: transport.interface.ts).
 export const PLATE_NUMBER_MIN_LENGTH = 3
 export const PLATE_NUMBER_MAX_LENGTH = 20

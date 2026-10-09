@@ -10,10 +10,12 @@ import {
   BookingStatus,
   type CreateBookingPayload,
   type Paginated,
+  type RoomBookingParams,
   type WaitlistListParams,
 } from '@/types'
 import { bookingApi } from './booking.api'
 import { bookingKeys } from './booking.keys'
+import { ROOM_ROSTER_REFRESH_MS } from './room-roster.params'
 
 export function useBookingsQuery(params: BookingListParams) {
   return useQuery({
@@ -29,6 +31,17 @@ export function useBookingQuery(id: string) {
   return useQuery({
     queryKey: bookingKeys.detail(id),
     queryFn: ({ signal }) => bookingApi.get(id, signal),
+  })
+}
+
+// Who is booked into one session of a room. Asks again every 30 seconds while the page is open, so a
+// cancellation or a check-in shows up on its own.
+export function useRoomBookingsQuery(roomId: string, params: RoomBookingParams) {
+  return useQuery({
+    queryKey: bookingKeys.roomRoster(roomId, params),
+    queryFn: ({ signal }) => bookingApi.room(roomId, params, signal),
+    placeholderData: keepPreviousData,
+    refetchInterval: ROOM_ROSTER_REFRESH_MS,
   })
 }
 

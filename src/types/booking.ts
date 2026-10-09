@@ -63,6 +63,30 @@ export type RoomWaitlistParams = {
   date?: string
 }
 
+// GET /room/:id/bookings (the staff member who runs the room, or an admin): who holds a seat in one
+// session of the room, with the guardian who booked it and the check-in/out times once they exist.
+export type RoomBooking = {
+  id: string
+  sessionDate: string
+  status: BookingStatus
+  estimatedFee: string
+  finalFee: string | null
+  insufficientBalance: boolean
+  createdAt: string
+  child: { id: string; name: string; tier: Tier; profilePhoto: string | null }
+  guardian: { id: string; phone: string; user: { name: string } }
+  checkinLog: { checkInAt: string; checkOutAt: string | null } | null
+}
+
+// Query params of GET /room/:id/bookings. `date` ("YYYY-MM-DD", past days allowed) picks the session
+// and must fall on the room's weekday; `status` filters.
+export type RoomBookingParams = {
+  page: number
+  limit: number
+  date?: string
+  status?: BookingStatus
+}
+
 // POST /booking/:id/check-in and /check-out
 export type CheckinLog = {
   id: string

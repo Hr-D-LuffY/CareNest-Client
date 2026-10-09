@@ -117,19 +117,14 @@ export function parseRoomViewParams(raw: {
 }
 
 // The backend's query for a view: filtering, sorting and paging are all done there.
-export function toRoomListParams({
-  page,
-  sort,
-  q,
-  tier,
-  status,
-  day,
-  date,
-}: RoomViewParams): RoomListParams {
+export function toRoomListParams(
+  { page, sort, q, tier, status, day, date }: RoomViewParams,
+  limit: number = ROOMS_PAGE_SIZE,
+): RoomListParams {
   const { sortBy, sortOrder } = ROOM_SORTS.find((option) => option.value === sort) ?? ROOM_SORTS[0]
   return {
     page,
-    limit: ROOMS_PAGE_SIZE,
+    limit,
     sortBy,
     sortOrder,
     ...(q && { q }),
