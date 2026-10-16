@@ -21,7 +21,9 @@ import { AuthActions } from './auth-actions'
 import { BrandLogo } from './brand-logo'
 import { type NavEntry, type NavItem, PUBLIC_NAV } from './nav-config'
 
+// A link to a section of the home page (/#faq) has no "current page" of its own, so it is never marked.
 function isActive(pathname: string, href: string) {
+  if (href.startsWith('/#')) return false
   const path = href.split('#')[0] || '/'
   return path === '/' ? pathname === '/' : pathname === path || pathname.startsWith(`${path}/`)
 }

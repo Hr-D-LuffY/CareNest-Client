@@ -23,5 +23,12 @@ export const serverApi = createApiClient({
 })
 
 // The backend's own health check lives at the server root (/health), outside the /api/v1 prefix.
-// Public, so no token. Used to wake a sleeping Render instance.
-export const backendRootApi = createApiClient({ baseURL: new URL(env.BACKEND_API_URL).origin })
+// Public, so no token. Used to wake a sleeping Render instance. It still passes on the visitor's IP:
+// without it every wake-up counts against one shared Vercel address and can hit the rate limit.
+export const backendRootApi = createApiClient({
+  baseURL: new URL(env.BACKEND_API_URL).origin,
+  async getHeaders(): Promise<Record<string, string>> {
+    const clientIp = (await headers()).get('x-forwarded-for')
+    return clientIp ? { 'x-forwarded-for': clientIp } : {}
+  },
+})

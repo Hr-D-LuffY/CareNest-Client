@@ -1,7 +1,7 @@
 // Site-wide facts shown in the footer. Only real values belong here: a link that is not filled in
 // is simply not shown.
 
-export const SITE_AUTHOR = 'Habibur Rahmann'
+export const SITE_AUTHOR = 'Md. Habibur Rahman'
 
 export type SocialId = 'github' | 'linkedin' | 'portfolio'
 

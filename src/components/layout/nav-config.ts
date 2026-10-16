@@ -37,7 +37,8 @@ export type NavEntry =
   // 'description': label plus a short line. 'icon': label with an icon.
   | { type: 'menu'; label: string; layout: 'description' | 'icon'; items: readonly NavItem[] }
 
-// The #anchors on /services are created with that page (commit #14).
+// The #anchors on /services are created with that page (commit #14). "Guide" and "FAQ" are sections of
+// the home page (/#how-it-works, /#faq).
 export const PUBLIC_NAV: readonly NavEntry[] = [
   { type: 'link', href: '/', label: 'Home' },
   {
@@ -67,6 +68,8 @@ export const PUBLIC_NAV: readonly NavEntry[] = [
       },
     ],
   },
+  { type: 'link', href: '/#how-it-works', label: 'Guide' },
+  { type: 'link', href: '/#faq', label: 'FAQ' },
   {
     type: 'menu',
     label: 'About',

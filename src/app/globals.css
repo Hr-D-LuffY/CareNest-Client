@@ -44,6 +44,12 @@
   --color-brand-care: var(--brand-care);
   --color-brand-nest: var(--brand-nest);
 
+  /* Skin and hair of the people drawn on the landing page (components/home/nursery-scene.tsx). */
+  --color-skin-light: var(--skin-light);
+  --color-skin-medium: var(--skin-medium);
+  --color-hair-dark: var(--hair-dark);
+  --color-hair-brown: var(--hair-brown);
+
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -79,6 +85,12 @@
  */
 :root {
   --radius: 0.5rem;
+
+  /* Illustration colours: the same in light and dark, because skin and hair do not change with the theme. */
+  --skin-light: #f5cfb0;
+  --skin-medium: #d9a877;
+  --hair-dark: #3e2a22;
+  --hair-brown: #7a5340;
 
   --background: #f9f9f9;
   --foreground: #202020;
