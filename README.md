@@ -4,7 +4,7 @@ The web app for CareNest, a childcare and supervised-transport platform. Guardia
 
 | | |
 |---|---|
-| **Live app** | _add the Vercel URL_ |
+| **Live app** | https://care-nest-hr.vercel.app/ |
 | **Backend API** | https://carenest-server.onrender.com/api/v1 |
 | **Backend repository** | https://github.com/Hr-D-LuffY/CareNest-Server |
 > The backend runs on Render's free tier and sleeps when idle, so the first request can take 30–60 seconds. Use the **Activate Backend** button in the navbar before a demo.
