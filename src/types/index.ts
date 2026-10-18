@@ -1,4 +1,5 @@
 export * from './admin'
+export * from './ai'
 export * from './api'
 export * from './booking'
 export * from './child'

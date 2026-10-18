@@ -107,6 +107,11 @@ export const PLATE_NUMBER_MAX_LENGTH = 20
 export const VEHICLE_MIN_CAPACITY = 1
 export const VEHICLE_MAX_CAPACITY = 60
 
+// Care assistant chat (backend: ai.interface.ts). The backend keeps the last 10 turns and refuses a
+// message over 500 characters, so the client trims and checks the same way before sending.
+export const AI_CHAT_MAX_MESSAGES = 10
+export const AI_CHAT_MAX_MESSAGE_LENGTH = 500
+
 // Ride addresses (backend: transport.interface.ts).
 export const ADDRESS_MIN_LENGTH = 5
 export const ADDRESS_MAX_LENGTH = 255

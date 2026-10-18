@@ -71,6 +71,38 @@ export const TransportStatus = {
 } as const
 export type TransportStatus = (typeof TransportStatus)[keyof typeof TransportStatus]
 
+// The AI providers behind the backend gateway (backend: config/index.ts). Only ever shown as a label.
+export const AiProviderName = { GEMINI: 'gemini', GROQ: 'groq', OPENROUTER: 'openrouter' } as const
+export type AiProviderName = (typeof AiProviderName)[keyof typeof AiProviderName]
+
+// Admin insights (backend: lib/ai/anomaly-rules.ts).
+export const AnomalySeverity = { INFO: 'INFO', WARNING: 'WARNING', CRITICAL: 'CRITICAL' } as const
+export type AnomalySeverity = (typeof AnomalySeverity)[keyof typeof AnomalySeverity]
+
+export const AnomalyType = {
+  CANCELLATION_SPIKE: 'CANCELLATION_SPIKE',
+  REPEAT_CANCELLER: 'REPEAT_CANCELLER',
+  STAFF_RATING_DROP: 'STAFF_RATING_DROP',
+  REVENUE_DROP: 'REVENUE_DROP',
+  WALLET_SHORTFALLS: 'WALLET_SHORTFALLS',
+  ROOM_HIGH_DEMAND: 'ROOM_HIGH_DEMAND',
+  ROOM_LOW_OCCUPANCY: 'ROOM_LOW_OCCUPANCY',
+  STALE_VERIFICATION: 'STALE_VERIFICATION',
+} as const
+export type AnomalyType = (typeof AnomalyType)[keyof typeof AnomalyType]
+
+export const AnomalyEntityType = {
+  PLATFORM: 'PLATFORM',
+  GUARDIAN: 'GUARDIAN',
+  STAFF: 'STAFF',
+  ROOM: 'ROOM',
+} as const
+export type AnomalyEntityType = (typeof AnomalyEntityType)[keyof typeof AnomalyEntityType]
+
+// Who wrote an insights briefing: a model, or the backend's template when no provider could answer.
+export const InsightsSource = { AI: 'AI', RULES: 'RULES' } as const
+export type InsightsSource = (typeof InsightsSource)[keyof typeof InsightsSource]
+
 // Filter-only value on GET /room?status=
 export const RoomStatus = { AVAILABLE: 'AVAILABLE', FULL: 'FULL' } as const
 export type RoomStatus = (typeof RoomStatus)[keyof typeof RoomStatus]
