@@ -35,6 +35,13 @@ export const chatInputSchema = z
     `Keep it under ${AI_CHAT_MAX_MESSAGE_LENGTH} characters (you can ask a follow-up)`,
   )
 
+// The chat box as a form, so it goes through the same TanStack Form + Zod path as every other form.
+export const chatFormSchema = z.object({ message: chatInputSchema })
+
+export type ChatFormInput = z.input<typeof chatFormSchema>
+
+export const EMPTY_CHAT_FORM: ChatFormInput = { message: '' }
+
 // The request for a thread: the most recent turns only, validated. Throws a ZodError if a turn is
 // empty or too long, which the chat box prevents with `chatInputSchema` before it gets here.
 export function toChatPayload(thread: readonly ChatMessage[]): ChatPayload {

@@ -50,6 +50,15 @@
   --color-hair-dark: var(--hair-dark);
   --color-hair-brown: var(--hair-brown);
 
+  /* Crayon colours for the care assistant's playful look (features/assistant). */
+  --color-play-sky: var(--play-sky);
+  --color-play-sun: var(--play-sun);
+  --color-play-grass: var(--play-grass);
+  --color-play-berry: var(--play-berry);
+  --color-play-ink: var(--play-ink);
+  --color-play-sun-soft: var(--play-sun-soft);
+  --color-play-berry-soft: var(--play-berry-soft);
+
   --color-chart-1: var(--chart-1);
   --color-chart-2: var(--chart-2);
   --color-chart-3: var(--chart-3);
@@ -91,6 +100,17 @@
   --skin-medium: #d9a877;
   --hair-dark: #3e2a22;
   --hair-brown: #7a5340;
+
+  /* Crayon colours: bright fills that stay the same in light and dark (like the skin tones above),
+     with --play-ink as the dark outline and text colour on top of them (about 6:1 on every fill).
+     The *-soft tints are for backgrounds, so they follow the theme. */
+  --play-sky: oklch(0.8 0.1 230);
+  --play-sun: oklch(0.88 0.15 92);
+  --play-grass: oklch(0.8 0.13 150);
+  --play-berry: oklch(0.8 0.1 10);
+  --play-ink: oklch(0.3 0.04 50);
+  --play-sun-soft: oklch(0.97 0.045 95);
+  --play-berry-soft: oklch(0.96 0.03 10);
 
   --background: #f9f9f9;
   --foreground: #202020;
@@ -153,6 +173,9 @@
 }
 
 .dark {
+  --play-sun-soft: oklch(0.3 0.05 85);
+  --play-berry-soft: oklch(0.28 0.045 8);
+
   --background: #111111;
   --foreground: #eeeeee;
   --card: #191919;
@@ -237,6 +260,51 @@
   [role="button"]:not([aria-disabled="true"]),
   a[href] {
     cursor: pointer;
+  }
+}
+
+/* Gentle movement for the care assistant's drawings. Only for people who have not asked for less motion. */
+@keyframes play-bob {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+@keyframes play-drift {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(14px);
+  }
+}
+
+@keyframes play-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@utility animate-play-bob {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: play-bob 3.2s ease-in-out infinite;
+  }
+}
+
+@utility animate-play-drift {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: play-drift 9s ease-in-out infinite;
+  }
+}
+
+@utility animate-play-spin {
+  @media (prefers-reduced-motion: no-preference) {
+    animation: play-spin 24s linear infinite;
   }
 }
 
