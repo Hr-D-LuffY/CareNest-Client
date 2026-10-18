@@ -72,6 +72,7 @@ export function AssistantWidget() {
           failure={chat.failure}
           onAsk={chat.send}
           onRetry={chat.retry}
+          onNavigate={() => setOpen(false)}
         />
 
         <div className="rounded-t-[2rem] border-t bg-play-sun-soft pb-[max(0.75rem,env(safe-area-inset-bottom))]">

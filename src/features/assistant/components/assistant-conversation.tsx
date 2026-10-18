@@ -17,6 +17,8 @@ type AssistantConversationProps = {
   failure: AiErrorInfo | null
   onAsk: (question: string) => void
   onRetry: () => void
+  // A link in a reply was followed: the panel should close so the page is visible.
+  onNavigate: () => void
 }
 
 // Each starter gets its own crayon colour and picture, so the choices are easy to tell apart.
@@ -124,6 +126,7 @@ export function AssistantConversation({
   failure,
   onAsk,
   onRetry,
+  onNavigate,
 }: AssistantConversationProps) {
   const reduceMotion = usePrefersReducedMotion()
 
@@ -146,7 +149,7 @@ export function AssistantConversation({
     >
       {thread.length === 0 && !isPending && !failure && <Welcome onAsk={onAsk} />}
       {thread.map((entry) => (
-        <ChatBubble key={entry.id} entry={entry} />
+        <ChatBubble key={entry.id} entry={entry} onNavigate={onNavigate} />
       ))}
       {isPending && <Thinking />}
       {failure && <Failure failure={failure} onRetry={onRetry} />}
