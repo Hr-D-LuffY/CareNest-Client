@@ -20,7 +20,7 @@ type AuthActionsProps = {
 // The width is reserved while the session loads, so the navbar never jumps.
 export function AuthActions({ stacked = false, onNavigate }: AuthActionsProps) {
   const { data: session, isPending } = useSessionQuery()
-  const size = stacked ? 'h-11 w-full' : 'h-10 px-4'
+  const size = stacked ? 'h-11 w-full' : 'h-10 px-3 sm:px-4'
 
   if (isPending) {
     return <Skeleton className={cn(stacked ? 'h-11 w-full' : 'h-10 w-24 sm:w-44')} />

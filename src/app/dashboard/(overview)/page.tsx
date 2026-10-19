@@ -83,7 +83,7 @@ export default async function GuardianOverviewPage() {
         <WeekStrip upcoming={upcoming} />
       </Reveal>
 
-      <div className="grid gap-4 lg:grid-cols-5">
+      <div className="grid grid-cols-[minmax(0,1fr)] gap-4 lg:grid-cols-5">
         <Reveal className="lg:col-span-3">
           {transactions.ok ? (
             <RecentActivity transactions={transactions.data} />

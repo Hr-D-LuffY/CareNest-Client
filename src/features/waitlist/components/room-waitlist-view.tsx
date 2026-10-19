@@ -41,7 +41,7 @@ export function RoomWaitlistView({ roomId, backHref, backLabel }: RoomWaitlistVi
         <header className={cn(BRAND_SURFACE, 'flex flex-col gap-5 rounded-2xl p-5 sm:p-6')}>
           <Link
             href={backHref}
-            className="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md text-sm text-primary-foreground/80 outline-none hover:text-primary-foreground focus-visible:ring-3 focus-visible:ring-primary-foreground/50"
+            className="inline-flex w-fit cursor-pointer items-center gap-1.5 rounded-md text-sm text-primary-foreground/80 pointer-coarse:min-h-11 outline-none hover:text-primary-foreground focus-visible:ring-3 focus-visible:ring-primary-foreground/50"
           >
             <ArrowLeft aria-hidden="true" className="size-4" />
             {backLabel}

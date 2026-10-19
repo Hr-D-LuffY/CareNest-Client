@@ -57,11 +57,11 @@ export function BrandLogo({ size = 'default', className }: BrandLogoProps) {
         className,
       )}
     >
-      <Emblem className={large ? 'size-14' : 'size-8 sm:size-9'} />
+      <Emblem className={large ? 'size-14' : 'size-7 min-[360px]:size-8 sm:size-9'} />
       <span
         className={cn(
           'font-sans font-semibold tracking-tight',
-          large ? 'text-4xl' : 'text-xl sm:text-2xl',
+          large ? 'text-4xl' : 'text-base max-[339px]:sr-only min-[360px]:text-xl sm:text-2xl',
         )}
       >
         <span className="text-brand-care">Care</span>

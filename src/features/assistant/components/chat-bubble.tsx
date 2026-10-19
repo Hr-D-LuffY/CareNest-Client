@@ -2,6 +2,7 @@ import { cn } from '@/lib/utils'
 import type { ThreadEntry } from '../use-assistant-chat'
 import { AssistantRoomCards } from './assistant-room-cards'
 import { SunFace } from './design/mascots'
+import { ReplyText } from './reply-text'
 
 type ChatBubbleProps = {
   entry: ThreadEntry
@@ -9,8 +10,9 @@ type ChatBubbleProps = {
   onNavigate: () => void
 }
 
-// One turn of the conversation. The text is rendered as plain text (line breaks kept), never as
-// HTML, so nothing a model writes can inject markup. Bubbles have solid backgrounds, so the text
+// One turn of the conversation. The guardian's text is plain text; the assistant's goes through
+// ReplyText, which builds elements for bold and lists and keeps everything else as text, so nothing a
+// model writes can inject markup. Bubbles have solid backgrounds, so the text
 // reads the same whatever is drawn behind the panel. The assistant's turns carry its little sun,
 // and the rooms it found sit under the bubble as cards.
 export function ChatBubble({ entry, onNavigate }: ChatBubbleProps) {
@@ -27,14 +29,15 @@ export function ChatBubble({ entry, onNavigate }: ChatBubbleProps) {
         )}
         <div
           className={cn(
-            'max-w-[82%] px-4 py-2.5 text-sm leading-relaxed break-words whitespace-pre-wrap shadow-sm',
+            'max-w-[82%] px-4 py-2.5 text-sm leading-relaxed break-words shadow-sm',
+            isGuardian && 'whitespace-pre-wrap',
             isGuardian
               ? 'rounded-3xl rounded-br-md bg-play-berry text-play-ink'
               : 'rounded-3xl rounded-bl-md border bg-card text-card-foreground',
           )}
         >
           <span className="sr-only">{isGuardian ? 'You said: ' : 'Assistant said: '}</span>
-          {entry.content}
+          {isGuardian ? entry.content : <ReplyText text={entry.content} />}
         </div>
       </div>
       {hasRooms && (

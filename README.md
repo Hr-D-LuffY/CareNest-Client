@@ -33,6 +33,7 @@ The interface is built to show the backend's differentiator, the **weighted wait
 - **Bookings**: list with optimistic cancellation, a detail page with a staff rating form and a ride request tied to the booking.
 - **Wallet**: balance, filterable transaction history and a real **bKash** top-up (10–25,000 BDT). Success is shown only after the backend has verified the payment with bKash, never from the redirect alone.
 - **Profile**: details, photo upload and account deletion.
+- **Care assistant** (AI): a floating chat on every dashboard page. Ask about rooms and open seats, or about your own children, bookings, waitlist and wallet. Rooms it finds appear as cards with a "Book this seat" shortcut. It can only look things up: it cannot book, cancel or pay.
 
 ### Staff
 
@@ -49,6 +50,7 @@ The interface is built to show the backend's differentiator, the **weighted wait
 - **Staff management**: filters, verify and reject, and a three-step **create-staff wizard** with a Zod schema per step.
 - **Rooms**: full CRUD plus the ranked waitlist for any room.
 - **Users** and **audit logs** with filters and pagination.
+- **AI insights**: a briefing card on the overview. Plain statistical rules find what is unusual (cancellation spikes, a repeat canceller, a staff rating drop, a revenue drop, wallet shortfalls, rooms always full or mostly empty, staff stuck waiting for verification) and a model only writes the summary and next steps. If no AI provider answers, the card still shows the same findings from a template and says so.
 
 ### Platform-wide
 
@@ -72,6 +74,7 @@ The interface is built to show the backend's differentiator, the **weighted wait
 | Charts | Recharts |
 | Animation | Motion (entrance and hover effects only, respects reduced motion) |
 | Toasts and theming | Sonner, next-themes |
+| AI | Backend gateway over Gemini, Groq and OpenRouter free tiers (no AI package or key in this app) |
 | Authentication | httpOnly cookie session (BFF), Google OAuth (`@react-oauth/google`) |
 | Dates | date-fns |
 | Linting and formatting | Biome |
@@ -200,6 +203,16 @@ Role is enforced in two places, always both:
 3. The callback page asks the backend to confirm the payment with bKash, then redirects to `/payment/success` or `/payment/cancel`.
 4. The success page shows the amount and the new balance from the backend's verified result. The `status` in the URL is never trusted.
 
+### AI features
+
+The care assistant and the admin insights card are thin clients of three backend endpoints (`POST /ai/chat`, `GET /ai/insights`, `GET /ai/status`; see `docs/API.md` section 14). The AI keys, provider URLs and model names live on the backend only, so this app has **no AI environment variables**, and nothing AI-related is ever sent to the browser except the answers.
+
+- Both calls go through the same BFF as everything else (`/api/backend/ai/...`), so the access token stays in the httpOnly cookie.
+- **Assistant**: a Client Component loaded with `next/dynamic` (`ssr: false`) from the guardian layout, so it costs nothing on first paint, and a failed download only hides the button. The conversation lives in React state; the last 10 turns (each at most 500 characters, validated with Zod to match the backend) go with every question. Replies are plain text, never HTML. Room cards and booking links come from the backend's `rooms[]` and `links[]`, not from the reply text.
+- **Insights card**: collapsed by default and requested only when opened, so visiting `/admin` spends no provider quota. It shows a skeleton while the briefing is written (3–10 seconds), then the summary, next steps, three figures against the previous period, and the findings with a severity word and icon. Guardians are never named; a finding links to the user page instead.
+- **Honest failures**: `429`, "busy" and "unavailable" are shown inside the chat or card with a retry, never as a canned answer. A failed refresh keeps the previous briefing on screen.
+- **Privacy**: free AI tiers may log prompts. The assistant sees only a child's first name, tier and age, and its footer tells guardians not to type health details or passwords. The insights prompt holds aggregated numbers and finding types only.
+
 ### Design system
 
 The theme is **Caffeine**: a warm brown primary in light mode, peach in dark mode (dark is the default), a 0.5 rem radius, and the Varela Round and Nunito Sans pair loaded through `next/font`. Every colour is a token defined in `src/app/globals.css`, including the status colours (`success`, `warning`, `info`, `cta`). Components use token classes such as `bg-primary` and `text-muted-foreground`, never raw hex values. Motion is limited to transform and opacity, skips data tables, and respects `prefers-reduced-motion`.
@@ -229,7 +242,7 @@ src/
 │   ├── (auth)/               # Login, register, forgot password
 │   ├── dashboard/            # Guardian area
 │   ├── staff/                # Staff area
-│   ├── admin/                # Admin area
+│   ├── admin/                # Admin area (the overview has the AI insights card)
 │   ├── payment/              # bKash callback, success, cancel
 │   └── api/
 │       ├── auth/             # login, logout, register, refresh, google, demo-login, session
@@ -247,7 +260,7 @@ src/
 └── types/                    # API envelope, enums and domain types
 ```
 
-Features follow the backend's modules: `auth`, `guardian`, `child`, `room`, `booking`, `waitlist`, `transport`, `wallet`, `payment`, `rating`, `staff` and `admin`. The Zod schemas mirror the backend's rules (password 8–72 characters, phone required, top-up 10–25,000, staff rates required by `staffType`).
+Features follow the backend's modules: `auth`, `guardian`, `child`, `room`, `booking`, `waitlist`, `transport`, `wallet`, `payment`, `rating`, `staff` and `admin`, plus `assistant` and `ai-insights` for the AI endpoints. The Zod schemas mirror the backend's rules (password 8–72 characters, phone required, top-up 10–25,000, staff rates required by `staffType`).
 
 ## Deployment
 
@@ -257,7 +270,8 @@ The frontend deploys to **Vercel**, the backend to **Render**.
 2. Set `BACKEND_API_URL` to the Render URL ending in `/api/v1`. It must be `https://`, because Render redirects `http` to `https` and that redirect drops the `Authorization` header.
 3. Set `NEXT_PUBLIC_APP_URL` to the Vercel URL, otherwise the sitemap, robots file and share image point at `localhost`.
 4. On the **backend**, set `FRONTEND_URL` and `BKASH_CALLBACK_URL` to the Vercel URL, and add the Vercel URL to the Google OAuth client's authorised JavaScript origins.
-5. The backend limits requests by IP. Make sure it sets `trust proxy` for the Render and Vercel hops, so visitors are not counted as one address.
+5. **AI keys go on Render only.** `GEMINI_API_KEY`, `GROQ_API_KEY`, `OPENROUTER_API_KEY` and the model and daily-limit variables are backend settings. Do not add them to Vercel, and never give one a `NEXT_PUBLIC_` prefix. With no key set the AI features answer 503 and show "unavailable"; the rest of the app is unaffected. Redeploy the backend after changing them.
+6. The backend limits requests by IP. Make sure it sets `trust proxy` for the Render and Vercel hops, so visitors are not counted as one address.
 
 ## Known Limitations
 
@@ -265,6 +279,7 @@ These depend on backend endpoints that do not exist yet, and the app says so rat
 
 - **Notifications**: the bell in the top bar shows an honest empty state.
 - **Password reset**: the "Forgot password?" page validates the email but its submit button is disabled.
+- **AI insights on a fresh database**: the rules read real cancellations, ratings and bookings from the last 28 days, so a newly seeded database shows "Nothing unusual found" until there is history to judge.
 - **Analytics per day**: the backend returns totals only, so the admin board builds daily figures from the audit log (the newest 1,000 events) and from room availability for today and the next 13 days. Occupancy for past days is not available.
 
 ## Author

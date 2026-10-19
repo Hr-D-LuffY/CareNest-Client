@@ -72,7 +72,7 @@ export default function ContactPage() {
             </p>
             <Link
               href="/login"
-              className="mt-3 inline-block text-sm font-medium underline underline-offset-4"
+              className="mt-3 inline-flex text-sm font-medium underline underline-offset-4 pointer-coarse:min-h-11 pointer-coarse:items-center"
             >
               Go to log in
             </Link>

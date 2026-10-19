@@ -90,7 +90,7 @@ export function LoginForm({ redirect, demoRoles, googleClientId }: LoginFormProp
         <div className="-mt-2 flex justify-end">
           <Link
             href="/forgot-password"
-            className="rounded-sm text-sm font-medium text-primary outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
+            className="inline-flex rounded-sm text-sm font-medium text-primary outline-none pointer-coarse:min-h-11 pointer-coarse:items-center hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
           >
             Forgot password?
           </Link>

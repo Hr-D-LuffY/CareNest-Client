@@ -194,8 +194,8 @@ export function PublicNavbar() {
 
   return (
     <header className="sticky top-0 z-40 border-b bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/70">
-      <div className="page-container flex h-16 items-center justify-between gap-4">
-        <div className="flex items-center gap-2 lg:gap-8">
+      <div className="page-container flex h-16 items-center justify-between gap-2 sm:gap-4">
+        <div className="flex min-w-0 items-center gap-1 sm:gap-2 lg:gap-8">
           <Popover open={menuOpen} onOpenChange={setMenuOpen}>
             <PopoverTrigger
               render={
@@ -221,7 +221,7 @@ export function PublicNavbar() {
           <DesktopNav pathname={pathname} />
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex shrink-0 items-center gap-2">
           <ThemeToggle />
           <ActivateBackendButton size="nav" className="max-lg:hidden" />
           <AuthActions />

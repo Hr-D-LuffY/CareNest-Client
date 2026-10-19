@@ -75,7 +75,7 @@ export function RoomsTable({
         <span className="flex flex-col md:items-start">
           <Link
             href={`/admin/staff/${row.staff.id}`}
-            className="w-fit rounded-sm underline-offset-4 outline-none hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
+            className="w-fit rounded-sm underline-offset-4 outline-none pointer-coarse:-my-3 pointer-coarse:py-3 hover:underline focus-visible:ring-3 focus-visible:ring-ring/50"
           >
             {row.staff.user.name}
           </Link>

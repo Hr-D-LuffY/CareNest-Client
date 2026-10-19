@@ -62,7 +62,7 @@ function RunByCard({ room }: { room: RoomWithSeats }) {
       </div>
       <Link
         href={`/admin/staff/${staff.id}`}
-        className="w-fit rounded-md text-sm font-medium underline underline-offset-4 outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+        className="inline-flex w-fit rounded-md text-sm font-medium underline underline-offset-4 outline-none pointer-coarse:min-h-11 pointer-coarse:items-center focus-visible:ring-3 focus-visible:ring-ring/50"
       >
         View staff profile
       </Link>

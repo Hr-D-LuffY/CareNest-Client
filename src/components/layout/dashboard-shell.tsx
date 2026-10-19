@@ -41,8 +41,8 @@ export function DashboardShell({ children }: { children: ReactNode }) {
       </aside>
 
       <div className="flex min-w-0 flex-col">
-        <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center justify-between gap-2 border-b bg-background/80 px-4 backdrop-blur supports-[backdrop-filter]:bg-background/70 md:px-6 lg:px-8">
-          <div className="flex items-center gap-2">
+        <header className="sticky top-0 z-30 flex h-16 shrink-0 items-center justify-between gap-1 border-b bg-background/80 px-3 backdrop-blur supports-[backdrop-filter]:bg-background/70 min-[360px]:gap-2 min-[360px]:px-4 md:px-6 lg:px-8">
+          <div className="flex min-w-0 items-center gap-1 min-[360px]:gap-2">
             <Button
               variant="ghost"
               size="icon"
@@ -54,7 +54,7 @@ export function DashboardShell({ children }: { children: ReactNode }) {
             </Button>
             <BrandLogo className="lg:hidden" />
           </div>
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-1 min-[360px]:gap-2">
             <ThemeToggle />
             <NotificationMenu />
             <UserMenu />
