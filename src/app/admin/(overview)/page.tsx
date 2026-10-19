@@ -5,6 +5,7 @@ import { parseAnalyticsRange } from '@/features/admin/analytics.params'
 import { buildBoard } from '@/features/admin/board-data'
 import { AnalyticsBoard } from '@/features/admin/components/analytics-board'
 import { RangePicker } from '@/features/admin/components/range-picker'
+import { InsightsCard } from '@/features/ai-insights/components/insights-card'
 
 export const metadata: Metadata = { title: 'Overview' }
 
@@ -33,6 +34,10 @@ export default async function AdminOverviewPage({ searchParams }: OverviewPagePr
             guardians rate highest.
           </p>
         </header>
+      </Reveal>
+
+      <Reveal>
+        <InsightsCard />
       </Reveal>
 
       <RangePicker />
