@@ -34,9 +34,10 @@ export function InsightsCard() {
   const now = useNow(60_000)
 
   const busy = insights.isFetching || refresh.isPending
-  const loadFailure = insights.isError && !insights.data ? describeAiError(insights.error) : null
+  const loadFailure =
+    insights.isError && !insights.data ? describeAiError(insights.error, 'insights') : null
   // A failed refresh keeps the briefing on screen and says why the new one did not arrive.
-  const refreshFailure = refresh.isError ? describeAiError(refresh.error) : null
+  const refreshFailure = refresh.isError ? describeAiError(refresh.error, 'insights') : null
   const findings = insights.data?.anomalies.length
 
   return (
@@ -84,7 +85,7 @@ export function InsightsCard() {
                 disabled={busy}
                 onClick={() => refresh.mutate()}
               >
-                <RefreshCw aria-hidden="true" className={cn(busy && 'animate-spin')} />
+                <RefreshCw aria-hidden="true" className={cn(busy && 'motion-safe:animate-spin')} />
                 Refresh
               </Button>
             )}

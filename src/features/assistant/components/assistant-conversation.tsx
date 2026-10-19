@@ -110,7 +110,7 @@ function Failure({ failure, onRetry }: { failure: AiErrorInfo; onRetry: () => vo
         <span className="break-words">{failure.message}</span>
       </p>
       {failure.retryable && (
-        <Button type="button" variant="outline" onClick={onRetry} className="self-start">
+        <Button type="button" variant="outline" onClick={onRetry} className="h-11 self-start px-4">
           Try again
         </Button>
       )}

@@ -32,7 +32,7 @@ export function AssistantWidget() {
         side="right"
         initialFocus={inputRef}
         showCloseButton={false}
-        className="gap-0 bg-play-berry-soft p-0 data-[side=right]:w-full data-[side=right]:sm:max-w-md"
+        className="gap-0 bg-play-berry-soft p-0 data-[side=right]:h-dvh data-[side=right]:w-full data-[side=right]:sm:max-w-md"
       >
         <AssistantBanner>
           {/* The sheet's own close button is a small ghost icon that disappears into the banner. */}
@@ -58,7 +58,7 @@ export function AssistantWidget() {
               size="sm"
               onClick={chat.reset}
               disabled={chat.isPending}
-              className="rounded-full bg-card"
+              className="h-11 rounded-full bg-card px-4"
             >
               <RotateCcw aria-hidden="true" />
               New chat

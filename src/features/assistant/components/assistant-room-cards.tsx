@@ -17,9 +17,9 @@ type AssistantRoomCardsProps = {
 
 const BOOK_LINK_CLASS = cn(
   buttonVariants({ size: 'lg' }),
-  'h-10 rounded-full border-2 border-play-ink bg-play-sun px-5 font-bold text-play-ink hover:bg-play-sun/80',
+  'h-11 rounded-full border-2 border-play-ink bg-play-sun px-5 font-bold text-play-ink hover:bg-play-sun/80',
 )
-const VIEW_LINK_CLASS = cn(buttonVariants({ variant: 'ghost', size: 'lg' }), 'h-10 rounded-full')
+const VIEW_LINK_CLASS = cn(buttonVariants({ variant: 'ghost', size: 'lg' }), 'h-11 rounded-full')
 
 function Seats({ seatsLeft }: { seatsLeft: number }) {
   if (seatsLeft <= 0) {

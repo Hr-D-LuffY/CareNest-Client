@@ -28,8 +28,22 @@ export type AiErrorInfo = {
   retryable: boolean
 }
 
-export const AI_UNAVAILABLE_MESSAGE = 'The assistant is unavailable right now.'
-export const AI_BUSY_MESSAGE = 'The assistant is busy right now. Please try again in a moment.'
+// The words name the feature the person was using: the guardian's chat is "the assistant", the
+// admin's briefing is "AI insights".
+export type AiSubject = 'assistant' | 'insights'
+
+const FEATURE_MESSAGES: Record<AiSubject, { unavailable: string; busy: string }> = {
+  assistant: {
+    unavailable: 'The assistant is unavailable right now.',
+    busy: 'The assistant is busy right now. Please try again in a moment.',
+  },
+  insights: {
+    unavailable: 'AI insights are unavailable right now.',
+    busy: 'AI insights are busy right now. Please try again in a moment.',
+  },
+}
+
+export const AI_UNAVAILABLE_MESSAGE = FEATURE_MESSAGES.assistant.unavailable
 export const AI_RATE_LIMITED_MESSAGE = "You're going a bit fast. Wait a minute, then try again."
 export const AI_FORBIDDEN_MESSAGE = "Your account can't use this feature."
 const GENERIC_MESSAGE = 'Something went wrong. Please try again.'
@@ -37,7 +51,8 @@ const GENERIC_MESSAGE = 'Something went wrong. Please try again.'
 // The backend sends 503 for two different reasons and tells them apart only by message.
 const NOT_CONFIGURED_PATTERN = /not configured/i
 
-export function describeAiError(error: unknown): AiErrorInfo {
+export function describeAiError(error: unknown, subject: AiSubject = 'assistant'): AiErrorInfo {
+  const messages = FEATURE_MESSAGES[subject]
   if (!isApiError(error)) {
     return { kind: 'unknown', message: GENERIC_MESSAGE, retryable: true }
   }
@@ -52,10 +67,10 @@ export function describeAiError(error: unknown): AiErrorInfo {
       return { kind: 'rate-limited', message: AI_RATE_LIMITED_MESSAGE, retryable: true }
     case 503:
       return NOT_CONFIGURED_PATTERN.test(error.message)
-        ? { kind: 'unavailable', message: AI_UNAVAILABLE_MESSAGE, retryable: true }
-        : { kind: 'busy', message: AI_BUSY_MESSAGE, retryable: true }
+        ? { kind: 'unavailable', message: messages.unavailable, retryable: true }
+        : { kind: 'busy', message: messages.busy, retryable: true }
     case 502:
-      return { kind: 'unavailable', message: AI_UNAVAILABLE_MESSAGE, retryable: true }
+      return { kind: 'unavailable', message: messages.unavailable, retryable: true }
     case 403:
       return { kind: 'forbidden', message: AI_FORBIDDEN_MESSAGE, retryable: false }
     case 400:
